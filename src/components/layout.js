@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 import "./layout.css"
 import Header from "./common/nav/header"
+import Footer from "./common/nav/footer"
 
 const Layout = ({ children }) => {
   // const data = useStaticQuery(graphql`
@@ -20,6 +21,7 @@ const Layout = ({ children }) => {
     <>
       <Header />
         <main>{children}</main>
+        <Footer />
     </>
   )
 }

@@ -1,5 +1,6 @@
 $mainBackgroundColor: #757AFF;
 $titleFont: "Caveat";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap');
 
 .navHeader {
     background-color: $mainBackgroundColor;
@@ -10,6 +11,19 @@ $titleFont: "Caveat";
 .logo {
     margin-top: 0.6rem;
     margin-bottom: 0;
+}
+.footer {
+    font-family: 'IBM Plex Mono', monospace;
+}
+.footerDetails {
+    display: flex;
+    p {
+        padding-left: 0.6rem;
+        padding-top: 0.3rem;
+    }
+}
+.footerHr {
+    background-color: $mainBackgroundColor;
 }
 
 // mobile design
