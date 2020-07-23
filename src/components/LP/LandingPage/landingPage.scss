@@ -1,0 +1,60 @@
+$mainBackgroundColor: #757aff;
+$primaryFont: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+  Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
+
+.landingPage1stRow {
+  background-color: $mainBackgroundColor;
+}
+.imageWrapper,
+.cardsWrapper,
+.whyUseLPWrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+.thirdRow,
+.thirdSecondRow {
+  padding-top: 3rem;
+}
+.cards {
+  margin: 0 2rem;
+  font-family: $primaryFont;
+}
+.cardTitle {
+  font-family: "Caveat" !important;
+}
+.whyUseLPTitle {
+  font-weight: bolder;
+  font-size: xxx-large;
+}
+.videoPlayer {
+  height: 300px;
+  width: 520px;
+  background-color: $mainBackgroundColor;
+  border-radius: 3px;
+  text-align: center;
+  color: white;
+  font-family: $primaryFont;
+  font-weight: bolder;
+}
+.whyUseLPDescription {
+  ul {
+    padding-top: 2rem;
+  }
+  li {
+    margin: 0.4rem;
+    font-family: $primaryFont;
+  }
+}
+
+@media only screen and (max-width: 467px) {
+  .percentageImage {
+    display: none;
+  }
+  .cardsWrapper {
+    display: block;
+  }
+  .cards {
+    margin: 0 1rem;
+  }
+}

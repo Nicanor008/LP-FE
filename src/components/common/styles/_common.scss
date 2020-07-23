@@ -8,18 +8,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-%container {
+.container {
   margin: 0 5rem;
-}
-// phone design
-@media only screen and (max-width: 467px) {
-  .container {
-    margin: 0 1.5rem;
-  }
 }
 // i-pad/tablet
 @media only screen and (max-width: 767px) {
   .container {
     margin: 0 3.5rem;
+  }
+}
+// phone design
+@media only screen and (max-width: 467px) {
+  .container {
+    margin: 0 1.5rem;
   }
 }
