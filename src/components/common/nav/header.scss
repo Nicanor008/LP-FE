@@ -1,0 +1,30 @@
+$mainBackgroundColor: #757AFF;
+$titleFont: "Caveat";
+
+.navHeader {
+    background-color: $mainBackgroundColor;
+}
+.navMenuWrapper {
+    margin: 0 8rem;
+}
+.logo {
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+}
+
+// mobile design
+@media only screen and (max-width: 467px) {
+    .navMenuWrapper {
+        margin: 0 1rem;
+    }
+}
+@media only screen and (max-width: 667px) {
+    .navMenuWrapper {
+        margin: 0 2rem;
+    }
+}
+@media only screen and (max-width: 967px) {
+    .navMenuWrapper {
+        margin: 0 4rem;
+    }
+}
