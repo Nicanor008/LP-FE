@@ -1,0 +1,97 @@
+.createTodoWrapper {
+  margin: 1rem 5rem;
+}
+.FirstRowCreateTodo {
+  display: flex;
+}
+.createTodo {
+  background-color: #f9f9fd;
+  border: 0.5px solid #c2c5ff;
+  border-radius: 3px;
+  width: 50%;
+  padding: 1.2rem 1rem;
+}
+.tabHeader,
+.innerTabHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.tabHeaderHR {
+  width: 106%;
+  margin-left: -1rem;
+  background-color: #c2c5ff;
+}
+.tabTitle {
+  padding-left: 0.3rem;
+  font-family: "Caveat" !important;
+  font-size: xx-large;
+}
+.tabTitleItem {
+  margin: 0;
+  padding-bottom: 0.4rem;
+}
+.timeDurationWrapper {
+  display: flex;
+  font-family: "IBM Plex Mono", monospace;
+  .timeWrapper {
+    display: flex;
+    div {
+      padding-right: 0.4rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 967px) {
+  .createTodoWrapper {
+    margin: 0.9rem 4rem;
+  }
+  .createTodo {
+    width: 50%;
+    padding: 0.2rem 0.5rem;
+  }
+  .tabHeaderHR {
+    width: 104%;
+    margin-left: -0.5rem;
+  }
+  .tabTitle {
+    font-size: xx-large;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .createTodoWrapper {
+    margin: 0.8rem 2rem;
+  }
+  .FirstRowCreateTodo {
+    display: block;
+  }
+  .createTodo {
+    width: 100%;
+    padding: 0.2rem 0.5rem;
+  }
+  .tabHeaderHR {
+    width: 103%;
+    margin-left: -0.5rem;
+  }
+  .tabTitle {
+    font-size: xx-large;
+  }
+}
+@media only screen and (max-width: 467px) {
+  .createTodoWrapper {
+    margin: 0.8rem 1rem;
+  }
+  .FirstRowCreateTodo {
+    display: block;
+  }
+  .createTodo {
+    width: 100%;
+    padding: 0.2rem 0.5rem;
+  }
+  .tabHeaderHR {
+    width: 105%;
+    margin-left: -0.5rem;
+  }
+  .tabTitle {
+    font-size: x-large;
+  }
+}
