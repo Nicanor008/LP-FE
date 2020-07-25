@@ -1,6 +1,5 @@
 import React from "react"
 import SEO from "../components/seo"
-// import LandingPage from "../components/LP/LandingPage"
 import Layout from "../components/layout"
 import LandingPage from "../components/LP/LandingPage"
 
