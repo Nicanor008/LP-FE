@@ -41,6 +41,14 @@
   }
 }
 
+// // ongoing todo
+.todo {
+  display: flex;
+  img {
+    padding-right: 0.3rem;
+  }
+}
+
 @media only screen and (max-width: 967px) {
   .createTodoWrapper {
     margin: 0.9rem 4rem;

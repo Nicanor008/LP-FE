@@ -7,6 +7,10 @@ import Input from "../components/common/inputs/input"
 import Tabs from "../components/LP/Todo/tabs"
 import Button from "../components/common/buttons/button"
 import "../components/LP/Todo/todo.scss"
+import WriteSmall from "../images/icons/write-small.svg"
+import Walk from "../images/icons/walk.svg"
+import Love from "../images/icons/love.svg"
+import OngoingTodo from "../components/LP/Todo/ongoingTodo"
 
 const CreateTodo = () => {
   const [form, setState] = useState({
@@ -43,8 +47,11 @@ const CreateTodo = () => {
     <Layout>
       <SEO title="Create Todo" description="Create Todo" />
       <div className="createTodoWrapper">
+      <br />
         <div className="FirstRowCreateTodo">
-          <Tabs>
+
+        {/* create todo */}
+          <Tabs todoTitleIcon={WriteSmall} title="Write Todo">
             <Input
               type="text"
               placeholder="Keyword"
@@ -104,6 +111,26 @@ const CreateTodo = () => {
             />
           </Tabs>
           <div className="generalAnalytics"></div>
+        </div>
+
+        <br />
+        <br />
+        
+        {/* ongoing todo */}
+        <div className="secondRowTodo">
+          <Tabs todoTitleIcon={Walk} title="Tasks in Progress">
+            <OngoingTodo />
+          </Tabs>
+        </div>
+
+        <br />
+        <br />
+
+        {/* completed todo */}
+        <div className="thirdRowTodo">
+          <Tabs todoTitleIcon={Love} title="Tasks Completed">
+            
+          </Tabs>
         </div>
       </div>
     </Layout>
