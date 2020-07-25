@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
-import toastr from 'toastr'
+import toastr from "toastr"
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import Input from "../components/common/inputs/input"
@@ -21,6 +21,10 @@ const CreateTodo = () => {
     startTime: "",
     endTime: "",
     duration: "",
+    showCreateTodo: true,
+    showOngoingTodo: true,
+    showCompletedTodo: true,
+    showBody: true,
   })
 
   // on change event
@@ -44,15 +48,43 @@ const CreateTodo = () => {
       })
   }
 
+  // close create todo body
+  const onClickArrowOnCreateTodo = (e) => {
+    return setState({
+      ...form,
+      showCreateTodo: !form.showCreateTodo,
+    })
+  }
+
+  // close ongoing todo body
+  const onClickArrowOngoingTodo = () => {
+    return setState({
+      ...form,
+      showOngoingTodo: !form.showOngoingTodo,
+    })
+  }
+
+  // close create todo body
+  const onClickArrowOnCompletedTodo = () => {
+    return setState({
+      ...form,
+      showCompletedTodo: !form.showCompletedTodo,
+    })
+  }
+
   return (
     <Layout>
       <SEO title="Create Todo" description="Create Todo" />
       <div className="createTodoWrapper">
-      <br />
+        <br />
         <div className="FirstRowCreateTodo">
-
-        {/* create todo */}
-          <Tabs todoTitleIcon={WriteSmall} title="Write Todo">
+          {/* create todo */}
+          <Tabs
+            todoTitleIcon={WriteSmall}
+            title="Write Todo"
+            showBody={form.showCreateTodo}
+            onClickArrow={onClickArrowOnCreateTodo}
+          >
             <Input
               type="text"
               placeholder="Keyword"
@@ -110,16 +142,22 @@ const CreateTodo = () => {
               classButtonName="button"
               onclick={onClickAddTodoButton}
             />
+            <br />
           </Tabs>
           <div className="generalAnalytics"></div>
         </div>
 
         <br />
         <br />
-        
+
         {/* ongoing todo */}
         <div className="secondRowTodo">
-          <Tabs todoTitleIcon={Walk} title="Tasks in Progress">
+          <Tabs
+            todoTitleIcon={Walk}
+            title="Tasks in Progress"
+            showBody={form.showOngoingTodo}
+            onClickArrow={onClickArrowOngoingTodo}
+          >
             <OngoingTodo />
           </Tabs>
         </div>
@@ -129,7 +167,12 @@ const CreateTodo = () => {
 
         {/* completed todo */}
         <div className="thirdRowTodo">
-          <Tabs todoTitleIcon={Love} title="Tasks Completed">
+          <Tabs
+            todoTitleIcon={Love}
+            title="Tasks Completed"
+            showBody={form.showCompletedTodo}
+            onClickArrow={onClickArrowOnCompletedTodo}
+          >
             <CompletedTodo />
           </Tabs>
         </div>

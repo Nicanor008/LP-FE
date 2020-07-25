@@ -5,8 +5,50 @@
     color: white;
     font-family: 'IBM Plex Mono', monospace;
     display: flex;
+    border: 0;
      img {
          margin-bottom: 0;
          padding-right: 0.6rem;
      }
+}
+
+.btn:link,
+.btn:visited {
+    padding: 15px 40px;
+    transition: all .2s;
+    position: absolute;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(59, 64, 158, 0.9);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.btn-white::after {
+    background-color: #8c84d3;
+}
+.btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.btn-animated {
+    animation: moveInBottom 5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }

@@ -6,6 +6,7 @@ import { Loader } from "../../common/loader"
 const CompletedTodo = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   // componentDidMount
   useEffect(() => {
@@ -13,6 +14,9 @@ const CompletedTodo = () => {
     server.get("/todo/complete").then(response => {
       setLoading(false)
       setData(response.data.data)
+    }).catch(e => {
+        setError(true)
+        setLoading(false)
     })
   }, [])
 
@@ -26,7 +30,7 @@ const CompletedTodo = () => {
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 && data.map(todo => <TodoItem name={todo.name} complete />)
+        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id} complete />)
       )}
     </div>
   )

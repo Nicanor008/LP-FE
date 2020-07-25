@@ -9,7 +9,8 @@
   border: 0.5px solid #c2c5ff;
   border-radius: 3px;
   width: 50%;
-  padding: 1.2rem 1rem;
+  padding: 0.4rem 1rem;
+  
 }
 .tabHeader,
 .innerTabHeader {
@@ -39,6 +40,12 @@
       padding-right: 0.4rem;
     }
   }
+}
+.tabBody {
+  overflow: scroll;
+}
+.arrowIcon {
+  margin: 0;
 }
 
 // // ongoing todo
