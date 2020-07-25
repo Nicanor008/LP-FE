@@ -11,6 +11,7 @@ import WriteSmall from "../images/icons/write-small.svg"
 import Walk from "../images/icons/walk.svg"
 import Love from "../images/icons/love.svg"
 import OngoingTodo from "../components/LP/Todo/ongoingTodo"
+import CompletedTodo from "../components/LP/Todo/completingTodo"
 
 const CreateTodo = () => {
   const [form, setState] = useState({
@@ -129,7 +130,7 @@ const CreateTodo = () => {
         {/* completed todo */}
         <div className="thirdRowTodo">
           <Tabs todoTitleIcon={Love} title="Tasks Completed">
-            
+            <CompletedTodo />
           </Tabs>
         </div>
       </div>

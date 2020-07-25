@@ -3,14 +3,14 @@ import { server } from "../../../utils/baseUrl"
 import TodoItem from "./todo"
 import { Loader } from "../../common/loader"
 
-const OngoingTodo = () => {
+const CompletedTodo = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
   // componentDidMount
   useEffect(() => {
     setLoading(true)
-    server.get("/todo/ongoing").then(response => {
+    server.get("/todo/complete").then(response => {
       setLoading(false)
       setData(response.data.data)
     })
@@ -26,10 +26,10 @@ const OngoingTodo = () => {
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id}/>)
+        data.length > 0 && data.map(todo => <TodoItem name={todo.name} complete />)
       )}
     </div>
   )
 }
 
-export default OngoingTodo
+export default CompletedTodo
