@@ -2,8 +2,8 @@
 
 button {
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid #757aff;
+  background-color: #757aff;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -26,7 +26,7 @@ button.ghost {
   border-color: #ffffff;
 }
 
-form {
+.authFormWrapper {
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -38,10 +38,8 @@ form {
 }
 
 input {
-  background-color: #eee;
+  background-color: rgb(245, 245, 245);
   border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
   width: 100%;
 }
 
