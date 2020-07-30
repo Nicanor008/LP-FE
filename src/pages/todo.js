@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import toastr from "toastr"
 import jwt from 'jsonwebtoken'
 import SEO from "../components/seo"
 import Layout from "../components/layout"
@@ -17,7 +16,7 @@ import { server } from "../utils/baseUrl"
 const CreateTodo = () => {
   const [form, setState] = useState({
     category: "",
-    tags: [],
+    tags: "",
     name: "",
     startTime: "",
     endTime: "",

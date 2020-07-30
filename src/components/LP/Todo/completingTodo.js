@@ -14,7 +14,7 @@ const CompletedTodo = () => {
     server.get("/todo/complete").then(response => {
       setLoading(false)
       setData(response.data.data)
-    }).catch(e => {
+    }).catch(() => {
         setError(true)
         setLoading(false)
     })

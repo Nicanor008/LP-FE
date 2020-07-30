@@ -8,6 +8,7 @@ import { navigate } from "gatsby";
 
 // return action window dimensions
 function getWindowDimensions() {
+  let window = {}
   const { innerWidth: width, innerHeight: height } = window
   return {
     width,
