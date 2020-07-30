@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import axios from "axios"
+import React, { useState, useEffect } from "react"
 import toastr from "toastr"
+import jwt from 'jsonwebtoken'
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import Input from "../components/common/inputs/input"
@@ -12,11 +12,12 @@ import Walk from "../images/icons/walk.svg"
 import Love from "../images/icons/love.svg"
 import OngoingTodo from "../components/LP/Todo/ongoingTodo"
 import CompletedTodo from "../components/LP/Todo/completingTodo"
+import { server } from "../utils/baseUrl"
 
 const CreateTodo = () => {
   const [form, setState] = useState({
     category: "",
-    tags: "",
+    tags: [],
     name: "",
     startTime: "",
     endTime: "",
@@ -25,7 +26,18 @@ const CreateTodo = () => {
     showOngoingTodo: true,
     showCompletedTodo: true,
     showBody: true,
+    user: ''
   })
+
+  // load user token
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const activeToken = token && jwt.decode(token.substr(7))
+    setState({
+      ...form,
+      user: activeToken.id
+    })
+  }, [])
 
   // on change event
   const onInputChange = e => {
@@ -38,13 +50,23 @@ const CreateTodo = () => {
   // submit todo
   const onClickAddTodoButton = e => {
     e.preventDefault()
-    axios
-      .post("http://localhost:4000/todo", form)
+    var x = document.getElementById("snackbar")
+    server.post("/todo", form)
       .then(function (response) {
-        toastr.success(response.data.message)
+        x.className = "show"
+      x.innerHTML = response.data.message
+      x.style.backgroundColor = "#585df6"
+      return setTimeout(function () {
+        x.className = x.className.replace("show", "")
+      }, 3000)
       })
       .catch(function (error) {
-        toastr.error(error.response.data.message)
+        x.className = "show"
+        x.innerHTML = error.response.data.message
+        x.style.backgroundColor = "#f3648c"
+        return setTimeout(function () {
+          x.className = x.className.replace("show", "")
+        }, 3000)
       })
   }
 
@@ -88,7 +110,7 @@ const CreateTodo = () => {
             <Input
               type="text"
               placeholder="Keyword"
-              name="category"
+              name="tags"
               value={form.keyword}
               onchange={onInputChange}
             />
@@ -177,6 +199,7 @@ const CreateTodo = () => {
           </Tabs>
         </div>
       </div>
+      <div id="snackbar"></div>
     </Layout>
   )
 }

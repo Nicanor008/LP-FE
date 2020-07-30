@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import {useLocation} from "react-router-dom";
 import Layout from "../components/layout"
 import "../components/LP/Auth/login.css"
 import Input from "../components/common/inputs/input"
 import "../components/common/toast/toast.css"
 import { server } from "../utils/baseUrl"
+import { navigate } from "gatsby";
 
 // return action window dimensions
 function getWindowDimensions() {
@@ -93,9 +93,6 @@ const Login = () => {
     }
   }
 
-  // const location = useLocation();
-  console.log(useLocation());
-
   // login user
   const LoginUserAccount = () => {
     var x = document.getElementById("snackbar")
@@ -120,7 +117,7 @@ const Login = () => {
         x.innerHTML = response.data.message
         localStorage.setItem('token', response.data.token)
         x.style.backgroundColor = "#585df6"
-          window.href = '/todo'
+        navigate('/todo')
           return setTimeout(function () {
           x.className = x.className.replace("show", "")
         }, 4000)
