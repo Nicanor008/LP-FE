@@ -28,7 +28,7 @@ const OngoingTodo = ({newData}) => {
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id}/>)
+        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id} id={todo._id} />)
       )}
     </div>
   )

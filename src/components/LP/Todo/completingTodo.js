@@ -28,7 +28,7 @@ const CompletedTodo = () => {
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id} complete />)
+        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id} complete id={todo._id} />)
       )}
     </div>
   )
