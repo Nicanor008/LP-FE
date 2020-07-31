@@ -6,7 +6,6 @@ import { Loader } from "../../common/loader"
 const OngoingTodo = ({newData}) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
-  console.log(">>>>>>>......", newData)
 
   // componentDidMount
   useEffect(() => {

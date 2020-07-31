@@ -13,7 +13,6 @@ const TodoItem = props => {
       )}
       <img src={Close} alt="Close" />
       {props.name}
-      <br />
     </div>
   )
 }

@@ -51,8 +51,11 @@
 // // ongoing todo
 .todo {
   display: flex;
+  font-family: 'IBM Plex Mono';
   img {
     padding-right: 0.3rem;
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
   }
 }
 

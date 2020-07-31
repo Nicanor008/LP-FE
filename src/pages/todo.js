@@ -3,9 +3,7 @@ import jwt from "jsonwebtoken"
 import moment from "moment"
 import SEO from "../components/seo"
 import Layout from "../components/layout"
-import Input from "../components/common/inputs/input"
 import Tabs from "../components/LP/Todo/tabs"
-import Button from "../components/common/buttons/button"
 import "../components/LP/Todo/todo.scss"
 import WriteSmall from "../images/icons/write-small.svg"
 import Walk from "../images/icons/walk.svg"
@@ -13,6 +11,7 @@ import Love from "../images/icons/love.svg"
 import OngoingTodo from "../components/LP/Todo/ongoingTodo"
 import CompletedTodo from "../components/LP/Todo/completingTodo"
 import { server } from "../utils/baseUrl"
+import CreateTodoInputs from "../components/LP/Todo/createTodo"
 
 const CreateTodo = () => {
   const [form, setState] = useState({
@@ -68,44 +67,42 @@ const CreateTodo = () => {
 
   // submit todo
   const onClickAddTodoButton = e => {
-      e.preventDefault()
-    if (e.keyCode === 13) {
-      var x = document.getElementById("snackbar")
-      if (form.duration && form.duration < 1) {
+    e.preventDefault()
+    var x = document.getElementById("snackbar")
+    if (form.duration && form.duration < 1) {
+      x.className = "show"
+      x.innerHTML = "Duration should be greater than 1 minute"
+      x.style.backgroundColor = "#585df6"
+      return setTimeout(function () {
+        x.className = x.className.replace("show", "")
+      }, 3000)
+    }
+    server
+      .post("/todo", form)
+      .then(function (response) {
         x.className = "show"
-        x.innerHTML = "Duration should be greater than 1 minute"
+        x.innerHTML = response.data.message
         x.style.backgroundColor = "#585df6"
+        setState({
+          ...form,
+          newDataAdded: true,
+        })
+        return setTimeout(function () {
+          setState({
+            ...form,
+            newDataAdded: false,
+          })
+          x.className = x.className.replace("show", "")
+        }, 3000)
+      })
+      .catch(function (error) {
+        x.className = "show"
+        x.innerHTML = error.response.data.message
+        x.style.backgroundColor = "#f3648c"
         return setTimeout(function () {
           x.className = x.className.replace("show", "")
         }, 3000)
-      }
-      server
-        .post("/todo", form)
-        .then(function (response) {
-          x.className = "show"
-          x.innerHTML = response.data.message
-          x.style.backgroundColor = "#585df6"
-          setState({
-            ...form,
-            newDataAdded: true,
-          })
-          return setTimeout(function () {
-            setState({
-              ...form,
-              newDataAdded: false,
-            })
-            x.className = x.className.replace("show", "")
-          }, 3000)
-        })
-        .catch(function (error) {
-          x.className = "show"
-          x.innerHTML = error.response.data.message
-          x.style.backgroundColor = "#f3648c"
-          return setTimeout(function () {
-            x.className = x.className.replace("show", "")
-          }, 3000)
-        })
-    }
+      })
   }
 
   // close create todo body
@@ -145,73 +142,11 @@ const CreateTodo = () => {
             showBody={form.showCreateTodo}
             onClickArrow={onClickArrowOnCreateTodo}
           >
-            <Input
-              type="text"
-              placeholder="Keyword"
-              name="tags"
-              value={form.keyword}
-              onchange={onInputChange}
+            <CreateTodoInputs
+              onClickAddTodoButton={onClickAddTodoButton}
+              form={form}
+              onInputChange={onInputChange}
             />
-            <Input
-              type="text"
-              placeholder="Todo Item"
-              name="name"
-              value={form.todo}
-              onchange={onInputChange}
-              onKeyPress={onClickAddTodoButton}
-            />
-
-            {/* time details */}
-            <div className="timeDurationWrapper">
-              <div className="timeWrapper">
-                <div className="time">
-                  <Input
-                    type="time"
-                    name="startTime"
-                    id="startTime"
-                    labelClassName="startTime"
-                    labelName="Start Time"
-                    value={form.startTime}
-                    onchange={onInputChange}
-                  />
-                </div>
-                &nbsp;
-                <div>
-                  <Input
-                    type="time"
-                    name="endTime"
-                    id="endTime"
-                    labelClassName="endTime"
-                    labelName="End Time"
-                    value={form.endTime}
-                    onchange={onInputChange}
-                  />
-                </div>
-                &nbsp;&nbsp;
-              </div>
-              <div>
-                {form.duration !== "" && (
-                  <>
-                    <span>Duration</span>
-                    <br />
-                    <p style={{ paddingTop: "0.8rem" }} id="duration">
-                      {form.duration}
-                    </p>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* check box */}
-            {/* remind me to start and end task */}
-
-            {/* submit button */}
-            <Button
-              name="Add Todo"
-              classButtonName="button"
-              onclick={onClickAddTodoButton}
-            />
-            <br />
           </Tabs>
           <div className="generalAnalytics"></div>
         </div>
