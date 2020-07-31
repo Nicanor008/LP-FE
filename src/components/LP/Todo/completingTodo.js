@@ -6,7 +6,6 @@ import { Loader } from "../../common/loader"
 const CompletedTodo = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
 
   // componentDidMount
   useEffect(() => {
@@ -15,7 +14,6 @@ const CompletedTodo = () => {
       setLoading(false)
       setData(response.data.data)
     }).catch(() => {
-        setError(true)
         setLoading(false)
     })
   }, [])

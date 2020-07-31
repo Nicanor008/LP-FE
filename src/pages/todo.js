@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken"
+import moment from "moment"
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import Input from "../components/common/inputs/input"
@@ -25,18 +26,37 @@ const CreateTodo = () => {
     showOngoingTodo: true,
     showCompletedTodo: true,
     showBody: true,
-    user: ''
+    user: "",
+    newDataAdded: false,
   })
 
   // load user token
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token")
     const activeToken = token && jwt.decode(token.substr(7))
-    setState({
-      ...form,
-      user: activeToken.id
-    })
-  }, [])
+
+    // calculate duration
+    const start = moment(form.startTime, "HH:mm")
+    const end = moment(form.endTime, "HH:mm")
+    let minutes = end.diff(start, "minutes")
+    if (minutes === 0 || form.endTime === "" || form.startTime === "") {
+      minutes = ""
+    } else if (minutes > 60) {
+      minutes = (minutes / 60).toFixed(2) + " hours"
+    } else if (minutes === 1) {
+      minutes = minutes + " minute"
+    } else if (minutes === 60) {
+      minutes = 1 + " hour"
+    } else {
+      minutes = minutes + " minutes"
+    }
+    token &&
+      setState({
+        ...form,
+        duration: minutes,
+        user: activeToken.id,
+      })
+  }, [form.startTime, form.endTime, form.duration])
 
   // on change event
   const onInputChange = e => {
@@ -48,29 +68,48 @@ const CreateTodo = () => {
 
   // submit todo
   const onClickAddTodoButton = e => {
-    e.preventDefault()
-    var x = document.getElementById("snackbar")
-    server.post("/todo", form)
-      .then(function (response) {
+      e.preventDefault()
+    if (e.keyCode === 13) {
+      var x = document.getElementById("snackbar")
+      if (form.duration && form.duration < 1) {
         x.className = "show"
-      x.innerHTML = response.data.message
-      x.style.backgroundColor = "#585df6"
-      return setTimeout(function () {
-        x.className = x.className.replace("show", "")
-      }, 3000)
-      })
-      .catch(function (error) {
-        x.className = "show"
-        x.innerHTML = error.response.data.message
-        x.style.backgroundColor = "#f3648c"
+        x.innerHTML = "Duration should be greater than 1 minute"
+        x.style.backgroundColor = "#585df6"
         return setTimeout(function () {
           x.className = x.className.replace("show", "")
         }, 3000)
-      })
+      }
+      server
+        .post("/todo", form)
+        .then(function (response) {
+          x.className = "show"
+          x.innerHTML = response.data.message
+          x.style.backgroundColor = "#585df6"
+          setState({
+            ...form,
+            newDataAdded: true,
+          })
+          return setTimeout(function () {
+            setState({
+              ...form,
+              newDataAdded: false,
+            })
+            x.className = x.className.replace("show", "")
+          }, 3000)
+        })
+        .catch(function (error) {
+          x.className = "show"
+          x.innerHTML = error.response.data.message
+          x.style.backgroundColor = "#f3648c"
+          return setTimeout(function () {
+            x.className = x.className.replace("show", "")
+          }, 3000)
+        })
+    }
   }
 
   // close create todo body
-  const onClickArrowOnCreateTodo = (e) => {
+  const onClickArrowOnCreateTodo = e => {
     return setState({
       ...form,
       showCreateTodo: !form.showCreateTodo,
@@ -119,6 +158,7 @@ const CreateTodo = () => {
               name="name"
               value={form.todo}
               onchange={onInputChange}
+              onKeyPress={onClickAddTodoButton}
             />
 
             {/* time details */}
@@ -150,7 +190,15 @@ const CreateTodo = () => {
                 &nbsp;&nbsp;
               </div>
               <div>
-                <span>Duration</span>
+                {form.duration !== "" && (
+                  <>
+                    <span>Duration</span>
+                    <br />
+                    <p style={{ paddingTop: "0.8rem" }} id="duration">
+                      {form.duration}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
 
@@ -179,7 +227,7 @@ const CreateTodo = () => {
             showBody={form.showOngoingTodo}
             onClickArrow={onClickArrowOngoingTodo}
           >
-            <OngoingTodo />
+            {form.user !== "" && <OngoingTodo newData={form.newDataAdded} />}
           </Tabs>
         </div>
 
@@ -194,7 +242,7 @@ const CreateTodo = () => {
             showBody={form.showCompletedTodo}
             onClickArrow={onClickArrowOnCompletedTodo}
           >
-            <CompletedTodo />
+            {form.user !== "" && <CompletedTodo />}
           </Tabs>
         </div>
       </div>

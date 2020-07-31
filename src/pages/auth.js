@@ -223,7 +223,7 @@ const Login = () => {
             />
             {/* <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" /> */}
-            <a href="#">Forgot your password?</a>
+            {/* <a href="#">Forgot your password?</a> */}
             <button onClick={LoginUserAccount}>Sign In</button>
           </div>
         </div>
