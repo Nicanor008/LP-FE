@@ -33,18 +33,35 @@ const TodoItem = props => {
     <>
       <div className="todo">
         {!props.complete ? (
-          <img src={CheckMark} alt="Check todo" onClick={() => props.editTodoItem({id:props.id, complete: props.complete})} />
+          <img
+            src={CheckMark}
+            alt="Check todo"
+            onClick={() =>
+              props.editTodoItem({ id: props.id, complete: props.complete })
+            }
+          />
         ) : (
-          <img src={Reload} alt="Revert todo" onClick={() => props.editTodoItem({id:props.id, complete:props.complete})} />
+          <img
+            src={Reload}
+            alt="Revert todo"
+            onClick={() =>
+              props.editTodoItem({ id: props.id, complete: props.complete })
+            }
+          />
         )}
-        <img src={Close} alt="Close" onClick={() => props.deleteTodoItem({id:props.id, complete:props.complete})} />
-        <a
+        <img
+          src={Close}
+          alt="Close"
+          onClick={() =>
+            props.deleteTodoItem({ id: props.id, complete: props.complete })
+          }
+        />
+        <p
           className="todoItemName"
-          href="#popup"
           onClick={() => onClickViewOneItem(props.id)}
         >
           {props.name}
-        </a>
+        </p>
       </div>
 
       {/* modal */}
@@ -73,11 +90,45 @@ const TodoItem = props => {
                       <span>End Time:</span> &nbsp;{data.endTime}
                     </p>
                   </div>
-                ) : ""}
+                ) : (
+                  ""
+                )}
                 <p>
                   <span>Created On: &nbsp;</span>
                   {moment(data.createdAt).format("MMM Do YYYY, h:mm a")}
                 </p>
+              </div>
+
+              {/* action buttons */}
+              <div className="modalActionButtons">
+                <button
+                  className={`${
+                    props.complete ? "completedStatus" : "ongoingStatus"
+                  } btn btn-white btn-animate`}
+                  onClick={() =>
+                    props.editTodoItem({
+                      id: props.id,
+                      complete: props.complete,
+                    })
+                  }
+                >
+                  <img
+                    src={props.complete ? Reload : CheckMark}
+                    alt="Add Todo"
+                  />{" "}
+                  {props.complete ? "Revert to ongoing tasks" : "Mark as complete"}
+                </button>
+                <button
+                  className={`statusDeleteButton btn btn-white btn-animate`}
+                  onClick={() =>
+                    props.deleteTodoItem({
+                      id: props.id,
+                      complete: props.complete,
+                    })
+                  }
+                >
+                  <img src={Close} alt="Add Todo" /> Delete
+                </button>
               </div>
             </div>
             {/* )} */}

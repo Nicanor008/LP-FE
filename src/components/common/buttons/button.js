@@ -1,10 +1,9 @@
 import React from "react"
 import "./button.scss"
-import Plus from "../../../images/icons/plus.svg"
 
 const Button = props => (
   <button className={`${props.classButtonName} btn btn-white btn-animate`} onClick={props.onclick}>
-    <img src={Plus} alt="Add Todo" /> {props.name}
+    <img src={props.icon} alt="Add Todo" /> {props.name}
   </button>
 )
 

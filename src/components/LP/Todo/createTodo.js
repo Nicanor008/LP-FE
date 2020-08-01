@@ -1,6 +1,7 @@
 import React from "react"
 import Input from "../../common/inputs/input"
 import Button from "../../common/buttons/button"
+import Plus from "../../../images/icons/plus.svg"
 
 const CreateTodoInputs = props => {
   return (
@@ -69,6 +70,7 @@ const CreateTodoInputs = props => {
         name="Add Todo"
         classButtonName="button"
         onclick={props.onClickAddTodoButton}
+        icon={Plus}
       />
       <br />
     </div>
