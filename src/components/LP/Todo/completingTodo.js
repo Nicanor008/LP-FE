@@ -3,7 +3,7 @@ import { server } from "../../../utils/baseUrl"
 import TodoItem from "./todo"
 import { Loader } from "../../common/loader"
 
-const CompletedTodo = () => {
+const CompletedTodo = ({ newData, deleteTodoItem }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -16,19 +16,14 @@ const CompletedTodo = () => {
     }).catch(() => {
         setLoading(false)
     })
-  }, [])
-
-  // componentDidUpdate
-  // useEffect(() => {
-    // Your code here
-  // }, [yourDependency]);
+  }, [newData])
 
   return (
     <div className="onGoingTodoWrapper">
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id} complete id={todo._id} />)
+        data.length > 0 && data.map(todo => <TodoItem name={todo.name} key={todo._id} complete id={todo._id} deleteTodoItem={deleteTodoItem}/>)
       )}
     </div>
   )

@@ -27,6 +27,7 @@ const CreateTodo = () => {
     showBody: true,
     user: "",
     newDataAdded: false,
+    newCompletedData: false,
   })
 
   // load user token
@@ -65,10 +66,11 @@ const CreateTodo = () => {
     })
   }
 
+  var x = document.getElementById("snackbar")
+
   // submit todo
   const onClickAddTodoButton = e => {
     e.preventDefault()
-    var x = document.getElementById("snackbar")
     if (form.duration && form.duration < 1) {
       x.className = "show"
       x.innerHTML = "Duration should be greater than 1 minute"
@@ -129,6 +131,50 @@ const CreateTodo = () => {
     })
   }
 
+  // delete todo
+  const deleteTodoItem = props => {
+    server
+      .delete(`/todo/${props.id}`)
+      .then(response => {
+        x.className = "show"
+        x.innerHTML = response.data.message
+        x.style.backgroundColor = "#585df6"
+        if (props.complete && props.complete !== undefined) {
+          setState({
+            ...form,
+            newCompletedData: true,
+          })
+          return setTimeout(function () {
+            setState({
+              ...form,
+              newCompletedData: false,
+            })
+            x.className = x.className.replace("show", "")
+          }, 3000)
+        } else {
+          setState({
+            ...form,
+            newDataAdded: true,
+          })
+          return setTimeout(function () {
+            setState({
+              ...form,
+              newDataAdded: false,
+            })
+            x.className = x.className.replace("show", "")
+          }, 3000)
+        }
+      })
+      .catch(e => {
+        x.className = "show"
+        x.innerHTML = e.response.data.message
+        x.style.backgroundColor = "#f3648c"
+        return setTimeout(function () {
+          x.className = x.className.replace("show", "")
+        }, 3000)
+      })
+  }
+
   return (
     <Layout>
       <SEO title="Create Todo" description="Create Todo" />
@@ -162,7 +208,12 @@ const CreateTodo = () => {
             showBody={form.showOngoingTodo}
             onClickArrow={onClickArrowOngoingTodo}
           >
-            {form.user !== "" && <OngoingTodo newData={form.newDataAdded} />}
+            {form.user !== "" && (
+              <OngoingTodo
+                newData={form.newDataAdded}
+                deleteTodoItem={deleteTodoItem}
+              />
+            )}
           </Tabs>
         </div>
 
@@ -177,7 +228,12 @@ const CreateTodo = () => {
             showBody={form.showCompletedTodo}
             onClickArrow={onClickArrowOnCompletedTodo}
           >
-            {form.user !== "" && <CompletedTodo />}
+            {form.user !== "" && (
+              <CompletedTodo
+                newData={form.newCompletedData}
+                deleteTodoItem={deleteTodoItem}
+              />
+            )}
           </Tabs>
         </div>
       </div>

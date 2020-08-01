@@ -14,10 +14,6 @@ const TodoItem = props => {
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  // useEffect(() => {
-  //   server.get('/todo/')
-  // })
-
   // open/close modal
   const CloseOrOpenModal = () => {
     setShowModal(!showModal)
@@ -41,7 +37,7 @@ const TodoItem = props => {
         ) : (
           <img src={Reload} alt="Revert todo" />
         )}
-        <img src={Close} alt="Close" />
+        <img src={Close} alt="Close" onClick={() => props.deleteTodoItem({id:props.id, complete:props.complete})} />
         <a
           className="todoItemName"
           href="#popup"
