@@ -33,9 +33,9 @@ const TodoItem = props => {
     <>
       <div className="todo">
         {!props.complete ? (
-          <img src={CheckMark} alt="Check todo" />
+          <img src={CheckMark} alt="Check todo" onClick={() => props.editTodoItem({id:props.id, complete: props.complete})} />
         ) : (
-          <img src={Reload} alt="Revert todo" />
+          <img src={Reload} alt="Revert todo" onClick={() => props.editTodoItem({id:props.id, complete:props.complete})} />
         )}
         <img src={Close} alt="Close" onClick={() => props.deleteTodoItem({id:props.id, complete:props.complete})} />
         <a

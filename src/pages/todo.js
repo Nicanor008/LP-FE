@@ -131,6 +131,38 @@ const CreateTodo = () => {
     })
   }
 
+  // edit/update todo item
+  const editTodoItem = props => {
+    server
+      .patch(`/todo/status/${props.id}`, { completed: props.complete })
+      .then(response => {
+        x.className = "show"
+        x.innerHTML = response.data.message
+        x.style.backgroundColor = "#585df6"
+        setState({
+          ...form,
+          newDataAdded: true,
+          newCompletedData: true,
+        })
+        return setTimeout(function () {
+          setState({
+            ...form,
+            newDataAdded: false,
+            newCompletedData: false,
+          })
+          x.className = x.className.replace("show", "")
+        }, 3000)
+      })
+      .catch(e => {
+        x.className = "show"
+        x.innerHTML = e.response.data.message
+        x.style.backgroundColor = "#f3648c"
+        return setTimeout(function () {
+          x.className = x.className.replace("show", "")
+        }, 3000)
+      })
+  }
+
   // delete todo
   const deleteTodoItem = props => {
     server
@@ -212,6 +244,7 @@ const CreateTodo = () => {
               <OngoingTodo
                 newData={form.newDataAdded}
                 deleteTodoItem={deleteTodoItem}
+                editTodoItem={editTodoItem}
               />
             )}
           </Tabs>
@@ -232,6 +265,7 @@ const CreateTodo = () => {
               <CompletedTodo
                 newData={form.newCompletedData}
                 deleteTodoItem={deleteTodoItem}
+                editTodoItem={editTodoItem}
               />
             )}
           </Tabs>

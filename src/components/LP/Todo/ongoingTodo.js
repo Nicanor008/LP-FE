@@ -3,7 +3,7 @@ import { server } from "../../../utils/baseUrl"
 import TodoItem from "./todo"
 import { Loader } from "../../common/loader"
 
-const OngoingTodo = ({ newData, deleteTodoItem }) => {
+const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -21,6 +21,8 @@ const OngoingTodo = ({ newData, deleteTodoItem }) => {
       })
   }, [newData])
 
+  const complete = false
+
   return (
     <div className="onGoingTodoWrapper">
       {loading ? (
@@ -31,8 +33,10 @@ const OngoingTodo = ({ newData, deleteTodoItem }) => {
           <TodoItem
             name={todo.name}
             key={todo._id}
+            complete={false}
             id={todo._id}
             deleteTodoItem={deleteTodoItem}
+            editTodoItem={editTodoItem}
           />
         ))
       )}
