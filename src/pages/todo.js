@@ -131,7 +131,7 @@ const CreateTodo = () => {
     })
   }
 
-  // edit/update todo item
+  // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
     server
       .patch(`/todo/status/${props.id}`, { completed: props.complete })
@@ -166,12 +166,12 @@ const CreateTodo = () => {
   // delete todo
   const deleteTodoItem = props => {
     server
-      .delete(`/todo/${props.id}`)
+      .patch(`/todo/archive/${props.id}`, { archived: false })
       .then(response => {
         x.className = "show"
         x.innerHTML = response.data.message
         x.style.backgroundColor = "#585df6"
-        if (props.complete && props.complete !== undefined) {
+        if (props.complete) {
           setState({
             ...form,
             newCompletedData: true,
