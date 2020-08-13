@@ -21,14 +21,13 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem }) => {
       })
   }, [newData])
 
-  const complete = false
-
+  console.log(">>>>>.........>>>>>......", data)
   return (
     <div className="onGoingTodoWrapper">
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 &&
+        data &&
         data.map(todo => (
           <TodoItem
             name={todo.name}

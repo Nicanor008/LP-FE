@@ -1,8 +1,13 @@
+require("dotenv").config({
+  path: `.env`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `LP`,
     description: `Learning Pattern is an advanced todo with auto generated analytics.`,
     author: `@Nicanor`,
+    apiURL: process.env.LP_PROD_API
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

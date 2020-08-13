@@ -12,8 +12,27 @@ import OngoingTodo from "../components/LP/Todo/ongoingTodo"
 import CompletedTodo from "../components/LP/Todo/completingTodo"
 import { server } from "../utils/baseUrl"
 import CreateTodoInputs from "../components/LP/Todo/createTodo"
+import axios from "axios"
+import { useStaticQuery, graphql } from "gatsby"
+
+// get base url hook
+function useBaseUrl() {
+  const data = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      site {
+        siteMetadata {
+          apiURL
+        }
+      }
+    }
+  `)
+
+  const apiURL = data.site.siteMetadata.apiURL
+  return apiURL
+}
 
 const CreateTodo = () => {
+  const apiBaseUrl = useBaseUrl()
   const [form, setState] = useState({
     category: "",
     tags: "",
@@ -79,8 +98,8 @@ const CreateTodo = () => {
         x.className = x.className.replace("show", "")
       }, 3000)
     }
-    server
-      .post("/todo", form)
+    axios
+      .post(`${apiBaseUrl}/todo`, form)
       .then(function (response) {
         x.className = "show"
         x.innerHTML = response.data.message
@@ -133,8 +152,8 @@ const CreateTodo = () => {
 
   // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
-    server
-      .patch(`/todo/status/${props.id}`, { completed: props.complete })
+    axios
+      .patch(`${apiBaseUrl}/todo/status/${props.id}`, { completed: props.complete })
       .then(response => {
         x.className = "show"
         x.innerHTML = response.data.message
@@ -166,7 +185,7 @@ const CreateTodo = () => {
   // delete todo
   const deleteTodoItem = props => {
     server
-      .patch(`/todo/archive/${props.id}`, { archived: false })
+      .patch(`${apiBaseUrl}/todo/archive/${props.id}`, { archived: false })
       .then(response => {
         x.className = "show"
         x.innerHTML = response.data.message

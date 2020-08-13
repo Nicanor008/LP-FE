@@ -26,7 +26,7 @@ const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem }) => {
       {loading ? (
         <Loader />
       ) : (
-        data.length > 0 &&
+        data &&
         data.map(todo => (
           <TodoItem
             name={todo.name}

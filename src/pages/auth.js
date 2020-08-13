@@ -4,7 +4,7 @@ import "../components/LP/Auth/login.css"
 import Input from "../components/common/inputs/input"
 import "../components/common/toast/toast.css"
 import { server } from "../utils/baseUrl"
-import { navigate } from "gatsby";
+import { navigate, useStaticQuery, graphql } from "gatsby"
 
 // return action window dimensions
 function getWindowDimensions() {
@@ -18,8 +18,8 @@ function getWindowDimensions() {
 
 // validate email
 function validateEmail(email) {
-  const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
+  const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return re.test(String(email).toLowerCase())
 }
 
 // get current window dimensions
@@ -40,8 +40,25 @@ function useWindowDimensions() {
   return windowDimensions
 }
 
+// get base url
+function useBaseUrl() {
+  const data = useStaticQuery(graphql`
+    query SiteUrlQuery {
+      site {
+        siteMetadata {
+          apiURL
+        }
+      }
+    }
+  `)
+
+  const apiURL = data.site.siteMetadata.apiURL
+  return apiURL
+}
+
 const Login = () => {
   const { height } = useWindowDimensions()
+  const apiBaseUrl = useBaseUrl()
   const [form, setState] = useState({
     name: "",
     email: "",
@@ -59,78 +76,80 @@ const Login = () => {
   // submit/create user account
   const CreateAccount = () => {
     var x = document.getElementById("snackbar")
-    if(form.name === "" || form.email === "" || form.password === "") {
+    if (form.name === "" || form.email === "" || form.password === "") {
       x.className = "show"
       x.innerHTML = "All fields are required*"
       x.style.backgroundColor = "#f3648c"
       return setTimeout(function () {
         x.className = x.className.replace("show", "")
       }, 3000)
-    }else if(!validateEmail(form.email)) {
+    } else if (!validateEmail(form.email)) {
       x.className = "show"
       x.innerHTML = "Invalid Email, should be as myname@example.com"
       x.style.backgroundColor = "#f3648c"
       return setTimeout(function () {
         x.className = x.className.replace("show", "")
       }, 3000)
-    } else{ server
-      .post("/auth/register", form)
-      .then(function (response) {
-        x.className = "show"
-        x.innerHTML = response.data.message
-        x.style.backgroundColor = "#585df6"
-        return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 4000)
-      })
-      .catch(function (error) {
-        x.className = "show"
-        x.innerHTML = error.response.data.message
-        x.style.backgroundColor = "#f3648c"
-        return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 3000)
-      })
+    } else {
+      server
+        .post(`${apiBaseUrl}/auth/register`, form)
+        .then(function (response) {
+          x.className = "show"
+          x.innerHTML = response.data.message
+          x.style.backgroundColor = "#585df6"
+          return setTimeout(function () {
+            x.className = x.className.replace("show", "")
+          }, 4000)
+        })
+        .catch(function (error) {
+          x.className = "show"
+          x.innerHTML = error.response.data.message
+          x.style.backgroundColor = "#f3648c"
+          return setTimeout(function () {
+            x.className = x.className.replace("show", "")
+          }, 3000)
+        })
     }
   }
 
   // login user
   const LoginUserAccount = () => {
     var x = document.getElementById("snackbar")
-    if(form.email === "" || form.password === "") {
+    if (form.email === "" || form.password === "") {
       x.className = "show"
       x.innerHTML = "All fields are required*"
       x.style.backgroundColor = "#f3648c"
       return setTimeout(function () {
         x.className = x.className.replace("show", "")
       }, 3000)
-    }else if(!validateEmail(form.email)) {
+    } else if (!validateEmail(form.email)) {
       x.className = "show"
       x.innerHTML = "Invalid Email, should be as myname@example.com"
       x.style.backgroundColor = "#f3648c"
       return setTimeout(function () {
         x.className = x.className.replace("show", "")
       }, 3000)
-    } else{ server
-      .post("/auth/login", form)
-      .then(function (response) {
-        x.className = "show"
-        x.innerHTML = response.data.message
-        localStorage.setItem('token', response.data.token)
-        x.style.backgroundColor = "#585df6"
-        navigate('/todo')
+    } else {
+      server
+        .post(`${apiBaseUrl}/auth/login`, form)
+        .then(function (response) {
+          x.className = "show"
+          x.innerHTML = response.data.message
+          localStorage.setItem("token", response.data.token)
+          x.style.backgroundColor = "#585df6"
+          navigate("/todo")
           return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 4000)
-      })
-      .catch(function (error) {
-        x.className = "show"
-        x.innerHTML = error.response.data.message
-        x.style.backgroundColor = "#f3648c"
-        return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 3000)
-      })
+            x.className = x.className.replace("show", "")
+          }, 4000)
+        })
+        .catch(function (error) {
+          x.className = "show"
+          x.innerHTML = error.response.data.message
+          x.style.backgroundColor = "#f3648c"
+          return setTimeout(function () {
+            x.className = x.className.replace("show", "")
+          }, 3000)
+        })
     }
   }
 
