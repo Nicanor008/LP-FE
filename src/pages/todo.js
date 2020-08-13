@@ -18,7 +18,7 @@ import { useStaticQuery, graphql } from "gatsby"
 // get base url hook
 function useBaseUrl() {
   const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
+    query SiteTitlerQuery {
       site {
         siteMetadata {
           apiURL

@@ -8,11 +8,29 @@ import Modal from "../../common/modal"
 import { server } from "../../../utils/baseUrl"
 import InProgress from "../../../images/inProgress.svg"
 import Completed from "../../../images/Completed.svg"
+import { useStaticQuery, graphql } from "gatsby"
+
+// get base url
+function useBaseUrl() {
+  const data = useStaticQuery(graphql`
+    query SiteUrlOnTodoQuery {
+      site {
+        siteMetadata {
+          apiURL
+        }
+      }
+    }
+  `)
+
+  const apiURL = data.site.siteMetadata.apiURL
+  return apiURL
+}
 
 const TodoItem = props => {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const apiBaseUrl = useBaseUrl()
 
   // open/close modal
   const CloseOrOpenModal = () => {
@@ -23,7 +41,7 @@ const TodoItem = props => {
   const onClickViewOneItem = id => {
     setLoading(true)
     setShowModal(!showModal)
-    server.get(`/todo/${id}`).then(item => {
+    server.get(`${apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)
       setData(item.data.data)
     })

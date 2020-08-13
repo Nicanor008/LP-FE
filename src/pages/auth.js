@@ -102,7 +102,7 @@ const Login = () => {
           // return setTimeout(function () {
           //   x.className = x.className.replace("show", "")
           // }, 4000)
-          alert('Sign Up successfully')
+          alert('Sign Up successfully, Check your email')
         })
         .catch(function (error) {
         //   x.className = "show"
@@ -111,6 +111,7 @@ const Login = () => {
         //   return setTimeout(function () {
         //     x.className = x.className.replace("show", "")
         //   }, 3000)
+        alert(error.response.data.message)
         })
     }
   }
@@ -154,7 +155,8 @@ const Login = () => {
         //   return setTimeout(function () {
         //     x.className = x.className.replace("show", "")
         //   }, 3000)
-        })
+        alert(error.response.data.message)
+      })
     }
   }
 
