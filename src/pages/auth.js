@@ -75,80 +75,85 @@ const Login = () => {
 
   // submit/create user account
   const CreateAccount = () => {
-    var x = document.getElementById("snackbar")
+    // var x = document.getElementById("snackbar")
     if (form.name === "" || form.email === "" || form.password === "") {
-      x.className = "show"
-      x.innerHTML = "All fields are required*"
-      x.style.backgroundColor = "#f3648c"
-      return setTimeout(function () {
-        x.className = x.className.replace("show", "")
-      }, 3000)
+      // x.className = "show"
+      // x.innerHTML = "All fields are required*"
+      // x.style.backgroundColor = "#f3648c"
+      // return setTimeout(function () {
+      //   x.className = x.className.replace("show", "")
+      // }, 3000)
+      alert('All fields are required*')
     } else if (!validateEmail(form.email)) {
-      x.className = "show"
-      x.innerHTML = "Invalid Email, should be as myname@example.com"
-      x.style.backgroundColor = "#f3648c"
-      return setTimeout(function () {
-        x.className = x.className.replace("show", "")
-      }, 3000)
+      // x.className = "show"
+      // x.innerHTML = "Invalid Email, should be as myname@example.com"
+      // x.style.backgroundColor = "#f3648c"
+      // return setTimeout(function () {
+      //   x.className = x.className.replace("show", "")
+      // }, 3000)
+      alert('Invalid Email, should be as myname@example.com')
     } else {
       server
         .post(`${apiBaseUrl}/auth/register`, form)
         .then(function (response) {
-          x.className = "show"
-          x.innerHTML = response.data.message
-          x.style.backgroundColor = "#585df6"
-          return setTimeout(function () {
-            x.className = x.className.replace("show", "")
-          }, 4000)
+          // x.className = "show"
+          // x.innerHTML = response.data.message
+          // x.style.backgroundColor = "#585df6"
+          // return setTimeout(function () {
+          //   x.className = x.className.replace("show", "")
+          // }, 4000)
+          alert('Sign Up successfully')
         })
         .catch(function (error) {
-          x.className = "show"
-          x.innerHTML = error.response.data.message
-          x.style.backgroundColor = "#f3648c"
-          return setTimeout(function () {
-            x.className = x.className.replace("show", "")
-          }, 3000)
+        //   x.className = "show"
+        //   x.innerHTML = error.response.data.message
+        //   x.style.backgroundColor = "#f3648c"
+        //   return setTimeout(function () {
+        //     x.className = x.className.replace("show", "")
+        //   }, 3000)
         })
     }
   }
 
   // login user
   const LoginUserAccount = () => {
-    var x = document.getElementById("snackbar")
+    // var x = document.getElementById("snackbar")
     if (form.email === "" || form.password === "") {
-      x.className = "show"
-      x.innerHTML = "All fields are required*"
-      x.style.backgroundColor = "#f3648c"
-      return setTimeout(function () {
-        x.className = x.className.replace("show", "")
-      }, 3000)
+      // x.className = "show"
+      // x.innerHTML = "All fields are required*"
+      // x.style.backgroundColor = "#f3648c"
+      // return setTimeout(function () {
+      //   x.className = x.className.replace("show", "")
+      // }, 3000)
+      alert('All fields are required*')
     } else if (!validateEmail(form.email)) {
-      x.className = "show"
-      x.innerHTML = "Invalid Email, should be as myname@example.com"
-      x.style.backgroundColor = "#f3648c"
-      return setTimeout(function () {
-        x.className = x.className.replace("show", "")
-      }, 3000)
+      // x.className = "show"
+      // x.innerHTML = "Invalid Email, should be as myname@example.com"
+      // x.style.backgroundColor = "#f3648c"
+      // return setTimeout(function () {
+      //   x.className = x.className.replace("show", "")
+      // }, 3000)
+      alert('Invalid Email, should be as myname@example.com')
     } else {
       server
         .post(`${apiBaseUrl}/auth/login`, form)
         .then(function (response) {
-          x.className = "show"
-          x.innerHTML = response.data.message
+          // x.className = "show"
+          // x.innerHTML = response.data.message
           localStorage.setItem("token", response.data.token)
-          x.style.backgroundColor = "#585df6"
+          // x.style.backgroundColor = "#585df6"
           navigate("/todo")
-          return setTimeout(function () {
-            x.className = x.className.replace("show", "")
-          }, 4000)
+          // return setTimeout(function () {
+          //   x.className = x.className.replace("show", "")
+          // }, 4000)
         })
         .catch(function (error) {
-          x.className = "show"
-          x.innerHTML = error.response.data.message
-          x.style.backgroundColor = "#f3648c"
-          return setTimeout(function () {
-            x.className = x.className.replace("show", "")
-          }, 3000)
+        //   x.className = "show"
+        //   x.innerHTML = error.response.data.message
+        //   x.style.backgroundColor = "#f3648c"
+        //   return setTimeout(function () {
+        //     x.className = x.className.replace("show", "")
+        //   }, 3000)
         })
     }
   }

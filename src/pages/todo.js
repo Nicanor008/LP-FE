@@ -85,25 +85,25 @@ const CreateTodo = () => {
     })
   }
 
-  var x = document.getElementById("snackbar")
+  // var x = document.getElementById("snackbar")
 
   // submit todo
   const onClickAddTodoButton = e => {
     e.preventDefault()
     if (form.duration && form.duration < 1) {
-      x.className = "show"
-      x.innerHTML = "Duration should be greater than 1 minute"
-      x.style.backgroundColor = "#585df6"
-      return setTimeout(function () {
-        x.className = x.className.replace("show", "")
-      }, 3000)
+      // x.className = "show"
+      // x.innerHTML = "Duration should be greater than 1 minute"
+      // x.style.backgroundColor = "#585df6"
+      // return setTimeout(function () {
+      //   // x.className = x.className.replace("show", "")
+      // }, 3000)
     }
     axios
       .post(`${apiBaseUrl}/todo`, form)
       .then(function (response) {
-        x.className = "show"
-        x.innerHTML = response.data.message
-        x.style.backgroundColor = "#585df6"
+        // x.className = "show"
+        // x.innerHTML = response.data.message
+        // x.style.backgroundColor = "#585df6"
         setState({
           ...form,
           newDataAdded: true,
@@ -113,16 +113,16 @@ const CreateTodo = () => {
             ...form,
             newDataAdded: false,
           })
-          x.className = x.className.replace("show", "")
+          // x.className = x.className.replace("show", "")
         }, 3000)
       })
       .catch(function (error) {
-        x.className = "show"
-        x.innerHTML = error.response.data.message
-        x.style.backgroundColor = "#f3648c"
-        return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 3000)
+        // x.className = "show"
+        // x.innerHTML = error.response.data.message
+        // x.style.backgroundColor = "#f3648c"
+        // return setTimeout(function () {
+        //   x.className = x.className.replace("show", "")
+        // }, 3000)
       })
   }
 
@@ -155,9 +155,9 @@ const CreateTodo = () => {
     axios
       .patch(`${apiBaseUrl}/todo/status/${props.id}`, { completed: props.complete })
       .then(response => {
-        x.className = "show"
-        x.innerHTML = response.data.message
-        x.style.backgroundColor = "#585df6"
+        // x.className = "show"
+        // x.innerHTML = response.data.message
+        // x.style.backgroundColor = "#585df6"
         setState({
           ...form,
           newDataAdded: true,
@@ -169,16 +169,16 @@ const CreateTodo = () => {
             newDataAdded: false,
             newCompletedData: false,
           })
-          x.className = x.className.replace("show", "")
+          // x.className = x.className.replace("show", "")
         }, 3000)
       })
       .catch(e => {
-        x.className = "show"
-        x.innerHTML = e.response.data.message
-        x.style.backgroundColor = "#f3648c"
-        return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 3000)
+        // x.className = "show"
+        // x.innerHTML = e.response.data.message
+        // x.style.backgroundColor = "#f3648c"
+        // return setTimeout(function () {
+        //   x.className = x.className.replace("show", "")
+        // }, 3000)
       })
   }
 
@@ -187,9 +187,9 @@ const CreateTodo = () => {
     server
       .patch(`${apiBaseUrl}/todo/archive/${props.id}`, { archived: false })
       .then(response => {
-        x.className = "show"
-        x.innerHTML = response.data.message
-        x.style.backgroundColor = "#585df6"
+        // x.className = "show"
+        // x.innerHTML = response.data.message
+        // x.style.backgroundColor = "#585df6"
         if (props.complete) {
           setState({
             ...form,
@@ -200,7 +200,7 @@ const CreateTodo = () => {
               ...form,
               newCompletedData: false,
             })
-            x.className = x.className.replace("show", "")
+            // x.className = x.className.replace("show", "")
           }, 3000)
         } else {
           setState({
@@ -212,17 +212,17 @@ const CreateTodo = () => {
               ...form,
               newDataAdded: false,
             })
-            x.className = x.className.replace("show", "")
+            // x.className = x.className.replace("show", "")
           }, 3000)
         }
       })
       .catch(e => {
-        x.className = "show"
-        x.innerHTML = e.response.data.message
-        x.style.backgroundColor = "#f3648c"
-        return setTimeout(function () {
-          x.className = x.className.replace("show", "")
-        }, 3000)
+        // x.className = "show"
+        // x.innerHTML = e.response.data.message
+        // x.style.backgroundColor = "#f3648c"
+        // return setTimeout(function () {
+        //   x.className = x.className.replace("show", "")
+        // }, 3000)
       })
   }
 

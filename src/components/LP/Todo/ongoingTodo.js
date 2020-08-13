@@ -21,7 +21,6 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem }) => {
       })
   }, [newData])
 
-  console.log(">>>>>.........>>>>>......", data)
   return (
     <div className="onGoingTodoWrapper">
       {loading ? (
