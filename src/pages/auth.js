@@ -102,7 +102,10 @@ const Login = () => {
           // return setTimeout(function () {
           //   x.className = x.className.replace("show", "")
           // }, 4000)
-          alert('Sign Up successfully, Check your email')
+          localStorage.setItem("token", response.data.token)
+          // x.style.backgroundColor = "#585df6"
+          navigate("/todo")
+          // alert('Sign Up successfully, Check your email')
         })
         .catch(function (error) {
         //   x.className = "show"
