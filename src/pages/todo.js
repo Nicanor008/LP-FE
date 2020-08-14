@@ -6,8 +6,6 @@ import Layout from "../components/layout"
 import Tabs from "../components/LP/Todo/tabs"
 import "../components/LP/Todo/todo.scss"
 import WriteSmall from "../images/icons/write-small.svg"
-import Walk from "../images/icons/walk.svg"
-import Love from "../images/icons/love.svg"
 import OngoingTodo from "../components/LP/Todo/ongoingTodo"
 import CompletedTodo from "../components/LP/Todo/completingTodo"
 import { server } from "../utils/baseUrl"
@@ -147,7 +145,9 @@ const CreateTodo = () => {
   // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
     server
-      .patch(`${apiBaseUrl}/todo/status/${props.id}`, { completed: props.complete })
+      .patch(`${apiBaseUrl}/todo/status/${props.id}`, {
+        completed: props.complete,
+      })
       .then(response => {
         // x.className = "show"
         // x.innerHTML = response.data.message
@@ -227,20 +227,15 @@ const CreateTodo = () => {
 
         {/* ongoing todo */}
         <div className="secondRowTodo">
-          <Tabs
-            todoTitleIcon={Walk}
-            title="Tasks in Progress"
-            showBody={form.showOngoingTodo}
-            onClickArrow={onClickArrowOngoingTodo}
-          >
-            {form.user !== "" && (
-              <OngoingTodo
-                newData={form.newDataAdded}
-                deleteTodoItem={deleteTodoItem}
-                editTodoItem={editTodoItem}
-              />
-            )}
-          </Tabs>
+          {form.user !== "" && (
+            <OngoingTodo
+              newData={form.newDataAdded}
+              deleteTodoItem={deleteTodoItem}
+              editTodoItem={editTodoItem}
+              showBody={form.showOngoingTodo}
+              onClickArrow={onClickArrowOngoingTodo}
+            />
+          )}
         </div>
 
         <br />
@@ -248,20 +243,15 @@ const CreateTodo = () => {
 
         {/* completed todo */}
         <div className="thirdRowTodo">
-          <Tabs
-            todoTitleIcon={Love}
-            title="Tasks Completed"
-            showBody={form.showCompletedTodo}
-            onClickArrow={onClickArrowOnCompletedTodo}
-          >
             {form.user !== "" && (
               <CompletedTodo
                 newData={form.newCompletedData}
                 deleteTodoItem={deleteTodoItem}
                 editTodoItem={editTodoItem}
+                showBody={form.showCompletedTodo}
+                onClickArrow={onClickArrowOnCompletedTodo}
               />
             )}
-          </Tabs>
         </div>
       </div>
       <div id="snackbar"></div>
