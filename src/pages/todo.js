@@ -106,15 +106,8 @@ const CreateTodo = () => {
         // x.style.backgroundColor = "#585df6"
         setState({
           ...form,
-          newDataAdded: true,
+          newDataAdded: !form.newDataAdded,
         })
-        return setTimeout(function () {
-          setState({
-            ...form,
-            newDataAdded: false,
-          })
-          // x.className = x.className.replace("show", "")
-        }, 3000)
       })
       .catch(function (error) {
         // x.className = "show"
@@ -123,6 +116,7 @@ const CreateTodo = () => {
         // return setTimeout(function () {
         //   x.className = x.className.replace("show", "")
         // }, 3000)
+        alert(error.response.data.message)
       })
   }
 
@@ -155,23 +149,14 @@ const CreateTodo = () => {
     server
       .patch(`${apiBaseUrl}/todo/status/${props.id}`, { completed: props.complete })
       .then(response => {
-        console.log(">>>>>>........>>>>>>>>>>>>.............got here so far>>>...........>>>>>..")
         // x.className = "show"
         // x.innerHTML = response.data.message
         // x.style.backgroundColor = "#585df6"
         setState({
           ...form,
-          newDataAdded: true,
-          newCompletedData: true,
+          newDataAdded: !form.newDataAdded,
+          newCompletedData: !form.newCompletedData,
         })
-        return setTimeout(function () {
-          setState({
-            ...form,
-            newDataAdded: false,
-            newCompletedData: false,
-          })
-          // x.className = x.className.replace("show", "")
-        }, 3000)
       })
       .catch(e => {
         // x.className = "show"
@@ -180,6 +165,7 @@ const CreateTodo = () => {
         // return setTimeout(function () {
         //   x.className = x.className.replace("show", "")
         // }, 3000)
+        alert(e.response.data.message)
       })
   }
 
@@ -194,27 +180,13 @@ const CreateTodo = () => {
         if (props.complete) {
           setState({
             ...form,
-            newCompletedData: true,
+            newCompletedData: !form.newCompletedData,
           })
-          return setTimeout(function () {
-            setState({
-              ...form,
-              newCompletedData: false,
-            })
-            // x.className = x.className.replace("show", "")
-          }, 3000)
         } else {
           setState({
             ...form,
-            newDataAdded: true,
+            newDataAdded: !form.newDataAdded,
           })
-          return setTimeout(function () {
-            setState({
-              ...form,
-              newDataAdded: false,
-            })
-            // x.className = x.className.replace("show", "")
-          }, 3000)
         }
       })
       .catch(e => {
@@ -224,6 +196,7 @@ const CreateTodo = () => {
         // return setTimeout(function () {
         //   x.className = x.className.replace("show", "")
         // }, 3000)
+        alert(e.response.data.message)
       })
   }
 
