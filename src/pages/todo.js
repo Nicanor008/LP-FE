@@ -105,6 +105,11 @@ const CreateTodo = () => {
         // x.style.backgroundColor = "#585df6"
         setState({
           ...form,
+          category: "",
+          tags: "",
+          name: "",
+          startTime: "",
+          endTime: "",
           newDataAdded: !form.newDataAdded,
         })
       })

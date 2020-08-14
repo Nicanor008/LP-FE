@@ -10,14 +10,14 @@ const CreateTodoInputs = props => {
         type="text"
         placeholder="Keyword"
         name="tags"
-        value={props.form.keyword}
+        value={props.form.tags}
         onchange={props.onInputChange}
       />
       <Input
         type="text"
         placeholder="Todo Item"
         name="name"
-        value={props.form.todo}
+        value={props.form.name}
         onchange={props.onInputChange}
       />
 
