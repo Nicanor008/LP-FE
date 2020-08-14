@@ -36,7 +36,7 @@ const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem }) => {
       .catch(() => {
         setLoading(false)
       })
-  }, [newData])
+  }, [newData, apiBaseUrl])
 
   return (
     <div className="onGoingTodoWrapper">

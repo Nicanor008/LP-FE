@@ -75,7 +75,7 @@ const CreateTodo = () => {
         duration: minutes,
         user: activeToken.id,
       })
-  }, [form.startTime, form.endTime, form.duration])
+  }, [form.startTime, form.endTime, form.duration, apiBaseUrl])
 
   // on change event
   const onInputChange = e => {
@@ -152,9 +152,10 @@ const CreateTodo = () => {
 
   // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
-    axios
+    server
       .patch(`${apiBaseUrl}/todo/status/${props.id}`, { completed: props.complete })
       .then(response => {
+        console.log(">>>>>>........>>>>>>>>>>>>.............got here so far>>>...........>>>>>..")
         // x.className = "show"
         // x.innerHTML = response.data.message
         // x.style.backgroundColor = "#585df6"
