@@ -21,7 +21,14 @@ function useBaseUrl() {
   const apiURL = data.site.siteMetadata.apiURL
   return apiURL
 }
-const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickArrow, loader  }) => {
+const CompletedTodo = ({
+  newData,
+  deleteTodoItem,
+  editTodoItem,
+  showBody,
+  onClickArrow,
+  loader,
+}) => {
   const [data, setData] = useState([])
   const apiBaseUrl = useBaseUrl()
   const [loading, setLoading] = useState(false)
@@ -36,6 +43,7 @@ const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClic
         setData(response.data.data)
       })
       .catch(() => {
+        setData([])
         setLoading(false)
       })
   }, [newData, apiBaseUrl])
@@ -43,27 +51,31 @@ const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClic
   return (
     <Tabs
       todoTitleIcon={Love}
-      title={`${data.length > 1 ? `${data.length} Tasks Completed` : `${data.length} Task Completed`}`}
+      title={`${
+        data.length > 1
+          ? `${data.length} Tasks Completed`
+          : `${data.length} Task Completed`
+      }`}
       showBody={data.length > 0 && showBody}
       onClickArrow={onClickArrow}
     >
-    <div className="onGoingTodoWrapper">
-      {loading || loader ? (
-        <Loader />
-      ) : (
-        data &&
-        data.map(todo => (
-          <TodoItem
-            name={todo.name}
-            key={todo._id}
-            complete
-            id={todo._id}
-            deleteTodoItem={deleteTodoItem}
-            editTodoItem={editTodoItem}
-          />
-        ))
-      )}
-    </div>
+      <div className="onGoingTodoWrapper">
+        {loading || loader ? (
+          <Loader />
+        ) : (
+          data.length >= 1 &&
+          data.map(todo => (
+            <TodoItem
+              name={todo.name}
+              key={todo._id}
+              complete
+              id={todo._id}
+              deleteTodoItem={deleteTodoItem}
+              editTodoItem={editTodoItem}
+            />
+          ))
+        )}
+      </div>
     </Tabs>
   )
 }

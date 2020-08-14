@@ -37,6 +37,7 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickA
         setData(response.data.data)
       })
       .catch(() => {
+        setData([])
         setLoading(false)
       })
   }, [newData, apiBaseUrl])
