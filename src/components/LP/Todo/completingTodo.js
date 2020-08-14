@@ -49,6 +49,9 @@ const CompletedTodo = ({
   }, [newData, apiBaseUrl])
 
   return (
+    (loading || loader) ? (
+      <Loader />
+    ) : (
     <Tabs
       todoTitleIcon={Love}
       title={`${
@@ -60,10 +63,10 @@ const CompletedTodo = ({
       onClickArrow={onClickArrow}
     >
       <div className="onGoingTodoWrapper">
-        {loading || loader ? (
+        {/* {loading || loader ? (
           <Loader />
-        ) : (
-          data.length >= 1 &&
+        ) : ( */}
+          {data.length >= 1 &&
           data.map(todo => (
             <TodoItem
               name={todo.name}
@@ -73,10 +76,11 @@ const CompletedTodo = ({
               deleteTodoItem={deleteTodoItem}
               editTodoItem={editTodoItem}
             />
-          ))
-        )}
+          ))}
+        {/* )} */}
       </div>
     </Tabs>
+    )
   )
 }
 

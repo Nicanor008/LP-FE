@@ -239,7 +239,7 @@ const CreateTodo = () => {
 
         {/* ongoing todo */}
         <div className="secondRowTodo">
-          {form.user !== "" && (
+          {/* {form.user !== "" && ( */}
             <OngoingTodo
               newData={form.newDataAdded}
               deleteTodoItem={deleteTodoItem}
@@ -248,7 +248,7 @@ const CreateTodo = () => {
               onClickArrow={onClickArrowOngoingTodo}
               loader={loading}
             />
-          )}
+          {/* )} */}
         </div>
 
         <br />
@@ -256,7 +256,7 @@ const CreateTodo = () => {
 
         {/* completed todo */}
         <div className="thirdRowTodo">
-          {form.user !== "" && (
+          {/* {form.user !== "" && ( */}
             <CompletedTodo
               newData={form.newCompletedData}
               deleteTodoItem={deleteTodoItem}
@@ -265,7 +265,7 @@ const CreateTodo = () => {
               onClickArrow={onClickArrowOnCompletedTodo}
               loader={loading}
             />
-          )}
+          {/* )} */}
         </div>
       </div>
       <div id="snackbar"></div>

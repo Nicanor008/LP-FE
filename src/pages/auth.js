@@ -5,6 +5,7 @@ import Input from "../components/common/inputs/input"
 import "../components/common/toast/toast.css"
 import { server } from "../utils/baseUrl"
 import { navigate, useStaticQuery, graphql } from "gatsby"
+import { Loader } from "../components/common/loader"
 
 // return action window dimensions
 function getWindowDimensions() {
@@ -59,10 +60,20 @@ function useBaseUrl() {
 const Login = () => {
   const { height } = useWindowDimensions()
   const apiBaseUrl = useBaseUrl()
+  const [loading, setLoading] = useState(true)
   const [form, setState] = useState({
     name: "",
     email: "",
     password: "",
+  })
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      setLoading(true)
+      return navigate("/todo")
+    }
+    setLoading(false)
   })
 
   // on change event
@@ -83,7 +94,7 @@ const Login = () => {
       // return setTimeout(function () {
       //   x.className = x.className.replace("show", "")
       // }, 3000)
-      alert('All fields are required*')
+      alert("All fields are required*")
     } else if (!validateEmail(form.email)) {
       // x.className = "show"
       // x.innerHTML = "Invalid Email, should be as myname@example.com"
@@ -91,7 +102,7 @@ const Login = () => {
       // return setTimeout(function () {
       //   x.className = x.className.replace("show", "")
       // }, 3000)
-      alert('Invalid Email, should be as myname@example.com')
+      alert("Invalid Email, should be as myname@example.com")
     } else {
       server
         .post(`${apiBaseUrl}/auth/register`, form)
@@ -108,13 +119,13 @@ const Login = () => {
           // alert('Sign Up successfully, Check your email')
         })
         .catch(function (error) {
-        //   x.className = "show"
-        //   x.innerHTML = error.response.data.message
-        //   x.style.backgroundColor = "#f3648c"
-        //   return setTimeout(function () {
-        //     x.className = x.className.replace("show", "")
-        //   }, 3000)
-        alert(error.response.data.message)
+          //   x.className = "show"
+          //   x.innerHTML = error.response.data.message
+          //   x.style.backgroundColor = "#f3648c"
+          //   return setTimeout(function () {
+          //     x.className = x.className.replace("show", "")
+          //   }, 3000)
+          alert(error.response.data.message)
         })
     }
   }
@@ -129,7 +140,7 @@ const Login = () => {
       // return setTimeout(function () {
       //   x.className = x.className.replace("show", "")
       // }, 3000)
-      alert('All fields are required*')
+      alert("All fields are required*")
     } else if (!validateEmail(form.email)) {
       // x.className = "show"
       // x.innerHTML = "Invalid Email, should be as myname@example.com"
@@ -137,7 +148,7 @@ const Login = () => {
       // return setTimeout(function () {
       //   x.className = x.className.replace("show", "")
       // }, 3000)
-      alert('Invalid Email, should be as myname@example.com')
+      alert("Invalid Email, should be as myname@example.com")
     } else {
       server
         .post(`${apiBaseUrl}/auth/login`, form)
@@ -152,14 +163,14 @@ const Login = () => {
           // }, 4000)
         })
         .catch(function (error) {
-        //   x.className = "show"
-        //   x.innerHTML = error.response.data.message
-        //   x.style.backgroundColor = "#f3648c"
-        //   return setTimeout(function () {
-        //     x.className = x.className.replace("show", "")
-        //   }, 3000)
-        alert(error.response.data.message)
-      })
+          //   x.className = "show"
+          //   x.innerHTML = error.response.data.message
+          //   x.style.backgroundColor = "#f3648c"
+          //   return setTimeout(function () {
+          //     x.className = x.className.replace("show", "")
+          //   }, 3000)
+          alert(error.response.data.message)
+        })
     }
   }
 
@@ -172,14 +183,22 @@ const Login = () => {
   }
 
   return (
-    <Layout height={height - 175}>
-      <div className="loginContainer" id="container">
-        {/* sign up */}
-        <div className="form-container sign-up-container">
-          <div className="authFormWrapper">
-            <h1>Create Account</h1>
-            {/* social oauth */}
-            {/* <div className="social-container">
+    <div>
+      {loading ? (
+        <div style={{ marginTop: "20%" }}>
+          <center>
+            <Loader />
+          </center>
+        </div>
+      ) : (
+        <Layout height={height - 175}>
+          <div className="loginContainer" id="container">
+            {/* sign up */}
+            <div className="form-container sign-up-container">
+              <div className="authFormWrapper">
+                <h1>Create Account</h1>
+                {/* social oauth */}
+                {/* <div className="social-container">
               <a href="#" className="social">
                 <i className="fab fa-facebook-f"></i>
               </a>
@@ -190,41 +209,41 @@ const Login = () => {
                 <i className="fab fa-linkedin-in"></i>
               </a>
             </div> */}
-            {/* <span>or use your email for registration</span> */}
+                {/* <span>or use your email for registration</span> */}
 
-            <Input
-              type="text"
-              placeholder="Name"
-              name="name"
-              value={form.name}
-              onchange={onInputChange}
-            />
-            <Input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={form.email}
-              onchange={onInputChange}
-            />
-            <Input
-              type="password"
-              placeholder="password"
-              name="password"
-              value={form.password}
-              onchange={onInputChange}
-            />
-            {/* <input type="text" placeholder="Name" />
+                <Input
+                  type="text"
+                  placeholder="Name"
+                  name="name"
+                  value={form.name}
+                  onchange={onInputChange}
+                />
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={form.email}
+                  onchange={onInputChange}
+                />
+                <Input
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  value={form.password}
+                  onchange={onInputChange}
+                />
+                {/* <input type="text" placeholder="Name" />
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" /> */}
-            <button onClick={CreateAccount}>Sign Up</button>
-          </div>
-        </div>
+                <button onClick={CreateAccount}>Sign Up</button>
+              </div>
+            </div>
 
-        {/* sign in */}
-        <div className="form-container sign-in-container">
-          <div className="authFormWrapper">
-            <h1>Sign in</h1>
-            {/* <div className="social-container">
+            {/* sign in */}
+            <div className="form-container sign-in-container">
+              <div className="authFormWrapper">
+                <h1>Sign in</h1>
+                {/* <div className="social-container">
               <a href="#" className="social">
                 <i className="fab fa-facebook-f"></i>
               </a>
@@ -236,57 +255,59 @@ const Login = () => {
               </a>
             </div>
             <span>or use your account</span> */}
-            <Input
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={form.email}
-              onchange={onInputChange}
-            />
-            <Input
-              type="password"
-              placeholder="password"
-              name="password"
-              value={form.password}
-              onchange={onInputChange}
-            />
-            {/* <input type="email" placeholder="Email" />
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={form.email}
+                  onchange={onInputChange}
+                />
+                <Input
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  value={form.password}
+                  onchange={onInputChange}
+                />
+                {/* <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" /> */}
-            {/* <a href="#">Forgot your password?</a> */}
-            <button onClick={LoginUserAccount}>Sign In</button>
-          </div>
-        </div>
+                {/* <a href="#">Forgot your password?</a> */}
+                <button onClick={LoginUserAccount}>Sign In</button>
+              </div>
+            </div>
 
-        {/* overlay */}
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
-              <h1>Welcome Back!</h1>
-              <p>To keep connected, please login with your personal info</p>
-              <button
-                className="ghost"
-                id="signIn"
-                onClick={() => onClickSignInButton()}
-              >
-                Sign In
-              </button>
-            </div>
-            <div className="overlay-panel overlay-right">
-              <h1>Hello, Friend!</h1>
-              <p>Enter your personal details and start journey with us</p>
-              <button
-                className="ghost"
-                id="signUp"
-                onClick={() => onClickSignUpButton()}
-              >
-                Sign Up
-              </button>
+            {/* overlay */}
+            <div className="overlay-container">
+              <div className="overlay">
+                <div className="overlay-panel overlay-left">
+                  <h1>Welcome Back!</h1>
+                  <p>To keep connected, please login with your personal info</p>
+                  <button
+                    className="ghost"
+                    id="signIn"
+                    onClick={() => onClickSignInButton()}
+                  >
+                    Sign In
+                  </button>
+                </div>
+                <div className="overlay-panel overlay-right">
+                  <h1>Hello, Friend!</h1>
+                  <p>Enter your personal details and start journey with us</p>
+                  <button
+                    className="ghost"
+                    id="signUp"
+                    onClick={() => onClickSignUpButton()}
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div id="snackbar"></div>
-    </Layout>
+          <div id="snackbar"></div>
+        </Layout>
+      )}
+    </div>
   )
 }
 

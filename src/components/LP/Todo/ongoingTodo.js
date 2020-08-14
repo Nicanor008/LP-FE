@@ -22,7 +22,7 @@ function useBaseUrl() {
   return apiURL
 }
 
-const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickArrow }) => {
+const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickArrow, loader }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const apiBaseUrl = useBaseUrl()
@@ -43,6 +43,9 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickA
   }, [newData, apiBaseUrl])
 
   return (
+    (loading || loader) ? (
+      <Loader />
+    ) : (
     <Tabs
       todoTitleIcon={Walk}
       title={`${data.length > 1 ? `${data.length} Tasks in Progress` : `${data.length} Task in Progress`}`}
@@ -50,10 +53,10 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickA
       onClickArrow={onClickArrow}
     >
       <div className="onGoingTodoWrapper">
-        {loading ? (
+        {/* {loading ? (
           <Loader />
-        ) : (
-          data &&
+        ) : ( */}
+          {data &&
           data.map(todo => (
             <TodoItem
               name={todo.name}
@@ -63,10 +66,11 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickA
               deleteTodoItem={deleteTodoItem}
               editTodoItem={editTodoItem}
             />
-          ))
-        )}
+          ))}
+        {/* )} */}
       </div>
     </Tabs>
+    )
   )
 }
 
