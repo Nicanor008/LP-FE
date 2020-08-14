@@ -1,7 +1,14 @@
 import React from "react"
 import { Loader } from "../loader"
 
-const Modal = ({ children, showModal, onClickClose, loading, statusImage }) => {
+const Modal = ({
+  children,
+  showModal,
+  onClickClose,
+  loading,
+  statusImage,
+  keyword,
+}) => {
   return (
     <div
       id="myModal"
@@ -15,7 +22,10 @@ const Modal = ({ children, showModal, onClickClose, loading, statusImage }) => {
           <>
             {/* header */}
             <div className="modalHeader">
-            <img src={statusImage} alt="status" />
+              <div className="modalHeaderFirstColumn">
+                <img src={statusImage} alt="status" />
+                <p style={{ color: "black" }}>{keyword}</p>
+              </div>
               <span className="close" onClick={onClickClose}>
                 &times;
               </span>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
@@ -85,4 +87,13 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+.modalHeaderFirstColumn {
+  display: flex;
+}
+.modalHeaderFirstColumn p {
+  padding: 0 1rem;
+  font-family: 'Caveat', cursive;
+  font-size: x-large;
+  font-weight: lighter;
 }

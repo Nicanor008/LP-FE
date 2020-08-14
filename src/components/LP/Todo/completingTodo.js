@@ -21,7 +21,7 @@ function useBaseUrl() {
   const apiURL = data.site.siteMetadata.apiURL
   return apiURL
 }
-const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickArrow  }) => {
+const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickArrow, loader  }) => {
   const [data, setData] = useState([])
   const apiBaseUrl = useBaseUrl()
   const [loading, setLoading] = useState(false)
@@ -48,7 +48,7 @@ const CompletedTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClic
       onClickArrow={onClickArrow}
     >
     <div className="onGoingTodoWrapper">
-      {loading ? (
+      {loading || loader ? (
         <Loader />
       ) : (
         data &&

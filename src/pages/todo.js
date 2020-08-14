@@ -31,6 +31,7 @@ function useBaseUrl() {
 
 const CreateTodo = () => {
   const apiBaseUrl = useBaseUrl()
+  const [loading, setLoading] = useState(false)
   const [form, setState] = useState({
     category: "",
     tags: "",
@@ -144,6 +145,7 @@ const CreateTodo = () => {
 
   // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
+    setState({ ...form, loading: true })
     server
       .patch(`${apiBaseUrl}/todo/status/${props.id}`, {
         completed: props.complete,
@@ -156,6 +158,7 @@ const CreateTodo = () => {
           ...form,
           newDataAdded: !form.newDataAdded,
           newCompletedData: !form.newCompletedData,
+          loading: false,
         })
       })
       .catch(e => {
@@ -234,6 +237,7 @@ const CreateTodo = () => {
               editTodoItem={editTodoItem}
               showBody={form.showOngoingTodo}
               onClickArrow={onClickArrowOngoingTodo}
+              loader={loading}
             />
           )}
         </div>
@@ -243,15 +247,16 @@ const CreateTodo = () => {
 
         {/* completed todo */}
         <div className="thirdRowTodo">
-            {form.user !== "" && (
-              <CompletedTodo
-                newData={form.newCompletedData}
-                deleteTodoItem={deleteTodoItem}
-                editTodoItem={editTodoItem}
-                showBody={form.showCompletedTodo}
-                onClickArrow={onClickArrowOnCompletedTodo}
-              />
-            )}
+          {form.user !== "" && (
+            <CompletedTodo
+              newData={form.newCompletedData}
+              deleteTodoItem={deleteTodoItem}
+              editTodoItem={editTodoItem}
+              showBody={form.showCompletedTodo}
+              onClickArrow={onClickArrowOnCompletedTodo}
+              loader={loading}
+            />
+          )}
         </div>
       </div>
       <div id="snackbar"></div>

@@ -89,6 +89,7 @@ const TodoItem = props => {
           showModal={showModal}
           onClickClose={CloseOrOpenModal}
           statusImage={data.completed ? Completed : InProgress}
+          keyword={data.tags}
         >
           <div>
             <div className="modalChildren">
