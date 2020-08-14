@@ -11,7 +11,7 @@ import CompletedTodo from "../components/LP/Todo/completingTodo"
 import { server } from "../utils/baseUrl"
 import CreateTodoInputs from "../components/LP/Todo/createTodo"
 import axios from "axios"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, navigate } from "gatsby"
 
 // get base url hook
 function useBaseUrl() {
@@ -52,6 +52,10 @@ const CreateTodo = () => {
   useEffect(() => {
     const token = localStorage.getItem("token")
     const activeToken = token && jwt.decode(token.substr(7))
+
+    if(!token) {
+      return navigate('/auth')
+    }
 
     // calculate duration
     const start = moment(form.startTime, "HH:mm")
