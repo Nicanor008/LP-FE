@@ -50,7 +50,8 @@ const CompletedTodo = ({
 
   return (
     (loading || loader) ? (
-      <Loader />
+      // <Loader />
+      <span></span>
     ) : (
     <Tabs
       todoTitleIcon={Love}
