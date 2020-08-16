@@ -7,7 +7,8 @@ module.exports = {
     title: `LP`,
     description: `Learning Pattern is an advanced todo with auto generated analytics.`,
     author: `@Nicanor`,
-    apiURL: process.env.LP_PROD_API
+    apiURL: process.env.LP_PROD_API,
+    weatherApiKey: process.env.WEATHER_API_KEY
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

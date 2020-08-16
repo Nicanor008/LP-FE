@@ -1,6 +1,3 @@
-.createTodoWrapper {
-  margin: 1rem 5rem;
-}
 .FirstRowCreateTodo {
   display: flex;
 }
@@ -8,9 +5,8 @@
   background-color: #f9f9fd;
   border: 0.5px solid #c2c5ff;
   border-radius: 3px;
-  width: 50%;
+  width: 100%;
   padding: 0.4rem 1rem;
-  
 }
 .tabHeader,
 .innerTabHeader {
@@ -18,7 +14,7 @@
   justify-content: space-between;
 }
 .tabHeaderHR {
-  width: 106%;
+  width: 105.29%;
   margin-left: -1rem;
   background-color: #c2c5ff;
 }
@@ -51,7 +47,7 @@
 // // ongoing todo
 .todo {
   display: flex;
-  font-family: 'IBM Plex Mono';
+  font-family: "IBM Plex Mono";
   img {
     padding-right: 0.3rem;
     margin-top: 0.2rem;
@@ -61,6 +57,63 @@
     color: rgb(29, 29, 29);
     text-decoration: none;
     margin: 0;
+  }
+}
+
+.allTodoWrapper {
+  display: flex;
+  width: 100%;
+  .createTodoWrapper {
+    width: 50%;
+    margin: 1rem 5rem;
+  }
+  .secondTodoColumn {
+    margin-right: 5rem;
+    margin-top: 2rem;
+    width: 40%;
+
+    .secondRowCardWrapper {
+      width: 100%;
+      background-color: #ccceff;
+      border: 0.1px solid #9ea3f6;
+      padding: 1rem;
+      border-radius: 3px;
+      font-family: "IBM Plex mono";
+      .secondRowCardHeader {
+        display: flex;
+        justify-content: space-between;
+      }
+      .secondRowCardHeader img {
+        cursor: pointer;
+      }
+      .thirdRowCardBody, .weatherData {
+        display: flex;
+        justify-content: space-between;
+      }
+      .weatherData {
+        h2 {
+          padding-top: 10px;
+          margin: 0;
+          display: flex;
+          img {
+            margin-bottom: 1rem !important;
+          }
+          .tempUnit {
+            font-size: small;
+            margin-left: 0.1rem;
+            span {
+              cursor: pointer !important;
+            }
+            span:hover {
+              font-size: medium;
+            }
+          }
+        }
+        img:nth-child(2) {
+          margin: 0;
+        }
+      }
+    }
   }
 }
 
@@ -81,9 +134,6 @@
   }
 }
 @media only screen and (max-width: 767px) {
-  .createTodoWrapper {
-    margin: 0.8rem 2rem;
-  }
   .FirstRowCreateTodo {
     display: block;
   }
@@ -98,17 +148,33 @@
   .tabTitle {
     font-size: xx-large;
   }
+  .allTodoWrapper {
+    display: block;
+    .createTodoWrapper {
+      width: 100%;
+      margin: 0.8rem 2rem;
+    }
+    .secondTodoColumn {
+      margin: 0.8rem 2rem;
+    }
+  }
 }
 @media only screen and (max-width: 467px) {
-  .createTodoWrapper {
-    margin: 0.8rem 1rem;
+  .allTodoWrapper {
+    display: block;
+    .createTodoWrapper {
+      width: 100% !important;
+      margin: 0.8rem 1rem !important;
+    }
+    .secondTodoColumn {
+      margin: 0.8rem 1rem !important;
+    }
   }
   .FirstRowCreateTodo {
     display: block;
   }
   .createTodo {
-    width: 100%;
-    padding: 0.2rem 0.5rem;
+    width: 90% !important;
   }
   .tabHeaderHR {
     width: 105%;

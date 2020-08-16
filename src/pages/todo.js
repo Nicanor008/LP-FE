@@ -12,6 +12,7 @@ import { server } from "../utils/baseUrl"
 import CreateTodoInputs from "../components/LP/Todo/createTodo"
 import axios from "axios"
 import { useStaticQuery, graphql, navigate } from "gatsby"
+import SecondRowTodo from "../components/LP/Todo/secondRowTodo"
 
 // get base url hook
 function useBaseUrl() {
@@ -53,8 +54,8 @@ const CreateTodo = () => {
     const token = localStorage.getItem("token")
     const activeToken = token && jwt.decode(token.substr(7))
 
-    if(!token) {
-      return navigate('/auth')
+    if (!token) {
+      return navigate("/auth")
     }
 
     // calculate duration
@@ -215,31 +216,32 @@ const CreateTodo = () => {
   return (
     <Layout>
       <SEO title="Create Todo" description="Create Todo" />
-      <div className="createTodoWrapper">
-        <br />
-        <div className="FirstRowCreateTodo">
-          {/* create todo */}
-          <Tabs
-            todoTitleIcon={WriteSmall}
-            title="Write Todo"
-            showBody={form.showCreateTodo}
-            onClickArrow={onClickArrowOnCreateTodo}
-          >
-            <CreateTodoInputs
-              onClickAddTodoButton={onClickAddTodoButton}
-              form={form}
-              onInputChange={onInputChange}
-            />
-          </Tabs>
-          <div className="generalAnalytics"></div>
-        </div>
+      <div className="allTodoWrapper">
+        <div className="createTodoWrapper">
+          <br />
+          <div className="FirstRowCreateTodo">
+            {/* create todo */}
+            <Tabs
+              todoTitleIcon={WriteSmall}
+              title="Write Todo"
+              showBody={form.showCreateTodo}
+              onClickArrow={onClickArrowOnCreateTodo}
+            >
+              <CreateTodoInputs
+                onClickAddTodoButton={onClickAddTodoButton}
+                form={form}
+                onInputChange={onInputChange}
+              />
+            </Tabs>
+            <div className="generalAnalytics"></div>
+          </div>
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        {/* ongoing todo */}
-        <div className="secondRowTodo">
-          {/* {form.user !== "" && ( */}
+          {/* ongoing todo */}
+          <div className="secondRowTodo">
+            {/* {form.user !== "" && ( */}
             <OngoingTodo
               newData={form.newDataAdded}
               deleteTodoItem={deleteTodoItem}
@@ -248,15 +250,15 @@ const CreateTodo = () => {
               onClickArrow={onClickArrowOngoingTodo}
               loader={loading}
             />
-          {/* )} */}
-        </div>
+            {/* )} */}
+          </div>
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        {/* completed todo */}
-        <div className="thirdRowTodo">
-          {/* {form.user !== "" && ( */}
+          {/* completed todo */}
+          <div className="thirdRowTodo">
+            {/* {form.user !== "" && ( */}
             <CompletedTodo
               newData={form.newCompletedData}
               deleteTodoItem={deleteTodoItem}
@@ -265,7 +267,24 @@ const CreateTodo = () => {
               onClickArrow={onClickArrowOnCompletedTodo}
               loader={loading}
             />
-          {/* )} */}
+            {/* )} */}
+          </div>
+        </div>
+
+        {/* second row */}
+        <div className="secondTodoColumn">
+          {/* date, time & weather */}
+          {/* <Cards title="Welcome User">
+            <div className="thirdRowCardBody">
+              <div>
+                <h2>15:36:45</h2>
+                <p>Tuesday 2nd July</p>
+              </div>
+
+              <div>36∞</div>
+            </div>
+          </Cards> */}
+          <SecondRowTodo />
         </div>
       </div>
       <div id="snackbar"></div>
