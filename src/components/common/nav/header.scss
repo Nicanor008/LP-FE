@@ -1,44 +1,113 @@
-$mainBackgroundColor: #757AFF;
+$mainBackgroundColor: #757aff;
 $titleFont: "Caveat";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap");
 
 .navHeader {
-    background-color: $mainBackgroundColor;
+  background-color: $mainBackgroundColor;
 }
 .navMenuWrapper {
-    margin: 0 8rem;
+  margin: 0 8rem;
+}
+.navWrapper {
+  display: flex;
+  justify-content: space-between;
 }
 .logo {
-    margin-top: 0.6rem;
-    margin-bottom: 0;
+  margin-top: 0.6rem;
+  margin-bottom: 0;
 }
+.menu {
+  margin-top: 1rem;
+  color: white;
+  font-family: "Caveat";
+  a {
+    text-decoration: none;
+    color: white;
+    font-size: x-large;
+  }
+  button {
+    cursor: pointer;
+    font-size: medium;
+    font-weight: bold;
+  }
+  a:hover,
+  button:hover {
+    font-family: "IBM Plex Mono";
+    text-decoration: underline;
+  }
+}
+.myTopNav {
+  overflow: hidden;
+  .icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .myTopNav {
+    display: flex;
+    a,
+    button {
+      display: none;
+    }
+    .icon {
+      float: right;
+      display: block;
+      padding-top: 0.5rem;
+    }
+  }
+  .responsive {
+    position: relative;
+    .icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding-top: 0.5rem;
+    }
+    a,
+    button {
+      float: none;
+      display: block;
+    }
+    button {
+      padding-left: 1rem;
+      padding-right: 2rem;
+      padding-top: 0.4rem;
+    }
+  }
+  .unAuthButton {
+      padding: 0.8rem;
+  }
+}
+
+// footer
 .footer {
-    font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
 }
 .footerDetails {
-    display: flex;
-    p {
-        padding-left: 0.6rem;
-        padding-top: 0.3rem;
-    }
+  display: flex;
+  p {
+    padding-left: 0.6rem;
+    padding-top: 0.3rem;
+  }
 }
 .footerHr {
-    background-color: $mainBackgroundColor;
+  background-color: $mainBackgroundColor;
 }
 
 // mobile design
 @media only screen and (max-width: 467px) {
-    .navMenuWrapper {
-        margin: 0 1rem;
-    }
+  .navMenuWrapper {
+    margin: 0 1rem;
+  }
 }
 @media only screen and (max-width: 667px) {
-    .navMenuWrapper {
-        margin: 0 2rem;
-    }
+  .navMenuWrapper {
+    margin: 0 2rem;
+  }
 }
 @media only screen and (max-width: 967px) {
-    .navMenuWrapper {
-        margin: 0 4rem;
-    }
+  .navMenuWrapper {
+    margin: 0 4rem;
+  }
 }
