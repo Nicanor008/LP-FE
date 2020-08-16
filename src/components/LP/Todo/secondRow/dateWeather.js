@@ -81,7 +81,7 @@ function DateWeather(props) {
   //   count down time
   function realtime() {
     let time = moment().format("h:mm:ss a")
-    let y = typeof window !== undefined && document.getElementById("time")
+    let y = typeof window !== undefined && window.document.getElementById("time")
     if (y && y !== null) {
       y.innerHTML = time
 
@@ -95,7 +95,11 @@ function DateWeather(props) {
   return (
     <div>
       {/* greetings, date, time and weather */}
-      <Cards title={greeting + " " + data.username} id="title">
+      <Cards
+        title={greeting + " " + data.username}
+        id="title"
+        realtime={realtime}
+      >
         <div className="thirdRowCardBody">
           <div>
             {/* date & time */}
