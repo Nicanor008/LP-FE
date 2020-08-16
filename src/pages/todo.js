@@ -284,7 +284,7 @@ const CreateTodo = () => {
               <div>36∞</div>
             </div>
           </Cards> */}
-          <SecondRowTodo />
+          <SecondRowTodo apiBaseUrl={apiBaseUrl}/>
         </div>
       </div>
       <div id="snackbar"></div>
