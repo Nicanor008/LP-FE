@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
+import moment from "moment"
 import { server } from "../../../utils/baseUrl"
 import TodoItem from "./todo"
 import { useStaticQuery, graphql } from "gatsby"
-import { Loader } from "../../common/loader"
 import Tabs from "./tabs"
 import Love from "../../../images/icons/love.svg"
 
@@ -27,20 +27,31 @@ const CompletedTodo = ({
   editTodoItem,
   showBody,
   onClickArrow,
-  loader,
 }) => {
   const [data, setData] = useState([])
   const apiBaseUrl = useBaseUrl()
   const [loading, setLoading] = useState(false)
 
+  const dat = []
+
   // componentDidMount
   useEffect(() => {
     setLoading(true)
+    setData([])
     server
       .get(`${apiBaseUrl}/todo/complete`)
       .then(response => {
-        setLoading(false)
-        setData(response.data.data)
+        // get duration last updated
+        response.data.data.forEach(s => {
+          const durationLastUpdated = moment(
+            s.updatedAt,
+            "YYYYMMDDhhmm"
+          ).fromNow()
+          if (durationLastUpdated.indexOf("hour") > 1) {
+            setLoading(false)
+            setData(data => [...data, s])
+          }
+        })
       })
       .catch(() => {
         setData([])
@@ -48,11 +59,9 @@ const CompletedTodo = ({
       })
   }, [newData, apiBaseUrl])
 
-  return (
-    (loading || loader) ? (
-      // <Loader />
-      <span></span>
-    ) : (
+  return loading ? (
+    <span></span>
+  ) : (
     <Tabs
       todoTitleIcon={Love}
       title={`${
@@ -64,10 +73,7 @@ const CompletedTodo = ({
       onClickArrow={onClickArrow}
     >
       <div className="onGoingTodoWrapper">
-        {/* {loading || loader ? (
-          <Loader />
-        ) : ( */}
-          {data.length >= 1 &&
+        {data.length >= 1 &&
           data.map(todo => (
             <TodoItem
               name={todo.name}
@@ -78,10 +84,8 @@ const CompletedTodo = ({
               editTodoItem={editTodoItem}
             />
           ))}
-        {/* )} */}
       </div>
     </Tabs>
-    )
   )
 }
 
