@@ -50,7 +50,7 @@ function DateWeather(props) {
 
     axios.get("https://json.geoiplookup.io/").then(async res => {
       const response = await axios.get(
-        // `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${res.data.ip}`
+        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${res.data.ip}`
       )
       const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
       return setState({
@@ -81,14 +81,16 @@ function DateWeather(props) {
   //   count down time
   function realtime() {
     let time = moment().format("h:mm:ss a")
-    let y = typeof window !== undefined && window.document.getElementById("time")
-    if (y && y !== null) {
-      y.innerHTML = time
-
-      setInterval(() => {
-        time = moment().format("h:mm:ss a")
+    if (!data.loading && typeof window !== "undefined") {
+      let y = typeof window !== "undefined" && window.document.getElementById("time")
+      if (y && y !== null) {
         y.innerHTML = time
-      }, 1000)
+
+        setInterval(() => {
+          time = moment().format("h:mm:ss a")
+          y.innerHTML = time
+        }, 1000)
+      }
     }
   }
 

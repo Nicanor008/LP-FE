@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import moment from "moment"
 import axios from "axios"
 import Cards from "../card"
 import { Loader } from "../../../common/loader"

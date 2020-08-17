@@ -15,7 +15,7 @@ const Cards = ({ title, titleQuote, icon, randomizeQuote, children }) => {
   function realtimeOnHeader() {
     let time = moment().format("h:mm:ss a")
     let z =
-      typeof window !== undefined && document.getElementById("cardHeaderTime")
+      typeof window !== "undefined" && window.document.getElementById("cardHeaderTime")
     if (z && z !== null) {
       z.innerHTML = time
 
