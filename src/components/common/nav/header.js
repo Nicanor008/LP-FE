@@ -52,9 +52,9 @@ const Header = () => {
               </span>
             </div>
           ) : (
-            <button onClick={logoutHandler} className="unAuthButton">
+            <Link to="/auth" className="unAuthButton">
               Sign In|Up
-            </button>
+            </Link>
           )}
         </div>
       </div>
