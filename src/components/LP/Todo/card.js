@@ -4,7 +4,7 @@ import CloseCard from "../../../images/icons/closeCard.svg"
 import CheckCard from "../../../images/icons/check.svg"
 import { useState } from "react"
 
-const Cards = ({ title, children }) => {
+const Cards = ({ title, titleQuote, icon, randomizeQuote, children }) => {
   const [close, setClose] = useState(true)
 
   const onClickCloseIcon = () => {
@@ -27,19 +27,27 @@ const Cards = ({ title, children }) => {
   }
 
   return (
-    <div className="secondRowCardWrapper">
+    <div className={!icon ? `secondRowCardWrapper` : `quoteCardWrapper`}>
       <div className="secondRowCardHeader">
-        <p>{title}</p>
+        <p>{title} {!close && titleQuote}</p>
         <h3
           onLoad={realtimeOnHeader()}
           id="cardHeaderTime"
           style={{ display: !close ? "block" : "none" }}
         ></h3>
+        <div>
+        {icon && <img
+          src={icon}
+          alt="reload"
+          onClick={randomizeQuote}
+          className="reloadQuoteIcon"
+        />}
         <img
           src={close ? CloseCard : CheckCard}
           alt="close"
           onClick={onClickCloseIcon}
         />
+        </div>
       </div>
       <div style={{ display: close ? "block" : "none" }}>{children}</div>
     </div>

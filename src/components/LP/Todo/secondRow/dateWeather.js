@@ -50,7 +50,7 @@ function DateWeather(props) {
 
     axios.get("https://json.geoiplookup.io/").then(async res => {
       const response = await axios.get(
-        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${res.data.ip}`
+        // `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${res.data.ip}`
       )
       const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
       return setState({

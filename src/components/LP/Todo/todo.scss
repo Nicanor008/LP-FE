@@ -72,46 +72,78 @@
     margin-top: 2rem;
     width: 40%;
 
-    .secondRowCardWrapper {
+    .secondRowCardWrapper, .quoteCardWrapper {
       width: 100%;
-      background-color: #ccceff;
-      border: 0.1px solid #9ea3f6;
-      padding: 1rem;
+      padding: 0.5rem 1rem;
       border-radius: 3px;
       font-family: "IBM Plex mono";
+    }
+    .secondRowCardWrapper {
+      background-color: #ccceff;
+      border: 0.1px solid #9ea3f6;
+      background-image: url('../../../images/icons/quotes.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .quoteCardWrapper {
+      background-color: #F9F9FD;
+      border: 0.1px solid #d8dafa;
       .secondRowCardHeader {
+        p {
+          font-size: small !important;
+        }
+      }
+      .reloadQuoteIcon {
+        padding-right: 0.3rem;
+        margin-bottom: 1.35rem;
+      }
+    }
+    .quoteData {
+      background-image: url('../../../images/icons/quotes.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      p:nth-child(1) {
+        font-family: 'Caveat';
+        font-size: x-large;
+      }
+      p:nth-child(2) {
+        text-align: center;
+        color: rgb(166, 165, 170);
+      }
+    }
+    .secondRowCardHeader {
+      display: flex;
+      justify-content: space-between;
+    }
+    .secondRowCardHeader img {
+      cursor: pointer;
+    }
+    .thirdRowCardBody,
+    .weatherData {
+      display: flex;
+      justify-content: space-between;
+    }
+    .weatherData {
+      h2 {
+        padding-top: 10px;
+        margin: 0;
         display: flex;
-        justify-content: space-between;
-      }
-      .secondRowCardHeader img {
-        cursor: pointer;
-      }
-      .thirdRowCardBody, .weatherData {
-        display: flex;
-        justify-content: space-between;
-      }
-      .weatherData {
-        h2 {
-          padding-top: 10px;
-          margin: 0;
-          display: flex;
-          img {
-            margin-bottom: 1rem !important;
+        img {
+          margin-bottom: 1rem !important;
+        }
+        .tempUnit {
+          font-size: small;
+          margin-left: 0.1rem;
+          span {
+            cursor: pointer !important;
           }
-          .tempUnit {
-            font-size: small;
-            margin-left: 0.1rem;
-            span {
-              cursor: pointer !important;
-            }
-            span:hover {
-              font-size: medium;
-            }
+          span:hover {
+            font-size: medium;
           }
         }
-        img:nth-child(2) {
-          margin: 0;
-        }
+      }
+      img:nth-child(2) {
+        margin: 0;
       }
     }
   }
