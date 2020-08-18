@@ -67,9 +67,6 @@ const OngoingTodo = ({
               onClickArrow={onClickArrow}
             >
               <div className="onGoingTodoWrapper">
-                {/* {loading ? (
-          <Loader />
-        ) : ( */}
                 {data.map(todo => (
                   <TodoItem
                     name={todo.name}
@@ -80,7 +77,6 @@ const OngoingTodo = ({
                     editTodoItem={editTodoItem}
                   />
                 ))}
-                {/* )} */}
               </div>
             </Tabs>
 

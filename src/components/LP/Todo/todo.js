@@ -97,7 +97,7 @@ const TodoItem = props => {
 
               {/* time */}
               <div className="todoItemTimeWrapper">
-                {data.duration !== null ? (
+                {data.duration && (
                   <div className="todoTime">
                     <p>
                       <span>Duration:</span> &nbsp;{data.duration}
@@ -109,8 +109,6 @@ const TodoItem = props => {
                       <span>End Time:</span> &nbsp;{data.endTime}
                     </p>
                   </div>
-                ) : (
-                  ""
                 )}
                 <p>
                   <span>Created On: &nbsp;</span>
