@@ -8,11 +8,11 @@ import Footer from "./common/nav/footer"
 const Layout = ({ height, children }) => {
 
   return (
-    <>
+    <div>
       <Header />
         <main style={{ height }}>{children}</main>
         <Footer />
-    </>
+    </div>
   )
 }
 

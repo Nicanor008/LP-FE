@@ -59,33 +59,37 @@ const CompletedTodo = ({
       })
   }, [newData, apiBaseUrl])
 
-  return loading ? (
-    <span></span>
-  ) : (
-    <Tabs
-      todoTitleIcon={Love}
-      title={`${
-        data.length > 1
-          ? `${data.length} Tasks Completed`
-          : `${data.length} Task Completed`
-      }`}
-      showBody={data.length > 0 && showBody}
-      onClickArrow={onClickArrow}
-    >
-      <div className="onGoingTodoWrapper">
-        {data.length >= 1 &&
-          data.map(todo => (
-            <TodoItem
-              name={todo.name}
-              key={todo._id}
-              complete
-              id={todo._id}
-              deleteTodoItem={deleteTodoItem}
-              editTodoItem={editTodoItem}
-            />
-          ))}
-      </div>
-    </Tabs>
+  return (
+    <div>
+      {loading ? (
+        <span></span>
+      ) : (
+        <Tabs
+          todoTitleIcon={Love}
+          title={`${
+            data.length > 1
+              ? `${data.length} Tasks Completed`
+              : `${data.length} Task Completed`
+          }`}
+          showBody={data.length > 0 && showBody}
+          onClickArrow={onClickArrow}
+        >
+          <div className="onGoingTodoWrapper">
+            {data.length >= 1 &&
+              data.map(todo => (
+                <TodoItem
+                  name={todo.name}
+                  key={todo._id}
+                  complete
+                  id={todo._id}
+                  deleteTodoItem={deleteTodoItem}
+                  editTodoItem={editTodoItem}
+                />
+              ))}
+          </div>
+        </Tabs>
+      )}
+    </div>
   )
 }
 

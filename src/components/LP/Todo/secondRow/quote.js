@@ -8,11 +8,22 @@ function Quote() {
   const [data, setState] = useState({
     loading: false,
     dailyQuote: {},
-    minimizedActiveQuote: "",
+    minimizedActiveQuote: ""
   })
 
   useEffect(() => {
-    randomizeQuotes()
+    setState({ ...data, loading: true })
+    axios.get("https://type.fit/api/quotes").then(res => {
+      const quotes = res.data
+      const item = quotes[Math.floor(Math.random() * quotes.length)]
+      const minimizedActiveQuote = item.text.substr(0, 50).concat(" ...")
+      return setState({
+        ...data,
+        loading: false,
+        minimizedActiveQuote: minimizedActiveQuote,
+        dailyQuote: item,
+      })
+    })
   }, [])
 
   const randomizeQuotes = () => {
@@ -34,7 +45,6 @@ function Quote() {
     <div>
       <br />
       <br />
-      {/* Random quotes */}
       <Cards
         titleQuote={!data.loading && data.minimizedActiveQuote}
         icon={Reload}
@@ -45,10 +55,10 @@ function Quote() {
             {data.loading ? (
               <Loader />
             ) : (
-              <>
+              <div>
                 <p>{data.dailyQuote.text}</p>
                 <p>{data.dailyQuote.author}</p>
-              </>
+              </div>
             )}
           </div>
         </div>

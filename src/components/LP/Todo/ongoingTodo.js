@@ -22,7 +22,14 @@ function useBaseUrl() {
   return apiURL
 }
 
-const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickArrow, loader }) => {
+const OngoingTodo = ({
+  newData,
+  deleteTodoItem,
+  editTodoItem,
+  showBody,
+  onClickArrow,
+  loader,
+}) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const apiBaseUrl = useBaseUrl()
@@ -43,34 +50,39 @@ const OngoingTodo = ({ newData, deleteTodoItem, editTodoItem, showBody, onClickA
   }, [newData, apiBaseUrl])
 
   return (
-    (loading || loader) ? (
-      <Loader />
-    ) : (
-    <Tabs
-      todoTitleIcon={Walk}
-      title={`${data.length > 1 ? `${data.length} Tasks in Progress` : `${data.length} Task in Progress`}`}
-      showBody={data.length > 0 && showBody}
-      onClickArrow={onClickArrow}
-    >
-      <div className="onGoingTodoWrapper">
-        {/* {loading ? (
+    <div>
+      {(loading || loader) ? (
+      <Loader />) : (
+      <Tabs
+        todoTitleIcon={Walk}
+        title={`${
+          data.length > 1
+            ? `${data.length} Tasks in Progress`
+            : `${data.length} Task in Progress`
+        }`}
+        showBody={data.length > 0 && showBody}
+        onClickArrow={onClickArrow}
+      >
+        <div className="onGoingTodoWrapper">
+          {/* {loading ? (
           <Loader />
         ) : ( */}
           {data &&
-          data.map(todo => (
-            <TodoItem
-              name={todo.name}
-              key={todo._id}
-              complete={false}
-              id={todo._id}
-              deleteTodoItem={deleteTodoItem}
-              editTodoItem={editTodoItem}
-            />
-          ))}
-        {/* )} */}
-      </div>
-    </Tabs>
-    )
+            data.map(todo => (
+              <TodoItem
+                name={todo.name}
+                key={todo._id}
+                complete={false}
+                id={todo._id}
+                deleteTodoItem={deleteTodoItem}
+                editTodoItem={editTodoItem}
+              />
+            ))}
+          {/* )} */}
+        </div>
+      </Tabs>
+      )}
+    </div>
   )
 }
 

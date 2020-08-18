@@ -100,7 +100,6 @@ function DateWeather(props) {
       <Cards
         title={greeting + " " + data.username}
         id="title"
-        realtime={realtime}
       >
         <div className="thirdRowCardBody">
           <div>

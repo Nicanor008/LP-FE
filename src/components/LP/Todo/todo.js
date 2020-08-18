@@ -48,7 +48,7 @@ const TodoItem = props => {
   }
 
   return (
-    <>
+    <div>
       <div className="todo">
         {!props.complete ? (
           <img
@@ -135,7 +135,9 @@ const TodoItem = props => {
                     src={props.complete ? Reload : CheckMark}
                     alt="Add Todo"
                   />{" "}
-                  {props.complete ? "Revert to ongoing tasks" : "Mark as complete"}
+                  {props.complete
+                    ? "Revert to ongoing tasks"
+                    : "Mark as complete"}
                 </button>
                 <button
                   className={`statusDeleteButton btn btn-white btn-animate`}
@@ -150,11 +152,10 @@ const TodoItem = props => {
                 </button>
               </div>
             </div>
-            {/* )} */}
           </div>
         </Modal>
       )}
-    </>
+    </div>
   )
 }
 

@@ -11,42 +11,26 @@ const Cards = ({ title, titleQuote, icon, randomizeQuote, children }) => {
     return setClose(!close)
   }
 
-  //   count down time
-  function realtimeOnHeader() {
-    let time = moment().format("h:mm:ss a")
-    let z =
-      typeof window !== "undefined" && window.document.getElementById("cardHeaderTime")
-    if (z && z !== null) {
-      z.innerHTML = time
-
-      setInterval(() => {
-        time = moment().format("h:mm:ss a")
-        z.innerHTML = time
-      }, 1000)
-    }
-  }
-
   return (
     <div className={!icon ? `secondRowCardWrapper` : `quoteCardWrapper`}>
       <div className="secondRowCardHeader">
-        <p>{title} {!close && titleQuote}</p>
-        <h3
-          onLoad={realtimeOnHeader()}
-          id="cardHeaderTime"
-          style={{ display: !close ? "block" : "none" }}
-        ></h3>
+        <p>
+          {title} {!close && titleQuote}
+        </p>
         <div>
-        {icon && <img
-          src={icon}
-          alt="reload"
-          onClick={randomizeQuote}
-          className="reloadQuoteIcon"
-        />}
-        <img
-          src={close ? CloseCard : CheckCard}
-          alt="close"
-          onClick={onClickCloseIcon}
-        />
+          {icon && (
+            <img
+              src={icon}
+              alt="reload"
+              onClick={randomizeQuote}
+              className="reloadQuoteIcon"
+            />
+          )}
+          <img
+            src={close ? CloseCard : CheckCard}
+            alt="close"
+            onClick={onClickCloseIcon}
+          />
         </div>
       </div>
       <div style={{ display: close ? "block" : "none" }}>{children}</div>
