@@ -215,7 +215,10 @@ const CreateTodo = () => {
 
   return (
     <Layout>
-      <SEO title="Create Todo" description="Create Todo" />
+      <SEO
+        title="Todo"
+        description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic real-time todo analytics"
+      />
       <div className="allTodoWrapper">
         <div className="createTodoWrapper">
           <br />
@@ -284,7 +287,7 @@ const CreateTodo = () => {
               <div>36∞</div>
             </div>
           </Cards> */}
-          <SecondRowTodo apiBaseUrl={apiBaseUrl}/>
+          <SecondRowTodo apiBaseUrl={apiBaseUrl} />
         </div>
       </div>
       <div id="snackbar"></div>

@@ -6,9 +6,10 @@ module.exports = {
   siteMetadata: {
     title: `LP`,
     description: `Learning Pattern is an advanced todo with auto generated analytics.`,
-    author: `@Nicanor`,
+    keywords: `LP, learning pattern, Learning-pattern, todo, todo-list, automated-todo, Nicanor Korir, todo analytics, todo time tracking, todo productivity, productivity, productivity tools, Nicanor Project, real time todo`,
+    author: `Nicanor Korir`,
     apiURL: process.env.LP_PROD_API,
-    weatherApiKey: process.env.WEATHER_API_KEY
+    weatherApiKey: process.env.WEATHER_API_KEY,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -19,19 +20,25 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: "UA-175647805-1",
+      },
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Learning Pattern`,
+        short_name: `LP`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/title-logo.svg`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

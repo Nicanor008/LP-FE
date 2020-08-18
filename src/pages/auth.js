@@ -6,6 +6,7 @@ import "../components/common/toast/toast.css"
 import { server } from "../utils/baseUrl"
 import { navigate, useStaticQuery, graphql } from "gatsby"
 import { Loader } from "../components/common/loader"
+import SEO from "../components/seo"
 
 // return action window dimensions
 function getWindowDimensions() {
@@ -192,6 +193,10 @@ const Login = () => {
         </div>
       ) : (
         <Layout height={height - 175}>
+          <SEO
+            title="Sign In|Up"
+            description="Sign in or sign up to LP"
+          />
           <div className="loginContainer" id="container">
             {/* sign up */}
             <div className="form-container sign-up-container">
