@@ -8,7 +8,7 @@ function Quote() {
   const [data, setState] = useState({
     loading: false,
     dailyQuote: {},
-    minimizedActiveQuote: ""
+    minimizedActiveQuote: "",
   })
 
   useEffect(() => {
@@ -16,7 +16,10 @@ function Quote() {
     axios.get("https://type.fit/api/quotes").then(res => {
       const quotes = res.data
       const item = quotes[Math.floor(Math.random() * quotes.length)]
-      const minimizedActiveQuote = item.text.substr(0, 50).concat(" ...")
+      const minimizedActiveQuote =
+        item.text.length > 60
+          ? item.text.substr(0, 50).concat(" ...")
+          : item.text.substr(0, 50)
       return setState({
         ...data,
         loading: false,
@@ -31,7 +34,10 @@ function Quote() {
     axios.get("https://type.fit/api/quotes").then(res => {
       const quotes = res.data
       const item = quotes[Math.floor(Math.random() * quotes.length)]
-      const minimizedActiveQuote = item.text.substr(0, 50).concat(" ...")
+      const minimizedActiveQuote =
+        item.text.length > 60
+          ? item.text.substr(0, 50).concat(" ...")
+          : item.text.substr(0, 50)
       return setState({
         ...data,
         loading: false,
