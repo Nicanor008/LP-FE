@@ -247,7 +247,6 @@ const CreateTodo = () => {
                     onInputChange={onInputChange}
                   />
                 </Tabs>
-                <div className="generalAnalytics"></div>
               </div>
 
               <br />
@@ -263,9 +262,6 @@ const CreateTodo = () => {
                   onClickArrow={onClickArrowOngoingTodo}
                 />
               </div>
-
-              <br />
-              <br />
 
               {/* completed todo */}
               <div className="thirdRowTodo">

@@ -51,36 +51,43 @@ const OngoingTodo = ({
 
   return (
     <div>
-      {(loading || loader) ? (
-      <Loader />) : (
-      <Tabs
-        todoTitleIcon={Walk}
-        title={`${
-          data.length > 1
-            ? `${data.length} Tasks in Progress`
-            : `${data.length} Task in Progress`
-        }`}
-        showBody={data.length > 0 && showBody}
-        onClickArrow={onClickArrow}
-      >
-        <div className="onGoingTodoWrapper">
-          {/* {loading ? (
+      {loading || loader ? (
+        <Loader />
+      ) : (
+        data.length > 0 && (
+          <>
+            <Tabs
+              todoTitleIcon={Walk}
+              title={`${
+                data.length > 1
+                  ? `${data.length} Tasks in Progress`
+                  : `${data.length} Task in Progress`
+              }`}
+              showBody={data.length > 0 && showBody}
+              onClickArrow={onClickArrow}
+            >
+              <div className="onGoingTodoWrapper">
+                {/* {loading ? (
           <Loader />
         ) : ( */}
-          {data &&
-            data.map(todo => (
-              <TodoItem
-                name={todo.name}
-                key={todo._id}
-                complete={false}
-                id={todo._id}
-                deleteTodoItem={deleteTodoItem}
-                editTodoItem={editTodoItem}
-              />
-            ))}
-          {/* )} */}
-        </div>
-      </Tabs>
+                {data.map(todo => (
+                  <TodoItem
+                    name={todo.name}
+                    key={todo._id}
+                    complete={false}
+                    id={todo._id}
+                    deleteTodoItem={deleteTodoItem}
+                    editTodoItem={editTodoItem}
+                  />
+                ))}
+                {/* )} */}
+              </div>
+            </Tabs>
+
+            <br />
+            <br />
+          </>
+        )
       )}
     </div>
   )
