@@ -30,10 +30,11 @@ function DateWeather(props) {
     }
   `)
 
+  const currentTime = new Date()
+  const currentHour = currentTime.getHours()
+
   useEffect(() => {
     setState({ ...data, loading: true })
-    const currentTime = new Date()
-    const currentHour = currentTime.getHours()
     const splitAfternoon = 12 // 24hr time to split the afternoon
     const splitEvening = 17 // 24hr time to split the evening
 
@@ -71,7 +72,7 @@ function DateWeather(props) {
         },
       })
     })
-  }, [])
+  }, [currentHour])
 
   //   set temp unit(F/C)
   const tempUnit = unit => {
