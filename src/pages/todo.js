@@ -13,6 +13,7 @@ import CreateTodoInputs from "../components/LP/Todo/createTodo"
 import axios from "axios"
 import { useStaticQuery, graphql, navigate } from "gatsby"
 import SecondRowTodo from "../components/LP/Todo/secondRowTodo"
+import { Loader } from "../components/common/loader"
 
 // get base url hook
 function useBaseUrl() {
@@ -32,7 +33,7 @@ function useBaseUrl() {
 
 const CreateTodo = () => {
   const apiBaseUrl = useBaseUrl()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [form, setState] = useState({
     category: "",
     tags: "",
@@ -51,6 +52,7 @@ const CreateTodo = () => {
 
   // load user token
   useEffect(() => {
+    setLoading(true)
     const token = localStorage.getItem("token")
     const activeToken = token && jwt.decode(token.substr(7))
 
@@ -79,6 +81,7 @@ const CreateTodo = () => {
         duration: minutes,
         user: activeToken.id,
       })
+    setLoading(false)
   }, [form.startTime, form.endTime, form.duration, apiBaseUrl])
 
   // on change event
@@ -214,70 +217,77 @@ const CreateTodo = () => {
   }
 
   return (
-    <Layout>
-      <SEO
-        title="Todo"
-        description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic real-time todo analytics"
-      />
-      <div className="allTodoWrapper">
-        <div className="createTodoWrapper">
-          <br />
-          <div className="FirstRowCreateTodo">
-            {/* create todo */}
-            <Tabs
-              todoTitleIcon={WriteSmall}
-              title="Write Todo"
-              showBody={form.showCreateTodo}
-              onClickArrow={onClickArrowOnCreateTodo}
-            >
-              <CreateTodoInputs
-                onClickAddTodoButton={onClickAddTodoButton}
-                form={form}
-                onInputChange={onInputChange}
-              />
-            </Tabs>
-            <div className="generalAnalytics"></div>
-          </div>
-
-          <br />
-          <br />
-
-          {/* ongoing todo */}
-          <div className="secondRowTodo">
-            {/* {form.user !== "" && ( */}
-            <OngoingTodo
-              newData={form.newDataAdded}
-              deleteTodoItem={deleteTodoItem}
-              editTodoItem={editTodoItem}
-              showBody={form.showOngoingTodo}
-              onClickArrow={onClickArrowOngoingTodo}
-              loader={loading}
-            />
-            {/* )} */}
-          </div>
-
-          <br />
-          <br />
-
-          {/* completed todo */}
-          <div className="thirdRowTodo">
-            {/* {form.user !== "" && ( */}
-            <CompletedTodo
-              newData={form.newCompletedData}
-              deleteTodoItem={deleteTodoItem}
-              editTodoItem={editTodoItem}
-              showBody={form.showCompletedTodo}
-              onClickArrow={onClickArrowOnCompletedTodo}
-              loader={loading}
-            />
-            {/* )} */}
-          </div>
+    <div>
+      {loading ? (
+        <div style={{ marginTop: "20%" }}>
+          <center>
+            <Loader />
+          </center>
         </div>
+      ) : (
+        <Layout>
+          <SEO
+            title="Todo"
+            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic real-time todo analytics"
+          />
+          <div className="allTodoWrapper">
+            <div className="createTodoWrapper">
+              <br />
+              <div className="FirstRowCreateTodo">
+                {/* create todo */}
+                <Tabs
+                  todoTitleIcon={WriteSmall}
+                  title="Write Todo"
+                  showBody={form.showCreateTodo}
+                  onClickArrow={onClickArrowOnCreateTodo}
+                >
+                  <CreateTodoInputs
+                    onClickAddTodoButton={onClickAddTodoButton}
+                    form={form}
+                    onInputChange={onInputChange}
+                  />
+                </Tabs>
+                <div className="generalAnalytics"></div>
+              </div>
 
-        {/* second row */}
-        <div className="secondTodoColumn">
-          {/* date, time & weather */}
-          {/* <Cards title="Welcome User">
+              <br />
+              <br />
+
+              {/* ongoing todo */}
+              <div className="secondRowTodo">
+                {/* {form.user !== "" && ( */}
+                <OngoingTodo
+                  newData={form.newDataAdded}
+                  deleteTodoItem={deleteTodoItem}
+                  editTodoItem={editTodoItem}
+                  showBody={form.showOngoingTodo}
+                  onClickArrow={onClickArrowOngoingTodo}
+                />
+                {/* )} */}
+              </div>
+
+              <br />
+              <br />
+
+              {/* completed todo */}
+              <div className="thirdRowTodo">
+                {/* {form.user !== "" && ( */}
+                <CompletedTodo
+                  newData={form.newCompletedData}
+                  deleteTodoItem={deleteTodoItem}
+                  editTodoItem={editTodoItem}
+                  showBody={form.showCompletedTodo}
+                  onClickArrow={onClickArrowOnCompletedTodo}
+                  loader={loading}
+                />
+                {/* )} */}
+              </div>
+            </div>
+
+            {/* second row */}
+            <div className="secondTodoColumn">
+              {/* date, time & weather */}
+              {/* <Cards title="Welcome User">
             <div className="thirdRowCardBody">
               <div>
                 <h2>15:36:45</h2>
@@ -287,11 +297,13 @@ const CreateTodo = () => {
               <div>36∞</div>
             </div>
           </Cards> */}
-          <SecondRowTodo apiBaseUrl={apiBaseUrl} />
-        </div>
-      </div>
-      <div id="snackbar"></div>
-    </Layout>
+              <SecondRowTodo apiBaseUrl={apiBaseUrl} />
+            </div>
+          </div>
+          <div id="snackbar"></div>
+        </Layout>
+      )}
+    </div>
   )
 }
 

@@ -3,11 +3,15 @@ import SEO from "../components/seo"
 import Layout from "../components/layout"
 import LandingPage from "../components/LP/LandingPage"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" description="LP todo Home page" />
-    <LandingPage />
-  </Layout>
-)
+const IndexPage = () => {
+  return (
+    <div>
+        <Layout>
+          <SEO title="Home" description="LP todo Home page" />
+          <LandingPage />
+        </Layout>
+    </div>
+  )
+}
 
 export default IndexPage
