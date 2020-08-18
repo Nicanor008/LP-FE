@@ -255,7 +255,6 @@ const CreateTodo = () => {
 
               {/* ongoing todo */}
               <div className="secondRowTodo">
-                {/* {form.user !== "" && ( */}
                 <OngoingTodo
                   newData={form.newDataAdded}
                   deleteTodoItem={deleteTodoItem}
@@ -263,7 +262,6 @@ const CreateTodo = () => {
                   showBody={form.showOngoingTodo}
                   onClickArrow={onClickArrowOngoingTodo}
                 />
-                {/* )} */}
               </div>
 
               <br />
@@ -271,7 +269,6 @@ const CreateTodo = () => {
 
               {/* completed todo */}
               <div className="thirdRowTodo">
-                {/* {form.user !== "" && ( */}
                 <CompletedTodo
                   newData={form.newCompletedData}
                   deleteTodoItem={deleteTodoItem}
@@ -280,23 +277,11 @@ const CreateTodo = () => {
                   onClickArrow={onClickArrowOnCompletedTodo}
                   loader={loading}
                 />
-                {/* )} */}
               </div>
             </div>
 
             {/* second row */}
             <div className="secondTodoColumn">
-              {/* date, time & weather */}
-              {/* <Cards title="Welcome User">
-            <div className="thirdRowCardBody">
-              <div>
-                <h2>15:36:45</h2>
-                <p>Tuesday 2nd July</p>
-              </div>
-
-              <div>36∞</div>
-            </div>
-          </Cards> */}
               <SecondRowTodo apiBaseUrl={apiBaseUrl} />
             </div>
           </div>

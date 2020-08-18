@@ -1,5 +1,6 @@
 import React from "react"
 import { Loader } from "../loader"
+import Close from "../../../images/icons/closeCard.svg"
 
 const Modal = ({
   children,
@@ -27,7 +28,7 @@ const Modal = ({
                 <p style={{ color: "black" }}>{keyword}</p>
               </div>
               <span className="close" onClick={onClickClose}>
-                &times;
+                <img src={Close} alt="Close" />
               </span>
             </div>
             <hr className="modalHR" />
