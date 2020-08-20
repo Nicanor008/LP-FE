@@ -20,7 +20,7 @@ const Header = () => {
       setLoading(false)
       setToken("")
     }
-  })
+  }, [])
 
   const logoutHandler = () => {
     localStorage.clear()

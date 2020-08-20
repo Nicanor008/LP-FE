@@ -8,8 +8,6 @@ import { useStaticQuery, graphql } from "gatsby"
 import { server } from "../../../../utils/baseUrl"
 
 function DateWeather(props) {
-  // const currentTime = useRealTime()
-  const [greeting, setGreeting] = useState("")
   const [data, setState] = useState({
     loading: false,
     currentWeatherData: [],
@@ -30,49 +28,32 @@ function DateWeather(props) {
     }
   `)
 
-  const currentTime = new Date()
-  const currentHour = currentTime.getHours()
-
   useEffect(() => {
     setState({ ...data, loading: true })
-    const splitAfternoon = 12 // 24hr time to split the afternoon
-    const splitEvening = 17 // 24hr time to split the evening
-
-    if (currentHour >= splitAfternoon && currentHour <= splitEvening) {
-      // Between 12 PM and 5PM
-      setGreeting("Good afternoon")
-    } else if (currentHour >= splitEvening) {
-      // Between 5PM and Midnight
-      setGreeting("Good evening")
-    } else {
-      // Between dawn and noon
-      setGreeting("Good morning")
-    }
-
-    axios.get("https://json.geoiplookup.io/").then(async res => {
+    axios.get("https://json.geoiplookup.io/").then(async ip => {
       const response = await axios.get(
-        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${res.data.ip}`
+        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
       )
       const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
       return setState({
         ...data,
         currentWeatherData: response.data.current,
         loading: false,
-        ipAddress: res.data.ip,
+        ipAddress: ip.data.ip,
         username: currentUser.data.data.name,
         userLocation: {
-          ipAddress: res.data.ip,
-          latitude: res.data.latitude,
-          longitude: res.data.longitude,
-          city: res.data.city,
-          country_name: res.data.country_name,
-          country_code: res.data.country_code,
-          continent_name: res.data.continent_name,
-          continent_code: res.data.continent_code,
+          ipAddress: ip.data.ip,
+          latitude: ip.data.latitude,
+          longitude: ip.data.longitude,
+          city: ip.data.city,
+          country_name: ip.data.country_name,
+          country_code: ip.data.country_code,
+          continent_name: ip.data.continent_name,
+          continent_code: ip.data.continent_code,
         },
       })
     })
-  }, [currentHour])
+  }, [])
 
   //   set temp unit(F/C)
   const tempUnit = unit => {
@@ -83,7 +64,8 @@ function DateWeather(props) {
   function realtime() {
     let time = moment().format("h:mm:ss a")
     if (!data.loading && typeof window !== "undefined") {
-      let y = typeof window !== "undefined" && window.document.getElementById("time")
+      let y =
+        typeof window !== "undefined" && window.document.getElementById("time")
       if (y && y !== null) {
         y.innerHTML = time
 
@@ -97,24 +79,29 @@ function DateWeather(props) {
 
   return (
     <div>
-      {/* greetings, date, time and weather */}
-      <Cards
-        title={greeting + " " + data.username}
-        id="title"
-      >
-        <div className="thirdRowCardBody">
-          <div>
-            {/* date & time */}
-            <h2 id="time" onLoad={realtime()}></h2>
-            <p>{moment().format("dddd, MMMM Do YYYY")}</p>
-          </div>
+       {data.loading ? (
+        <Loader contextT="Loading ..." />
+      ) : (
+        <Cards
+          title={
+            "Hello " +
+            data.username.charAt(0).toUpperCase().concat(data.username.slice(1))
+          }
+          id="title"
+        >
+          <div className="thirdRowCardBody">
+            <div>
+              {/* date & time */}
+              <h2 id="time" onLoad={realtime()}></h2>
+              <p>{moment().format("dddd, MMMM Do YYYY")}</p>
+            </div>
 
-          {/* weather */}
-          <div className="weatherData">
-            {data.loading ? (
+            {/* weather */}
+            <div className="weatherData">
+              {/* {data.loading ? (
               <Loader />
-            ) : (
-              data.currentWeatherData.length !== 0 && (
+            ) : ( */}
+              {data.currentWeatherData.length !== 0 && (
                 <>
                   <h2>
                     {data.activeTempUnit === "C"
@@ -148,11 +135,12 @@ function DateWeather(props) {
                     alt="current weather"
                   />
                 </>
-              )
-            )}
+              )}
+              {/* )} */}
+            </div>
           </div>
-        </div>
-      </Cards>
+        </Cards>
+      )}
     </div>
   )
 }

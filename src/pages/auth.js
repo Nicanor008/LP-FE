@@ -75,7 +75,7 @@ const Login = () => {
       return navigate("/todo")
     }
     setLoading(false)
-  })
+  }, [])
 
   // on change event
   const onInputChange = e => {

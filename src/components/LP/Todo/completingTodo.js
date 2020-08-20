@@ -68,8 +68,8 @@ const CompletedTodo = ({
           todoTitleIcon={Love}
           title={`${
             data.length > 1
-              ? `${data.length} Tasks Completed`
-              : `${data.length} Task Completed`
+              ? `${data.length} Tasks Completed in the last 23 hours`
+              : `${data.length} Task Completed in the last 23 hours`
           }`}
           showBody={data.length > 0 && showBody}
           onClickArrow={onClickArrow}

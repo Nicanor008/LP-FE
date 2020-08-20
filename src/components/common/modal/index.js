@@ -2,6 +2,7 @@ import React from "react"
 import { Loader } from "../loader"
 import Close from "../../../images/icons/closeCard.svg"
 
+
 const Modal = ({
   children,
   showModal,
