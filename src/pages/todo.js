@@ -46,8 +46,14 @@ const CreateTodo = () => {
     showCompletedTodo: true,
     showBody: true,
     user: "",
+    durationInteger: 0,
     newDataAdded: false,
     newCompletedData: false,
+    analytics: {
+      totalItems: "",
+      todo: {},
+      analyticsLoader: false,
+    },
   })
 
   // load user token
@@ -64,23 +70,40 @@ const CreateTodo = () => {
     const start = moment(form.startTime, "HH:mm")
     const end = moment(form.endTime, "HH:mm")
     let minutes = end.diff(start, "minutes")
+    let durationInt = 0
     if (minutes === 0 || form.endTime === "" || form.startTime === "") {
       minutes = ""
+      durationInt = 0.0
     } else if (minutes > 60) {
+      durationInt = (minutes / 60).toFixed(2)
       minutes = (minutes / 60).toFixed(2) + " hours"
     } else if (minutes === 1) {
       minutes = minutes + " minute"
+      durationInt = 0.1
     } else if (minutes === 60) {
       minutes = 1 + " hour"
+      durationInt = 1.0
     } else {
+      durationInt = minutes / 100
       minutes = minutes + " minutes"
     }
-    token &&
-      setState({
-        ...form,
-        duration: minutes,
-        user: activeToken.id,
-      })
+
+    // get analytics
+    server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+      token &&
+        setState({
+          ...form,
+          duration: minutes,
+          durationInteger: durationInt,
+          user: activeToken.id,
+          analytics: {
+            totalItems: analytics.data.totalItems,
+            todo: analytics.data.todo,
+            analyticsLoader: false,
+          },
+        })
+    })
+
     setLoading(false)
   }, [form.startTime, form.endTime, form.duration, apiBaseUrl])
 
@@ -111,14 +134,21 @@ const CreateTodo = () => {
         // x.className = "show"
         // x.innerHTML = response.data.message
         // x.style.backgroundColor = "#585df6"
-        setState({
-          ...form,
-          category: "",
-          tags: "",
-          name: "",
-          startTime: "",
-          endTime: "",
-          newDataAdded: !form.newDataAdded,
+        server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+          setState({
+            ...form,
+            category: "",
+            tags: "",
+            name: "",
+            startTime: "",
+            endTime: "",
+            newDataAdded: !form.newDataAdded,
+            analytics: {
+              totalItems: analytics.data.totalItems,
+              todo: analytics.data.todo,
+              analyticsLoader: false,
+            },
+          })
         })
       })
       .catch(function (error) {
@@ -158,29 +188,27 @@ const CreateTodo = () => {
 
   // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
-    setState({ ...form, loading: true })
+    setState({ ...form, loading: true, analytics: { analyticsLoader: true } })
     server
       .patch(`${apiBaseUrl}/todo/status/${props.id}`, {
         completed: props.complete,
       })
-      .then(response => {
-        // x.className = "show"
-        // x.innerHTML = response.data.message
-        // x.style.backgroundColor = "#585df6"
-        setState({
-          ...form,
-          newDataAdded: !form.newDataAdded,
-          newCompletedData: !form.newCompletedData,
-          loading: false,
+      .then(async response => {
+        await server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+          setState({
+            ...form,
+            newDataAdded: !form.newDataAdded,
+            newCompletedData: !form.newCompletedData,
+            loading: false,
+            analytics: {
+              totalItems: analytics.data.totalItems,
+              todo: analytics.data.todo,
+              analyticsLoader: false,
+            },
+          })
         })
       })
       .catch(e => {
-        // x.className = "show"
-        // x.innerHTML = e.response.data.message
-        // x.style.backgroundColor = "#f3648c"
-        // return setTimeout(function () {
-        //   x.className = x.className.replace("show", "")
-        // }, 3000)
         alert(e.response.data.message)
       })
   }
@@ -189,10 +217,7 @@ const CreateTodo = () => {
   const deleteTodoItem = props => {
     server
       .patch(`${apiBaseUrl}/todo/archive/${props.id}`, { archived: false })
-      .then(response => {
-        // x.className = "show"
-        // x.innerHTML = response.data.message
-        // x.style.backgroundColor = "#585df6"
+      .then(async response => {
         if (props.complete) {
           setState({
             ...form,
@@ -204,14 +229,18 @@ const CreateTodo = () => {
             newDataAdded: !form.newDataAdded,
           })
         }
+        await server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+          setState({
+            ...form,
+            analytics: {
+              totalItems: analytics.data.totalItems,
+              todo: analytics.data.todo,
+              analyticsLoader: false,
+            },
+          })
+        })
       })
       .catch(e => {
-        // x.className = "show"
-        // x.innerHTML = e.response.data.message
-        // x.style.backgroundColor = "#f3648c"
-        // return setTimeout(function () {
-        //   x.className = x.className.replace("show", "")
-        // }, 3000)
         alert(e.response.data.message)
       })
   }
@@ -278,7 +307,10 @@ const CreateTodo = () => {
 
             {/* second row */}
             <div className="secondTodoColumn">
-              <SecondRowTodo apiBaseUrl={apiBaseUrl} />
+              <SecondRowTodo
+                apiBaseUrl={apiBaseUrl}
+                analytics={form.analytics}
+              />
             </div>
           </div>
           <div id="snackbar"></div>
