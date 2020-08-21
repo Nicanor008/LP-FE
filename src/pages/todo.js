@@ -33,6 +33,11 @@ function useBaseUrl() {
 const CreateTodo = () => {
   const apiBaseUrl = useBaseUrl()
   const [loading, setLoading] = useState(true)
+  const [analytics, setAnalytics] = useState({
+    totalItems: 0,
+    todo: {},
+    analyticsLoader: true,
+  })
   const [form, setState] = useState({
     category: "",
     tags: "",
@@ -48,11 +53,6 @@ const CreateTodo = () => {
     durationInteger: 0,
     newDataAdded: false,
     newCompletedData: false,
-    analytics: {
-      totalItems: "",
-      todo: {},
-      analyticsLoader: false,
-    },
   })
   const headers = {
     headers: {
@@ -102,13 +102,10 @@ const CreateTodo = () => {
 
     // get analytics
     axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-      setState({
-        ...form,
-        analytics: {
-          totalItems: analytics.data.totalItems,
-          todo: analytics.data.todo,
-          analyticsLoader: false,
-        },
+      setAnalytics({
+        totalItems: analytics.data.totalItems,
+        todo: analytics.data.todo,
+        analyticsLoader: false,
       })
     })
 
@@ -131,20 +128,20 @@ const CreateTodo = () => {
     axios
       .post(`${apiBaseUrl}/todo`, form)
       .then(function (response) {
+        setState({
+          ...form,
+          category: "",
+          tags: "",
+          name: "",
+          startTime: "",
+          endTime: "",
+          newDataAdded: !form.newDataAdded,
+        })
         axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-          setState({
-            ...form,
-            category: "",
-            tags: "",
-            name: "",
-            startTime: "",
-            endTime: "",
-            newDataAdded: !form.newDataAdded,
-            analytics: {
-              totalItems: analytics.data.totalItems,
-              todo: analytics.data.todo,
-              analyticsLoader: false,
-            },
+          setAnalytics({
+            totalItems: analytics.data.totalItems,
+            todo: analytics.data.todo,
+            analyticsLoader: false,
           })
         })
       })
@@ -189,17 +186,17 @@ const CreateTodo = () => {
         headers
       )
       .then(response => {
+        setState({
+          ...form,
+          newDataAdded: !form.newDataAdded,
+          newCompletedData: !form.newCompletedData,
+          loading: false,
+        })
         axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-          setState({
-            ...form,
-            newDataAdded: !form.newDataAdded,
-            newCompletedData: !form.newCompletedData,
-            loading: false,
-            analytics: {
-              totalItems: analytics.data.totalItems,
-              todo: analytics.data.todo,
-              analyticsLoader: false,
-            },
+          setAnalytics({
+            totalItems: analytics.data.totalItems,
+            todo: analytics.data.todo,
+            analyticsLoader: false,
           })
         })
       })
@@ -231,13 +228,10 @@ const CreateTodo = () => {
         await axios
           .get(`${apiBaseUrl}/analytics/todo`, headers)
           .then(analytics => {
-            setState({
-              ...form,
-              analytics: {
-                totalItems: analytics.data.totalItems,
-                todo: analytics.data.todo,
-                analyticsLoader: false,
-              },
+            setAnalytics({
+              totalItems: analytics.data.totalItems,
+              todo: analytics.data.todo,
+              analyticsLoader: false,
             })
           })
       })
@@ -314,7 +308,7 @@ const CreateTodo = () => {
             <div className="secondTodoColumn">
               <SecondRowTodo
                 apiBaseUrl={apiBaseUrl}
-                analytics={form.analytics}
+                analytics={analytics}
               />
             </div>
           </div>
