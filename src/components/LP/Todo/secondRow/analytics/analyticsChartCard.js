@@ -7,7 +7,7 @@ function AnalyticsChartCard(props) {
     <div>
       <br />
       <Chart
-        width={"500px"}
+        width={"350px"}
         height={"300px"}
         chartType="PieChart"
         loader={<Loader />}

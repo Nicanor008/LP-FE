@@ -24,8 +24,12 @@ const Header = () => {
 
   const logoutHandler = () => {
     localStorage.clear()
-    return navigate("/")
+    // navigate("/")
+    if (typeof window !== "undefined") {
+      window.location.href = ("/")
+    }
   }
+
   function responsiveMenu() {
     var x = document.getElementById("myTopNav")
     if (x.className === "myTopNav") {
@@ -34,6 +38,7 @@ const Header = () => {
       x.className = "myTopNav"
     }
   }
+  
   return (
     <header className="navHeader">
       <div className="container navMenuWrapper navWrapper">
