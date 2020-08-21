@@ -1,26 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { server } from "../../../utils/baseUrl"
 import TodoItem from "./todo"
+import axios from 'axios'
 import { Loader } from "../../common/loader"
-import { useStaticQuery, graphql } from "gatsby"
 import Tabs from "./tabs"
 import Walk from "../../../images/icons/walk.svg"
-
-// get base url hook
-function useBaseUrl() {
-  const data = useStaticQuery(graphql`
-    query SiteTitlesQuery {
-      site {
-        siteMetadata {
-          apiURL
-        }
-      }
-    }
-  `)
-
-  const apiURL = data.site.siteMetadata.apiURL
-  return apiURL
-}
 
 const OngoingTodo = ({
   newData,
@@ -29,16 +12,17 @@ const OngoingTodo = ({
   showBody,
   onClickArrow,
   loader,
+  apiBaseUrl,
+  headers
 }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
-  const apiBaseUrl = useBaseUrl()
 
   // componentDidMount
   useEffect(() => {
     setLoading(true)
-    server
-      .get(`${apiBaseUrl}/todo/ongoing`)
+    axios
+      .get(`${apiBaseUrl}/todo/ongoing`, headers)
       .then(response => {
         setLoading(false)
         setData(response.data.data)

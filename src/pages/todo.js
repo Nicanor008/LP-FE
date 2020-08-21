@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import jwt from "jsonwebtoken"
 import moment from "moment"
+import axios from "axios"
 import SEO from "../components/seo"
 import Layout from "../components/layout"
 import Tabs from "../components/LP/Todo/tabs"
@@ -8,9 +9,7 @@ import "../components/LP/Todo/todo.scss"
 import WriteSmall from "../images/icons/write-small.svg"
 import OngoingTodo from "../components/LP/Todo/ongoingTodo"
 import CompletedTodo from "../components/LP/Todo/completingTodo"
-import { server } from "../utils/baseUrl"
 import CreateTodoInputs from "../components/LP/Todo/createTodo"
-import axios from "axios"
 import { useStaticQuery, graphql, navigate } from "gatsby"
 import SecondRowTodo from "../components/LP/Todo/secondRowTodo"
 import { Loader } from "../components/common/loader"
@@ -55,6 +54,12 @@ const CreateTodo = () => {
       analyticsLoader: false,
     },
   })
+  const headers = {
+    headers: {
+      Authorization:
+        typeof window !== "undefined" && localStorage.getItem("token"),
+    },
+  }
 
   // load user token
   useEffect(() => {
@@ -88,13 +93,17 @@ const CreateTodo = () => {
       minutes = minutes + " minutes"
     }
 
+    setState({
+      ...form,
+      duration: minutes,
+      durationInteger: durationInt,
+      user: activeToken.id,
+    })
+
     // get analytics
-    server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+    axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
       setState({
         ...form,
-        duration: minutes,
-        durationInteger: durationInt,
-        user: activeToken.id,
         analytics: {
           totalItems: analytics.data.totalItems,
           todo: analytics.data.todo,
@@ -119,21 +128,10 @@ const CreateTodo = () => {
   // submit todo
   const onClickAddTodoButton = e => {
     e.preventDefault()
-    if (form.duration && form.duration < 1) {
-      // x.className = "show"
-      // x.innerHTML = "Duration should be greater than 1 minute"
-      // x.style.backgroundColor = "#585df6"
-      // return setTimeout(function () {
-      //   // x.className = x.className.replace("show", "")
-      // }, 3000)
-    }
     axios
       .post(`${apiBaseUrl}/todo`, form)
       .then(function (response) {
-        // x.className = "show"
-        // x.innerHTML = response.data.message
-        // x.style.backgroundColor = "#585df6"
-        server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+        axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
           setState({
             ...form,
             category: "",
@@ -151,12 +149,6 @@ const CreateTodo = () => {
         })
       })
       .catch(function (error) {
-        // x.className = "show"
-        // x.innerHTML = error.response.data.message
-        // x.style.backgroundColor = "#f3648c"
-        // return setTimeout(function () {
-        //   x.className = x.className.replace("show", "")
-        // }, 3000)
         alert(error.response.data.message)
       })
   }
@@ -188,12 +180,16 @@ const CreateTodo = () => {
   // edit/update todo item - mark as done and undone
   const editTodoItem = props => {
     setState({ ...form, loading: true, analytics: { analyticsLoader: true } })
-    server
-      .patch(`${apiBaseUrl}/todo/status/${props.id}`, {
-        completed: props.complete,
-      })
+    axios
+      .patch(
+        `${apiBaseUrl}/todo/status/${props.id}`,
+        {
+          completed: props.complete,
+        },
+        headers
+      )
       .then(response => {
-        server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+        axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
           setState({
             ...form,
             newDataAdded: !form.newDataAdded,
@@ -214,8 +210,12 @@ const CreateTodo = () => {
 
   // delete todo
   const deleteTodoItem = props => {
-    server
-      .patch(`${apiBaseUrl}/todo/archive/${props.id}`, { archived: false })
+    axios
+      .patch(
+        `${apiBaseUrl}/todo/archive/${props.id}`,
+        { archived: false },
+        headers
+      )
       .then(async response => {
         if (props.complete) {
           setState({
@@ -228,16 +228,18 @@ const CreateTodo = () => {
             newDataAdded: !form.newDataAdded,
           })
         }
-        await server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
-          setState({
-            ...form,
-            analytics: {
-              totalItems: analytics.data.totalItems,
-              todo: analytics.data.todo,
-              analyticsLoader: false,
-            },
+        await axios
+          .get(`${apiBaseUrl}/analytics/todo`, headers)
+          .then(analytics => {
+            setState({
+              ...form,
+              analytics: {
+                totalItems: analytics.data.totalItems,
+                todo: analytics.data.todo,
+                analyticsLoader: false,
+              },
+            })
           })
-        })
       })
       .catch(e => {
         alert(e.response.data.message)
@@ -288,6 +290,8 @@ const CreateTodo = () => {
                   editTodoItem={editTodoItem}
                   showBody={form.showOngoingTodo}
                   onClickArrow={onClickArrowOngoingTodo}
+                  headers={headers}
+                  apiBaseUrl={apiBaseUrl}
                 />
               </div>
 
@@ -300,6 +304,8 @@ const CreateTodo = () => {
                   showBody={form.showCompletedTodo}
                   onClickArrow={onClickArrowOnCompletedTodo}
                   loader={loading}
+                  headers={headers}
+                  apiBaseUrl={apiBaseUrl}
                 />
               </div>
             </div>

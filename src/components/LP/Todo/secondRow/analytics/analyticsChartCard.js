@@ -13,11 +13,11 @@ function AnalyticsChartCard(props) {
         loader={<Loader />}
         data={[
           ["Task", "Total Number of Tasks"],
-          ["Completed Tasks", props.data.totalCompletedTodo],
-          ["Ongoing Tasks", props.data.totalUncompletedTodo]
+          ["Completed", props.data.totalCompletedTodo],
+          ["Ongoing", props.data.totalUncompletedTodo]
         ]}
         options={{
-          title: "Todo Statistics",
+          title: "Daily Statistics",
         }}
         rootProps={{ "data-testid": "1" }}
       />

@@ -1,35 +1,21 @@
 import React, { useEffect, useState } from "react"
 import moment from "moment"
-import { server } from "../../../utils/baseUrl"
+import axios from 'axios'
 import TodoItem from "./todo"
-import { useStaticQuery, graphql } from "gatsby"
 import Tabs from "./tabs"
 import Love from "../../../images/icons/love.svg"
 
-// get base url hook
-function useBaseUrl() {
-  const data = useStaticQuery(graphql`
-    query SiteTitleedQuery {
-      site {
-        siteMetadata {
-          apiURL
-        }
-      }
-    }
-  `)
 
-  const apiURL = data.site.siteMetadata.apiURL
-  return apiURL
-}
 const CompletedTodo = ({
   newData,
   deleteTodoItem,
   editTodoItem,
   showBody,
   onClickArrow,
+  apiBaseUrl,
+  headers
 }) => {
   const [data, setData] = useState([])
-  const apiBaseUrl = useBaseUrl()
   const [loading, setLoading] = useState(false)
 
   const dat = []
@@ -38,8 +24,8 @@ const CompletedTodo = ({
   useEffect(() => {
     setLoading(true)
     setData([])
-    server
-      .get(`${apiBaseUrl}/todo/complete`)
+    axios
+      .get(`${apiBaseUrl}/todo/complete`, headers)
       .then(response => {
         // get duration last updated
         response.data.data.forEach(s => {
@@ -64,6 +50,7 @@ const CompletedTodo = ({
       {loading ? (
         <span></span>
       ) : (
+        data.length > 0 &&
         <Tabs
           todoTitleIcon={Love}
           title={`${
@@ -75,8 +62,7 @@ const CompletedTodo = ({
           onClickArrow={onClickArrow}
         >
           <div className="onGoingTodoWrapper">
-            {data.length >= 1 &&
-              data.map(todo => (
+            {data.map(todo => (
                 <TodoItem
                   name={todo.name}
                   key={todo._id}

@@ -1,11 +1,12 @@
-import axios from 'axios'
+import axios from "axios"
 
-const server = axios.create({
+const server =
+  typeof window !== "undefined" &&
+  axios.create({
     headers: {
-        'Content-Type': 'application/json',
-        'Authorization': (typeof window !== 'undefined') && localStorage.getItem('token')
-    }
-})
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token"),
+    },
+  })
 
 export { server }
-
