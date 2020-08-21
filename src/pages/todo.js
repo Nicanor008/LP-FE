@@ -90,18 +90,17 @@ const CreateTodo = () => {
 
     // get analytics
     server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
-      token &&
-        setState({
-          ...form,
-          duration: minutes,
-          durationInteger: durationInt,
-          user: activeToken.id,
-          analytics: {
-            totalItems: analytics.data.totalItems,
-            todo: analytics.data.todo,
-            analyticsLoader: false,
-          },
-        })
+      setState({
+        ...form,
+        duration: minutes,
+        durationInteger: durationInt,
+        user: activeToken.id,
+        analytics: {
+          totalItems: analytics.data.totalItems,
+          todo: analytics.data.todo,
+          analyticsLoader: false,
+        },
+      })
     })
 
     setLoading(false)
@@ -193,8 +192,8 @@ const CreateTodo = () => {
       .patch(`${apiBaseUrl}/todo/status/${props.id}`, {
         completed: props.complete,
       })
-      .then(async response => {
-        await server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+      .then(response => {
+        server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
           setState({
             ...form,
             newDataAdded: !form.newDataAdded,

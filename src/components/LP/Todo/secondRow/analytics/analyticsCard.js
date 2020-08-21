@@ -2,6 +2,7 @@ import React from "react"
 import Cards from "../../card"
 import "./analytics.scss"
 import { Loader } from "../../../../common/loader"
+import AnalyticsChartCard from "./analyticsChartCard"
 
 function AnalyticsCard(props) {
   return (
@@ -54,8 +55,6 @@ function AnalyticsCard(props) {
                   )}
                 </div>
 
-                {console.log(">>>>>>>>>>>>....", props.analytics.todo)}
-
                 {props.analytics.todo.totalArchived > 0 && (
                   <>
                     <hr className="tabHeaderHR" />
@@ -71,6 +70,7 @@ function AnalyticsCard(props) {
           )}
         </div>
       </Cards>
+      {props.analytics.totalItems > 1 && <AnalyticsChartCard data={props.analytics.todo} />}
     </div>
   )
 }
