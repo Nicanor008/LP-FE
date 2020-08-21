@@ -148,28 +148,12 @@
   }
 }
 
-@media only screen and (max-width: 967px) {
-  .createTodoWrapper {
-    margin: 0.9rem 4rem;
-  }
-  .createTodo {
-    width: 50%;
-    padding: 0.2rem 0.5rem;
-  }
-  .tabHeaderHR {
-    width: 104%;
-    margin-left: -0.5rem;
-  }
-  .tabTitle {
-    font-size: xx-large;
-  }
-}
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1167px) {
   .FirstRowCreateTodo {
     display: block;
   }
   .createTodo {
-    width: 100%;
+    width: 93%;
     padding: 0.2rem 0.5rem;
   }
   .tabHeaderHR {
@@ -182,12 +166,44 @@
   .allTodoWrapper {
     display: block;
     .createTodoWrapper {
-      width: 100%;
+      width: 97%;
       margin: 0.8rem 2rem;
     }
     .secondTodoColumn {
       margin: 0.8rem 2rem;
     }
+  }
+  .secondTodoColumn {
+    width: 90% !important;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .FirstRowCreateTodo {
+    display: block;
+  }
+  .createTodo {
+    width: 93%;
+    padding: 0.2rem 0.5rem;
+  }
+  .tabHeaderHR {
+    width: 103%;
+    margin-left: -0.5rem;
+  }
+  .tabTitle {
+    font-size: xx-large;
+  }
+  .allTodoWrapper {
+    display: block;
+    .createTodoWrapper {
+      width: 97%;
+      margin: 0.8rem 2rem;
+    }
+    .secondTodoColumn {
+      margin: 0.8rem 2rem;
+    }
+  }
+  .secondTodoColumn {
+    width: 90% !important;
   }
 }
 @media only screen and (max-width: 467px) {
@@ -213,5 +229,8 @@
   }
   .tabTitle {
     font-size: x-large;
+  }
+  .secondTodoColumn {
+    width: 90% !important;
   }
 }
