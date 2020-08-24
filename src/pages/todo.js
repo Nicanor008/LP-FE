@@ -45,10 +45,6 @@ const CreateTodo = () => {
     startTime: "",
     endTime: "",
     duration: "",
-    showCreateTodo: true,
-    showOngoingTodo: true,
-    showCompletedTodo: true,
-    showBody: true,
     user: "",
     durationInteger: 0,
     newDataAdded: false,
@@ -69,6 +65,26 @@ const CreateTodo = () => {
 
     if (!token) {
       return navigate("/auth")
+    }
+
+    if (typeof window !== "undefined") {
+      let session = sessionStorage.getItem("showCreateTodo")
+      if (session === null) {
+        sessionStorage.setItem("showCreateTodo", true)
+        setState({
+          ...form,
+          showCreateTodo: true,
+          showOngoingTodo: true,
+          showCompletedTodo: true,
+        })
+      } else {
+        setState({
+          ...form,
+          showCreateTodo: session,
+          showOngoingTodo: sessionStorage.getItem("showOngoingTodo"),
+          showCompletedTodo: sessionStorage.getItem("showCompletedTodo"),
+        })
+      }
     }
 
     // calculate duration
@@ -110,7 +126,13 @@ const CreateTodo = () => {
     })
 
     setLoading(false)
-  }, [form.startTime, form.endTime, form.duration, apiBaseUrl])
+  }, [
+    form.startTime,
+    form.endTime,
+    form.duration,
+    apiBaseUrl,
+    form.showCreateTodo,
+  ])
 
   // on change event
   const onInputChange = e => {
@@ -152,26 +174,53 @@ const CreateTodo = () => {
 
   // close create todo body
   const onClickArrowOnCreateTodo = e => {
-    return setState({
-      ...form,
-      showCreateTodo: !form.showCreateTodo,
-    })
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("showCreateTodo", !form.showCreateTodo)
+      if (form.showCreateTodo === undefined) {
+        return setState({
+          ...form,
+          showCreateTodo: false,
+        })
+      }
+      return setState({
+        ...form,
+        showCreateTodo: !form.showCreateTodo,
+      })
+    }
   }
 
   // close ongoing todo body
   const onClickArrowOngoingTodo = () => {
-    return setState({
-      ...form,
-      showOngoingTodo: !form.showOngoingTodo,
-    })
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("showOngoingTodo", !form.showOngoingTodo)
+      if (form.showOngoingTodo === undefined) {
+        return setState({
+          ...form,
+          showOngoingTodo: false,
+        })
+      }
+      return setState({
+        ...form,
+        showOngoingTodo: !form.showOngoingTodo,
+      })
+    }
   }
 
   // close create todo body
   const onClickArrowOnCompletedTodo = () => {
-    return setState({
-      ...form,
-      showCompletedTodo: !form.showCompletedTodo,
-    })
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("showCompletedTodo", !form.showCompletedTodo)
+      if (form.showCompletedTodo === undefined) {
+        return setState({
+          ...form,
+          showCompletedTodo: false,
+        })
+      }
+      return setState({
+        ...form,
+        showCompletedTodo: !form.showCompletedTodo,
+      })
+    }
   }
 
   // edit/update todo item - mark as done and undone
@@ -240,6 +289,7 @@ const CreateTodo = () => {
       })
   }
 
+
   return (
     <div>
       {loading ? (
@@ -262,7 +312,11 @@ const CreateTodo = () => {
                 <Tabs
                   todoTitleIcon={WriteSmall}
                   title="Write Todo"
-                  showBody={form.showCreateTodo}
+                  showBody={
+                    form.showCreateTodo === undefined
+                      ? true
+                      : form.showCreateTodo
+                  }
                   onClickArrow={onClickArrowOnCreateTodo}
                 >
                   <CreateTodoInputs
@@ -282,7 +336,11 @@ const CreateTodo = () => {
                   newData={form.newDataAdded}
                   deleteTodoItem={deleteTodoItem}
                   editTodoItem={editTodoItem}
-                  showBody={form.showOngoingTodo}
+                  showBody={
+                    form.showOngoingTodo === undefined
+                      ? true
+                      : form.showOngoingTodo
+                  }
                   onClickArrow={onClickArrowOngoingTodo}
                   headers={headers}
                   apiBaseUrl={apiBaseUrl}
@@ -295,7 +353,9 @@ const CreateTodo = () => {
                   newData={form.newCompletedData}
                   deleteTodoItem={deleteTodoItem}
                   editTodoItem={editTodoItem}
-                  showBody={form.showCompletedTodo}
+                  showBody={
+                    form.showCompletedTodo === undefined ? true : form.showCompletedTodo
+                  }
                   onClickArrow={onClickArrowOnCompletedTodo}
                   loader={loading}
                   headers={headers}
@@ -306,10 +366,7 @@ const CreateTodo = () => {
 
             {/* second row */}
             <div className="secondTodoColumn">
-              <SecondRowTodo
-                apiBaseUrl={apiBaseUrl}
-                analytics={analytics}
-              />
+              <SecondRowTodo apiBaseUrl={apiBaseUrl} analytics={analytics} />
             </div>
           </div>
           <div id="snackbar"></div>
