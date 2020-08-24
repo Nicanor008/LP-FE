@@ -13,7 +13,6 @@ const Cards = ({ title, titleQuote, icon, randomizeQuote, children }) => {
 
   return (
     <div className={!icon ? `secondRowCardWrapper` : `quoteCardWrapper`}>
-      {/* {console.log(">>>>>>>>>.............", title)} */}
       <div className="secondRowCardHeader">
         <p>
           {title} {!close && titleQuote}

@@ -180,3 +180,24 @@ input {
   height: 40px;
   width: 40px;
 }
+
+@media only screen and (max-width: 467px) {
+  .overlay-container {
+    display: none;
+  }
+  .loginContainer {
+    display: block;
+  }
+  .form-container {
+    width: 100%;
+    position: static;
+  }
+  .sign-up-container {
+    opacity: 1;
+    border-right: 1px solid green;
+  }
+  .authFormWrapper {
+    padding: 2rem 1rem;
+    border-bottom: 1px solid lightblue
+  }
+}

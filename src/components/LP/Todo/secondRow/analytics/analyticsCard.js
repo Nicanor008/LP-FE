@@ -10,8 +10,7 @@ function AnalyticsCard(props) {
       {props.analytics.totalItems >= 1 && (
         <>
           <br />
-          <br />
-          <Cards>
+          <Cards title="Analytics">
             <div className="analyticsData">
               {props.analytics.analyticsLoader ? (
                 <Loader />

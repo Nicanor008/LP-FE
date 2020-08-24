@@ -5,7 +5,6 @@ import { Loader } from "../../../../common/loader"
 function AnalyticsChartCard(props) {
   return (
     <div>
-      <br />
       <Chart
         width={"350px"}
         height={"300px"}

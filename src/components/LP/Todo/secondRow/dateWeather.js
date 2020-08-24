@@ -84,7 +84,7 @@ function DateWeather(props) {
       ) : (
         <Cards
           title={
-            "Hello " +
+            "Hello, " +
             data.username.charAt(0).toUpperCase().concat(data.username.slice(1))
           }
           id="title"

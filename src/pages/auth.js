@@ -192,16 +192,50 @@ const Login = () => {
           </center>
         </div>
       ) : (
-        <Layout height={height - 175}>
-          <SEO
-            title="Sign In|Up"
-            description="Sign in or sign up to LP"
-          />
+        <Layout height={height && height - 175}>
+          <SEO title="Sign In|Up" description="Sign in or sign up to LP" />
           <div className="loginContainer" id="container">
+            {/* sign in */}
+            <div className="form-container sign-in-container">
+              <div className="authFormWrapper">
+                <h1>Sign in</h1>
+                {/* <div className="social-container">
+              <a href="#" className="social">
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" className="social">
+                <i className="fab fa-google-plus-g"></i>
+              </a>
+              <a href="#" className="social">
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+            <span>or use your account</span> */}
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={form.email}
+                  onchange={onInputChange}
+                />
+                <Input
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  value={form.password}
+                  onchange={onInputChange}
+                />
+                {/* <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Password" /> */}
+                {/* <a href="#">Forgot your password?</a> */}
+                <button onClick={LoginUserAccount}>Sign In</button>
+              </div>
+            </div>
+
             {/* sign up */}
             <div className="form-container sign-up-container">
               <div className="authFormWrapper">
-                <h1>Create Account</h1>
+                <h2>Create Account</h2>
                 {/* social oauth */}
                 {/* <div className="social-container">
               <a href="#" className="social">
@@ -241,43 +275,6 @@ const Login = () => {
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" /> */}
                 <button onClick={CreateAccount}>Sign Up</button>
-              </div>
-            </div>
-
-            {/* sign in */}
-            <div className="form-container sign-in-container">
-              <div className="authFormWrapper">
-                <h1>Sign in</h1>
-                {/* <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span>or use your account</span> */}
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  value={form.email}
-                  onchange={onInputChange}
-                />
-                <Input
-                  type="password"
-                  placeholder="password"
-                  name="password"
-                  value={form.password}
-                  onchange={onInputChange}
-                />
-                {/* <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" /> */}
-                {/* <a href="#">Forgot your password?</a> */}
-                <button onClick={LoginUserAccount}>Sign In</button>
               </div>
             </div>
 

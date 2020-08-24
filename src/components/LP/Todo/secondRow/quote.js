@@ -50,7 +50,6 @@ function Quote() {
   return (
     <div>
       <br />
-      <br />
       <Cards
         titleQuote={!data.loading && data.minimizedActiveQuote}
         icon={Reload}
