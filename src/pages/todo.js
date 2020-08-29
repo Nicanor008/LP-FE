@@ -289,6 +289,8 @@ const CreateTodo = () => {
       })
   }
 
+  // swap the view by keywords or todo names
+  const swapTodo = () => {}
 
   return (
     <div>
@@ -354,7 +356,9 @@ const CreateTodo = () => {
                   deleteTodoItem={deleteTodoItem}
                   editTodoItem={editTodoItem}
                   showBody={
-                    form.showCompletedTodo === undefined ? true : form.showCompletedTodo
+                    form.showCompletedTodo === undefined
+                      ? true
+                      : form.showCompletedTodo
                   }
                   onClickArrow={onClickArrowOnCompletedTodo}
                   loader={loading}

@@ -1,0 +1,17 @@
+.buttonCardWrapper {
+    padding-top: 0.5rem !important;
+    padding-right: 1rem !important;
+    .buttonCard {
+        border-radius: 2px !important;
+        border: 1px solid #c2c5ff  !important;
+        background-color: #EDEDFE !important;
+        color: #000000 !important;
+        font-size: 14px !important;
+        font-family: 'Caveat' !important;
+        font-weight: normal !important;
+        padding: 2px 4px !important;
+        letter-spacing: 0.2px !important;
+        text-transform: none !important;
+        cursor: pointer;
+    }
+}

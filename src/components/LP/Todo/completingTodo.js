@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import moment from "moment"
-import axios from 'axios'
+import axios from "axios"
 import TodoItem from "./todo"
 import Tabs from "./tabs"
 import Love from "../../../images/icons/love.svg"
-
+import TodoItemByKeywords from "./ByKeywords"
 
 const CompletedTodo = ({
   newData,
@@ -13,12 +13,12 @@ const CompletedTodo = ({
   showBody,
   onClickArrow,
   apiBaseUrl,
-  headers
+  headers,
 }) => {
   const [data, setData] = useState([])
+  const [dataInKeywords, setDataInKeywords] = useState([])
   const [loading, setLoading] = useState(false)
-
-  const dat = []
+  const [viewByCompletedTodo, setViewByCompletedTodo] = useState(true)
 
   // componentDidMount
   useEffect(() => {
@@ -35,6 +35,7 @@ const CompletedTodo = ({
           ).fromNow()
           if (durationLastUpdated.indexOf("hour") > 1) {
             setLoading(false)
+            setDataInKeywords(response.data.groupedByKeywords) // get grouped data
             setData(data => [...data, s])
           }
         })
@@ -45,35 +46,57 @@ const CompletedTodo = ({
       })
   }, [newData, apiBaseUrl])
 
+  // on click view by ......, do the swapping
+  const onClickSwapButtonCompleted = () => {
+    return setViewByCompletedTodo(!viewByCompletedTodo)
+  }
+
   return (
     <div>
       {loading ? (
         <span></span>
       ) : (
-        data.length > 0 &&
-        <Tabs
-          todoTitleIcon={Love}
-          title={`${
-            data.length > 1
-              ? `${data.length} Tasks Completed in the last 23 hours`
-              : `${data.length} Task Completed in the last 23 hours`
-          }`}
-          showBody={data.length > 0 && showBody}
-          onClickArrow={onClickArrow}
-        >
-          <div className="onGoingTodoWrapper">
-            {data.map(todo => (
-                <TodoItem
-                  name={todo.name}
-                  key={todo._id}
-                  complete
-                  id={todo._id}
-                  deleteTodoItem={deleteTodoItem}
-                  editTodoItem={editTodoItem}
-                />
-              ))}
-          </div>
-        </Tabs>
+        data.length > 0 && (
+          <Tabs
+            todoTitleIcon={Love}
+            title={`${
+              data.length > 1
+                ? `${data.length} Tasks Completed`
+                : `${data.length} Task Completed`
+            }`}
+            showBody={data.length > 0 && showBody}
+            onClickArrow={onClickArrow}
+            todoItemsTab="true"
+            onclickSwapButton={onClickSwapButtonCompleted}
+            viewByTodo={viewByCompletedTodo}
+          >
+            <div className="onGoingTodoWrapper">
+              {viewByCompletedTodo
+                ? data.map(todo => (
+                    <TodoItem
+                      name={todo.name}
+                      key={todo._id}
+                      complete
+                      id={todo._id}
+                      deleteTodoItem={deleteTodoItem}
+                      editTodoItem={editTodoItem}
+                    />
+                  ))
+                : dataInKeywords &&
+                  dataInKeywords.map(dataKeywords => {
+                    return (
+                      <TodoItemByKeywords
+                        data={dataKeywords}
+                        deleteTodoItem={deleteTodoItem}
+                        editTodoItem={editTodoItem}
+                        key={Math.random()}
+                        completedKeywords="true"
+                      />
+                    )
+                  })}
+            </div>
+          </Tabs>
+        )
       )}
     </div>
   )

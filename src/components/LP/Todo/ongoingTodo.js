@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import TodoItem from "./todo"
-import axios from 'axios'
+import axios from "axios"
 import { Loader } from "../../common/loader"
 import Tabs from "./tabs"
 import Walk from "../../../images/icons/walk.svg"
+import TodoItemByKeywords from "./ByKeywords"
 
 const OngoingTodo = ({
   newData,
@@ -13,10 +14,12 @@ const OngoingTodo = ({
   onClickArrow,
   loader,
   apiBaseUrl,
-  headers
+  headers,
 }) => {
   const [data, setData] = useState([])
+  const [dataInKeywords, setDataInKeywords] = useState([])
   const [loading, setLoading] = useState(false)
+  const [viewByTodo, setViewByTodo] = useState(true)
 
   // componentDidMount
   useEffect(() => {
@@ -25,6 +28,7 @@ const OngoingTodo = ({
       .get(`${apiBaseUrl}/todo/ongoing`, headers)
       .then(response => {
         setLoading(false)
+        setDataInKeywords(response.data.groupedByKeywords)
         setData(response.data.data)
       })
       .catch(() => {
@@ -32,6 +36,11 @@ const OngoingTodo = ({
         setLoading(false)
       })
   }, [newData, apiBaseUrl])
+
+  // on click view by ......, do the swapping
+  const onClickSwapButton = () => {
+    return setViewByTodo(!viewByTodo)
+  }
 
   return (
     <div>
@@ -49,18 +58,34 @@ const OngoingTodo = ({
               }`}
               showBody={data.length > 0 && showBody}
               onClickArrow={onClickArrow}
+              todoItemsTab="true"
+              onclickSwapButton={onClickSwapButton}
+              viewByTodo={viewByTodo}
             >
               <div className="onGoingTodoWrapper">
-                {data.map(todo => (
-                  <TodoItem
-                    name={todo.name}
-                    key={todo._id}
-                    complete={false}
-                    id={todo._id}
-                    deleteTodoItem={deleteTodoItem}
-                    editTodoItem={editTodoItem}
-                  />
-                ))}
+                {viewByTodo
+                  ? data.map(todo => (
+                      <TodoItem
+                        name={todo.name}
+                        key={todo._id}
+                        complete={false}
+                        id={todo._id}
+                        deleteTodoItem={deleteTodoItem}
+                        editTodoItem={editTodoItem}
+                        apiBaseUrl={apiBaseUrl}
+                      />
+                    ))
+                  : dataInKeywords &&
+                    dataInKeywords.map(dataKeywords => {
+                      return (
+                        <TodoItemByKeywords
+                          data={dataKeywords}
+                          deleteTodoItem={deleteTodoItem}
+                          editTodoItem={editTodoItem}
+                          key={Math.random()}
+                        />
+                      )
+                    })}
               </div>
             </Tabs>
 
