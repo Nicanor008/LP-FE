@@ -51,17 +51,19 @@ function AnalyticsCard(props) {
                       </h4>
                     )}
                   </div>
-
-                  {props.analytics.todo.totalArchived > 0 && (
-                    <>
-                      <hr className="tabHeaderHR" />
-                      <div>
-                        <center>
-                          <p>{props.analytics.todo.totalArchived} Archived</p>
-                        </center>
-                      </div>
-                    </>
-                  )}
+                  <hr className="tabHeaderHR" />
+                  <div className="analyticsTotalItemsTitle">
+                    {props.analytics.todo.totalArchived && (
+                      <p>{props.analytics.todo.totalArchived} Total Archived</p>
+                    )}
+                    <b>|</b>
+                    {props.analytics.todo.dailyArchived && (
+                      <p>
+                        {props.analytics.todo.dailyArchived} Archived in 24
+                        hours
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

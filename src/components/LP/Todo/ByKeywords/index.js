@@ -4,6 +4,20 @@ import "../../../common/modal/modal.scss"
 import "./byKeywords.scss"
 import CommonIcons from "../icons/editAndDeleteIcons"
 
+const IconsWithTodoName = props => {
+  return (
+    <>
+      <CommonIcons
+        data={props.data}
+        complete={props.complete}
+        editTodoItem={props.editTodoItem}
+        deleteTodoItem={props.deleteTodoItem}
+      />
+      {props.data.name}
+    </>
+  )
+}
+
 const TodoItemByKeywords = props => {
   return (
     <div>
@@ -19,37 +33,40 @@ const TodoItemByKeywords = props => {
                       moment(data.updatedAt, "YYYYMMDDhhmm")
                         .fromNow()
                         .indexOf("hour") > 1 && (
-                        <>
-                          <CommonIcons data={data} complete={props.complete} />{" "}
-                          {data.name}
-                        </>
+                        <IconsWithTodoName
+                          data={data}
+                          complete={props.complete}
+                          editTodoItem={props.editTodoItem}
+                          deleteTodoItem={props.deleteTodoItem}
+                        />
                       )
                     ) : (
-                      <>
-                        <CommonIcons data={data} complete={props.complete} />
-                        {data.name}
-                      </>
+                      <IconsWithTodoName
+                        data={data}
+                        complete={props.complete}
+                        editTodoItem={props.editTodoItem}
+                        deleteTodoItem={props.deleteTodoItem}
+                      />
                     )}
                   </div>
+                ) : props.completedKeywords ? ( // check if completed tasks
+                  moment(data.updatedAt, "YYYYMMDDhhmm")
+                    .fromNow()
+                    .indexOf("hour") > 1 && ( // get tasks on 24 hours only
+                    <IconsWithTodoName
+                      data={data}
+                      complete={props.complete}
+                      editTodoItem={props.editTodoItem}
+                      deleteTodoItem={props.deleteTodoItem}
+                    />
+                  )
                 ) : (
-                    props.completedKeywords ? ( // check if completed tasks
-                        moment(data.updatedAt, "YYYYMMDDhhmm")
-                          .fromNow()
-                          .indexOf("hour") > 1 && ( // get tasks on 24 hours only
-                          <>
-                            <CommonIcons
-                              data={data}
-                              complete={props.complete}
-                            />
-                            {data.name}
-                          </>
-                        )
-                    ) : (
-                      <>
-                        <CommonIcons data={data} complete={props.complete} />
-                        {data.name}
-                      </>
-                    )
+                  <IconsWithTodoName
+                    data={data}
+                    complete={props.complete}
+                    editTodoItem={props.editTodoItem}
+                    deleteTodoItem={props.deleteTodoItem}
+                  />
                 )}
               </li>
             </ul>
