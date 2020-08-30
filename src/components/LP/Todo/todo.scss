@@ -9,12 +9,13 @@
   padding: 0.4rem 1rem;
 }
 .tabHeader,
-.innerTabHeader, .innerTabHeaderRight {
+.innerTabHeader,
+.innerTabHeaderRight {
   display: flex;
   justify-content: space-between;
 }
 .tabHeaderHR {
-  width: 105.29%;
+  width: 106.09%;
   margin-left: -1rem;
   background-color: #c2c5ff;
 }
@@ -73,7 +74,8 @@
     margin-top: 2rem;
     width: 40%;
 
-    .secondRowCardWrapper, .quoteCardWrapper {
+    .secondRowCardWrapper,
+    .quoteCardWrapper {
       width: 100%;
       padding: 0.5rem 1rem;
       border-radius: 3px;
@@ -82,16 +84,16 @@
     .secondRowCardWrapper {
       background-color: #ccceff;
       border: 0.1px solid #9ea3f6;
-      background-image: url('../../../images/icons/quotes.svg');
+      background-image: url("../../../images/icons/quotes.svg");
       background-repeat: no-repeat;
       background-size: cover;
     }
     .quoteCardWrapper {
-      background-color: #F9F9FD;
+      background-color: #f9f9fd;
       border: 0.1px solid #d8dafa;
       .secondRowCardHeader {
         p {
-          font-family: 'Caveat';
+          font-family: "Caveat";
         }
       }
       .reloadQuoteIcon {
@@ -100,10 +102,10 @@
       }
     }
     .quoteData {
-      background-image: url('../../../images/icons/quotes.svg');
+      background-image: url("../../../images/icons/quotes.svg");
       background-repeat: no-repeat;
       p:nth-child(1) {
-        font-family: 'Caveat';
+        font-family: "Caveat";
         font-size: x-large;
       }
       p:nth-child(2) {
@@ -148,7 +150,16 @@
     }
   }
 }
-
+@media only screen and (min-width: 3567px) {
+  .tabHeaderHR {
+    width: 102%;
+  }
+}
+@media only screen and (min-width: 1567px) {
+  .tabHeaderHR {
+    width: 102.7%;
+  }
+}
 @media only screen and (max-width: 1167px) {
   .FirstRowCreateTodo {
     display: block;
@@ -158,7 +169,7 @@
     padding: 0.2rem 0.5rem;
   }
   .tabHeaderHR {
-    width: 103%;
+    width: 102%;
     margin-left: -0.5rem;
   }
   .tabTitle {
