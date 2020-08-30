@@ -35,7 +35,7 @@ function AnalyticsCard(props) {
                   </div>
 
                   {(props.analytics.todo.totalUncompletedTodo > 0 ||
-                    props.analytics.todo.totalCompletedTodo) && (
+                    props.analytics.todo.totalCompletedTodo > 0) && (
                     <hr className="tabHeaderHR" />
                   )}
 
@@ -51,17 +51,24 @@ function AnalyticsCard(props) {
                       </h4>
                     )}
                   </div>
-                  <hr className="tabHeaderHR" />
+
+                  {(props.analytics.todo.totalArchived > 0 ||
+                    props.analytics.todo.dailyArchived > 0) && (
+                      <hr className="tabHeaderHR" />
+                    )}
+
                   <div className="analyticsTotalItemsTitle">
-                    {props.analytics.todo.totalArchived && (
+                    {props.analytics.todo.totalArchived > 0 && (
                       <p>{props.analytics.todo.totalArchived} Total Archived</p>
                     )}
-                    <b>|</b>
-                    {props.analytics.todo.dailyArchived && (
-                      <p>
-                        {props.analytics.todo.dailyArchived} Archived in 24
-                        hours
-                      </p>
+                    {props.analytics.todo.dailyArchived > 0 && (
+                      <>
+                        <b>|</b>
+                        <p>
+                          {props.analytics.todo.dailyArchived} Archived in 24
+                          hours
+                        </p>
+                      </>
                     )}
                   </div>
                 </div>
