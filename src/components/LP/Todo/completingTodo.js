@@ -80,6 +80,7 @@ const CompletedTodo = ({
                       id={todo._id}
                       deleteTodoItem={deleteTodoItem}
                       editTodoItem={editTodoItem}
+                      apiBaseUrl={apiBaseUrl}
                     />
                   ))
                 : dataInKeywords &&
@@ -89,8 +90,11 @@ const CompletedTodo = ({
                         data={dataKeywords}
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
-                        key={Math.random()}
-                        completedKeywords="true"
+                        key={dataInKeywords._id}
+                        completedKeywords={true}
+                        id={dataInKeywords._id}
+                        complete={true}
+                        apiBaseUrl={apiBaseUrl}
                       />
                     )
                   })}

@@ -23,16 +23,6 @@ const TodoItem = props => {
     server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)
       setData(item.data.data)
-      return (
-        <TodoModal
-          data={data}
-          loading={loading}
-          CloseOrOpenModal={CloseOrOpenModal}
-          showModal={showModal}
-          complete={props.complete}
-          id={props.id}
-        />
-      )
     })
   }
 

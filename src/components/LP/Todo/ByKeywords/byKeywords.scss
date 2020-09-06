@@ -7,17 +7,17 @@
     font-weight: bold;
   }
   ul {
-      margin-bottom: 0 !important;
-  }
-  .GroupedTodoText {
-    list-style: none;
-    text-decoration: none;
-    font-family: "IBM Plex mono";
-    display: flex;
-    img {
-      margin-top: 0.2rem !important;
-      margin-right: 1.5px !important;
-      margin-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    li {
+      list-style: none !important;
+      text-decoration: none;
+      font-family: "IBM Plex mono";
+      display: flex;
+      img {
+        margin-top: 0.2rem !important;
+        margin-right: 1.5px !important;
+        margin-bottom: 0 !important;
+      }
     }
     .noKeywordTodoItem {
       margin-left: -1.4rem !important;
