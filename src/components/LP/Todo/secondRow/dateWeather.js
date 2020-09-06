@@ -6,6 +6,7 @@ import Degrees from "../../../../images/icons/degree.svg"
 import { Loader } from "../../../common/loader"
 import { useStaticQuery, graphql } from "gatsby"
 import { server } from "../../../../utils/baseUrl"
+import TimeCard from "./time"
 
 function DateWeather(props) {
   const [data, setState] = useState({
@@ -30,6 +31,7 @@ function DateWeather(props) {
 
   useEffect(() => {
     setState({ ...data, loading: true })
+    
     axios.get("https://json.geoiplookup.io/").then(async ip => {
       const response = await axios.get(
         `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
@@ -60,26 +62,9 @@ function DateWeather(props) {
     setState({ ...data, activeTempUnit: unit })
   }
 
-  //   count down time
-  function realtime() {
-    let time = moment().format("h:mm:ss a")
-    if (!data.loading && typeof window !== "undefined") {
-      let y =
-        typeof window !== "undefined" && window.document.getElementById("time")
-      if (y && y !== null) {
-        y.innerHTML = time
-
-        setInterval(() => {
-          time = moment().format("h:mm:ss a")
-          y.innerHTML = time
-        }, 1000)
-      }
-    }
-  }
-
   return (
     <div>
-       {data.loading ? (
+      {data.loading ? (
         <Loader contextT="Loading ..." />
       ) : (
         <Cards
@@ -92,7 +77,7 @@ function DateWeather(props) {
           <div className="thirdRowCardBody">
             <div>
               {/* date & time */}
-              <h2 id="time" onLoad={realtime()}></h2>
+              <TimeCard />
               <p>{moment().format("dddd, MMMM Do YYYY")}</p>
             </div>
 
