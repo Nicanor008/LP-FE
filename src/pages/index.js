@@ -7,7 +7,7 @@ const IndexPage = () => {
   return (
     <div>
         <Layout>
-          <SEO title="Home" description="LP todo Home page" />
+          <SEO title="Home Learning Pattern" description="LP todo Home page" />
           <LandingPage />
         </Layout>
     </div>

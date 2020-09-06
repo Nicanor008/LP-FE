@@ -33,7 +33,10 @@ const CompletedTodo = ({
             s.updatedAt,
             "YYYYMMDDhhmm"
           ).fromNow()
-          if (durationLastUpdated.indexOf("hour") > 1) {
+          if (
+            durationLastUpdated.indexOf("hour") > 1 ||
+            durationLastUpdated.indexOf("minute") > 1
+          ) {
             setLoading(false)
             setDataInKeywords(response.data.groupedByKeywords) // get grouped data
             setData(data => [...data, s])
