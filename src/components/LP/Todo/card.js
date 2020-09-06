@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import CloseCard from "../../../images/icons/closeCard.svg"
 import CheckCard from "../../../images/icons/check.svg"
 import { useState } from "react"

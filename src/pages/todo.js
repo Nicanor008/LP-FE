@@ -17,7 +17,7 @@ import { Loader } from "../components/common/loader"
 // get base url hook
 function useBaseUrl() {
   const data = useStaticQuery(graphql`
-    query SiteTitlerQuery {
+    query SiteTitleRQuery {
       site {
         siteMetadata {
           apiURL
@@ -288,9 +288,6 @@ const CreateTodo = () => {
         alert(e.response.data.message)
       })
   }
-
-  // swap the view by keywords or todo names
-  const swapTodo = () => {}
 
   return (
     <div>

@@ -1,24 +1,52 @@
-import React from "react"
+import React, { useState } from "react"
 import moment from "moment"
 import "../../../common/modal/modal.scss"
 import "./byKeywords.scss"
 import CommonIcons from "../icons/editAndDeleteIcons"
+import TodoModal from "../TodoModal"
+import { server } from "../../../../utils/baseUrl"
 
-const IconsWithTodoName = props => {
-  return (
-    <>
-      <CommonIcons
-        data={props.data}
-        complete={props.complete}
-        editTodoItem={props.editTodoItem}
-        deleteTodoItem={props.deleteTodoItem}
-      />
-      {props.data.name}
-    </>
-  )
+export const timeByDuration = ({ time, value }) => {
+  return moment(time, "YYYYMMDDhhmm").fromNow().indexOf(value) > 1
 }
 
 const TodoItemByKeywords = props => {
+  const [dataModal, setDataModal] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+
+  // open/close modal
+  const CloseOrOpenModal = () => {
+    setShowModal(!showModal)
+  }
+
+  // view single item
+  const onClickViewOneItem = id => {
+    setLoading(true)
+    setShowModal(!showModal)
+    server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
+      setLoading(false)
+      return setDataModal(item.data.data)
+    })
+  }
+
+  const IconsWithTodoName = prop => {
+    return (
+      <>
+        <CommonIcons
+          data={prop.data}
+          complete={prop.complete}
+          editTodoItem={prop.editTodoItem}
+          deleteTodoItem={prop.deleteTodoItem}
+        />
+
+        <p className="todoItemName" onClick={() => onClickViewOneItem(prop.id)}>
+          {prop.data.name}
+        </p>
+      </>
+    )
+  }
+
   return (
     <div>
       <div className="groupedTodo">
@@ -29,50 +57,47 @@ const TodoItemByKeywords = props => {
               <li className="todoItemName GroupedTodoText">
                 {props.data[0] === "" || props.data[0] === null ? (
                   <div className="noKeywordTodoItem">
-                    {props.completedKeywords ? (
-                      moment(data.updatedAt, "YYYYMMDDhhmm")
-                        .fromNow()
-                        .indexOf("hour") > 1 && (
-                        <IconsWithTodoName
-                          data={data}
-                          complete={props.complete}
-                          editTodoItem={props.editTodoItem}
-                          deleteTodoItem={props.deleteTodoItem}
-                        />
-                      )
-                    ) : (
+                    {/* // no keyword items */}
+                    {!props.completedKeywords && (
                       <IconsWithTodoName
                         data={data}
                         complete={props.complete}
                         editTodoItem={props.editTodoItem}
                         deleteTodoItem={props.deleteTodoItem}
+                        id={data._id}
                       />
                     )}
                   </div>
-                ) : props.completedKeywords ? ( // check if completed tasks
-                  moment(data.updatedAt, "YYYYMMDDhhmm")
-                    .fromNow()
-                    .indexOf("hour") > 1 && ( // get tasks on 24 hours only
+                ) : (
+                  !props.completedKeywords && ( // check if completed tasks
                     <IconsWithTodoName
                       data={data}
                       complete={props.complete}
                       editTodoItem={props.editTodoItem}
                       deleteTodoItem={props.deleteTodoItem}
+                      id={data._id}
                     />
                   )
-                ) : (
-                  <IconsWithTodoName
-                    data={data}
-                    complete={props.complete}
-                    editTodoItem={props.editTodoItem}
-                    deleteTodoItem={props.deleteTodoItem}
-                  />
                 )}
               </li>
             </ul>
           </div>
         ))}
       </div>
+
+      {/* modal */}
+      {showModal && (
+        <TodoModal
+          data={dataModal}
+          loading={loading}
+          CloseOrOpenModal={CloseOrOpenModal}
+          showModal={showModal}
+          complete={props.complete}
+          id={props.id}
+          editTodoItem={props.editTodoItem}
+          deleteTodoItem={props.deleteTodoItem}
+        />
+      )}
     </div>
   )
 }

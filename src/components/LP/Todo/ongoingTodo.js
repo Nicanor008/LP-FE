@@ -83,6 +83,9 @@ const OngoingTodo = ({
                           deleteTodoItem={deleteTodoItem}
                           editTodoItem={editTodoItem}
                           key={Math.random()}
+                          id={dataInKeywords._id}
+                          complete={false}
+                          apiBaseUrl={apiBaseUrl}
                         />
                       )
                     })}

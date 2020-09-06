@@ -1,4 +1,4 @@
-import { Link, navigate } from "gatsby"
+import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import "./header.scss"
 import "../styles/_common.scss"

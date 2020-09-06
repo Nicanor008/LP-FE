@@ -1,14 +1,10 @@
 import React, { useState } from "react"
-import moment from "moment"
 import CheckMark from "../../../images/icons/checkmark.svg"
 import Reload from "../../../images/icons/reload.svg"
 import Close from "../../../images/icons/close.svg"
 import "../../common/modal/modal.scss"
-import Modal from "../../common/modal"
 import { server } from "../../../utils/baseUrl"
-import InProgress from "../../../images/inProgress.svg"
-import Completed from "../../../images/Completed.svg"
-
+import TodoModal from "./TodoModal"
 
 const TodoItem = props => {
   const [data, setData] = useState({})
@@ -27,6 +23,16 @@ const TodoItem = props => {
     server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)
       setData(item.data.data)
+      return (
+        <TodoModal
+          data={data}
+          loading={loading}
+          CloseOrOpenModal={CloseOrOpenModal}
+          showModal={showModal}
+          complete={props.complete}
+          id={props.id}
+        />
+      )
     })
   }
 
@@ -66,75 +72,17 @@ const TodoItem = props => {
       </div>
 
       {/* modal */}
-      {data !== undefined && (
-        <Modal
+      {showModal && (
+        <TodoModal
+          data={data}
           loading={loading}
+          CloseOrOpenModal={CloseOrOpenModal}
           showModal={showModal}
-          onClickClose={CloseOrOpenModal}
-          statusImage={data.completed ? Completed : InProgress}
-          keyword={data.tags}
-        >
-          <div>
-            <div className="modalChildren">
-              <p className="todoName">{data.name}</p>
-
-              {/* time */}
-              <div className="todoItemTimeWrapper">
-                {data.duration && (
-                  <div className="todoTime">
-                    <p>
-                      <span>Duration:</span> &nbsp;{data.duration}
-                    </p>
-                    <p>
-                      <span>Start Time:</span> &nbsp;{data.startTime}
-                    </p>
-                    <p>
-                      <span>End Time:</span> &nbsp;{data.endTime}
-                    </p>
-                  </div>
-                )}
-                <p>
-                  <span>Created On: &nbsp;</span>
-                  {moment(data.createdAt).format("MMM Do YYYY, h:mm a")}
-                </p>
-              </div>
-
-              {/* action buttons */}
-              <div className="modalActionButtons">
-                <button
-                  className={`${
-                    props.complete ? "completedStatus" : "ongoingStatus"
-                  } btn btn-white btn-animate`}
-                  onClick={() =>
-                    props.editTodoItem({
-                      id: props.id,
-                      complete: props.complete,
-                    })
-                  }
-                >
-                  <img
-                    src={props.complete ? Reload : CheckMark}
-                    alt="Add Todo"
-                  />{" "}
-                  {props.complete
-                    ? "Revert to ongoing tasks"
-                    : "Mark as complete"}
-                </button>
-                <button
-                  className={`statusDeleteButton btn btn-white btn-animate`}
-                  onClick={() =>
-                    props.deleteTodoItem({
-                      id: props.id,
-                      complete: props.complete,
-                    })
-                  }
-                >
-                  <img src={Close} alt="Add Todo" /> Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        </Modal>
+          complete={props.complete}
+          id={props.id}
+          editTodoItem={props.editTodoItem}
+          deleteTodoItem={props.deleteTodoItem}
+        />
       )}
     </div>
   )
