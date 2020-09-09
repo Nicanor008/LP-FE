@@ -40,7 +40,18 @@
     animation: moveInBottom 5s ease-out;
     animation-fill-mode: backwards;
 }
-
+.buttonWeatherChange, .buttonUniformity {
+    background-color: inherit !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-bottom: 0 !important;
+    border: 0 !important;
+    cursor: pointer;
+    color: initial;
+    font-weight: inherit;
+    font-size: initial;
+    color: initial;
+}
 @keyframes moveInBottom {
     0% {
         opacity: 0;

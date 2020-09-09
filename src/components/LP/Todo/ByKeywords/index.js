@@ -38,27 +38,24 @@ const TodoItemByKeywords = props => {
           complete={prop.complete}
           editTodoItem={prop.editTodoItem}
           deleteTodoItem={prop.deleteTodoItem}
+          id={prop.id}
         />
-
-        <p className="todoItemName" onClick={() => onClickViewOneItem(prop.id)}>
-          {prop.data.name}
-        </p>
+        <button
+          className="buttonUniformity"
+          onClick={() => onClickViewOneItem(prop.id)}
+        >
+          <p className="todoItemName">{prop.data.name}</p>
+        </button>
       </>
     )
   }
 
-  const title = [...new Set(props.data)]
-  const findActive = (allData, e) => {
-    e.preventDefault()
-    allData.map(
-      s => moment(s.updatedAt, "YYYYMMDDhhmm").fromNow().indexOf("hour") > 1
-    )
-  }
   return (
     <div>
       <div className="groupedTodo">
         {props.completedKeywords ? ( // determine the todo status
-          props.data[1].map(s => { // get active in the last 24 hours : TODO: Optimize this code, doesn't work at the moment
+          props.data[1].map(s => {
+            // get active in the last 24 hours : TODO: Optimize this code, doesn't work at the moment
             return (
               moment(s.updatedAt, "YYYYMMDDhhmm").fromNow().indexOf("hour") > 1
             )
@@ -67,10 +64,10 @@ const TodoItemByKeywords = props => {
           <p className="groupedTodoTitle">{props.data[0]}</p> // show on ongoing only
         )}
 
+        <ul className="GroupedTodoTextWrapper">
         {props.data[1].map(data => (
           <div key={data._id}>
-            <ul className="GroupedTodoTextWrapper">
-              {props.data[0] === "" || props.data[0] === null ? (
+              {/* {props.data[0] === "" || props.data[0] === null ? (
                 <div className="noKeywordTodoItem">
                   {props.completedKeywords ? (
                     moment(data.updatedAt, "YYYYMMDDhhmm")
@@ -101,8 +98,9 @@ const TodoItemByKeywords = props => {
                     </li>
                   )}
                 </div>
-              ) : props.completedKeywords ? ( // check if completed tasks
-                moment(data.updatedAt, "YYYYMMDDhhmm")
+              ) :  */}
+              {/* {props.completedKeywords ? ( // check if completed tasks */}
+                {/* moment(data.updatedAt, "YYYYMMDDhhmm")
                   .fromNow()
                   .indexOf("hour") > 1 && ( // get tasks on 24 hours only
                   <li key={data._id}>
@@ -115,7 +113,7 @@ const TodoItemByKeywords = props => {
                     />
                   </li>
                 )
-              ) : (
+              ) : ( */}
                 <li key={data._id}>
                   <IconsWithTodoName
                     data={data}
@@ -125,10 +123,10 @@ const TodoItemByKeywords = props => {
                     id={data._id}
                   />
                 </li>
-              )}
-            </ul>
+              {/* )} */}
           </div>
         ))}
+        </ul>
       </div>
 
       {/* modal */}

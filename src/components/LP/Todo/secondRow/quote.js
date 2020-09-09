@@ -27,6 +27,7 @@ function Quote() {
         dailyQuote: item,
       })
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const randomizeQuotes = () => {

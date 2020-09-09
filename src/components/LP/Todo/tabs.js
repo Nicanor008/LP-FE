@@ -32,13 +32,17 @@ const Tabs = ({
             viewByTodo={viewByTodo}
           />
         )}
-        <img
-          src={showBody ? ArrowUp : ArrowDown}
-          alt="Create Todo"
-          className="arrowIcon"
+        <button
+          className="buttonUniformity"
           onClick={onClickArrow}
           onKeyDown={onClickArrow}
-        />
+        >
+          <img
+            src={showBody ? ArrowUp : ArrowDown}
+            alt="Create Todo"
+            className="arrowIcon"
+          />
+        </button>
       </div>
     </div>
     {showBody && <hr className="tabHeaderHR" />}

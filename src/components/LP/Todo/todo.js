@@ -1,10 +1,8 @@
 import React, { useState } from "react"
-import CheckMark from "../../../images/icons/checkmark.svg"
-import Reload from "../../../images/icons/reload.svg"
-import Close from "../../../images/icons/close.svg"
 import "../../common/modal/modal.scss"
 import { server } from "../../../utils/baseUrl"
 import TodoModal from "./TodoModal"
+import CommonIcons from "./icons/editAndDeleteIcons"
 
 const TodoItem = props => {
   const [data, setData] = useState({})
@@ -18,47 +16,29 @@ const TodoItem = props => {
 
   // view single item
   const onClickViewOneItem = id => {
-    setLoading(true)
+  setLoading(true)
     setShowModal(!showModal)
     server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)
       setData(item.data.data)
     })
   }
-
   return (
     <div>
       <div className="todo">
-        {!props.complete ? (
-          <img
-            src={CheckMark}
-            alt="Check todo"
-            onClick={() =>
-              props.editTodoItem({ id: props.id, complete: props.complete })
-            }
-          />
-        ) : (
-          <img
-            src={Reload}
-            alt="Revert todo"
-            onClick={() =>
-              props.editTodoItem({ id: props.id, complete: props.complete })
-            }
-          />
-        )}
-        <img
-          src={Close}
-          alt="Close"
-          onClick={() =>
-            props.deleteTodoItem({ id: props.id, complete: props.complete })
-          }
+        <CommonIcons
+          data={data}
+          complete={props.complete}
+          editTodoItem={props.editTodoItem}
+          deleteTodoItem={props.deleteTodoItem}
+          id={props.id}
         />
-        <p
-          className="todoItemName"
+        <button
+          className="buttonUniformity"
           onClick={() => onClickViewOneItem(props.id)}
         >
-          {props.name}
-        </p>
+          <p className="todoItemName">{props.name}</p>
+        </button>
       </div>
 
       {/* modal */}

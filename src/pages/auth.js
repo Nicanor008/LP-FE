@@ -87,45 +87,18 @@ const Login = () => {
 
   // submit/create user account
   const CreateAccount = () => {
-    // var x = document.getElementById("snackbar")
     if (form.name === "" || form.email === "" || form.password === "") {
-      // x.className = "show"
-      // x.innerHTML = "All fields are required*"
-      // x.style.backgroundColor = "#f3648c"
-      // return setTimeout(function () {
-      //   x.className = x.className.replace("show", "")
-      // }, 3000)
       alert("All fields are required*")
     } else if (!validateEmail(form.email)) {
-      // x.className = "show"
-      // x.innerHTML = "Invalid Email, should be as myname@example.com"
-      // x.style.backgroundColor = "#f3648c"
-      // return setTimeout(function () {
-      //   x.className = x.className.replace("show", "")
-      // }, 3000)
       alert("Invalid Email, should be as myname@example.com")
     } else {
       server
         .post(`${apiBaseUrl}/auth/register`, form)
         .then(function (response) {
-          // x.className = "show"
-          // x.innerHTML = response.data.message
-          // x.style.backgroundColor = "#585df6"
-          // return setTimeout(function () {
-          //   x.className = x.className.replace("show", "")
-          // }, 4000)
           localStorage.setItem("token", response.data.token)
-          // x.style.backgroundColor = "#585df6"
           navigate("/todo")
-          // alert('Sign Up successfully, Check your email')
         })
         .catch(function (error) {
-          //   x.className = "show"
-          //   x.innerHTML = error.response.data.message
-          //   x.style.backgroundColor = "#f3648c"
-          //   return setTimeout(function () {
-          //     x.className = x.className.replace("show", "")
-          //   }, 3000)
           alert(error.response.data.message)
         })
     }
@@ -133,43 +106,18 @@ const Login = () => {
 
   // login user
   const LoginUserAccount = () => {
-    // var x = document.getElementById("snackbar")
     if (form.email === "" || form.password === "") {
-      // x.className = "show"
-      // x.innerHTML = "All fields are required*"
-      // x.style.backgroundColor = "#f3648c"
-      // return setTimeout(function () {
-      //   x.className = x.className.replace("show", "")
-      // }, 3000)
       alert("All fields are required*")
     } else if (!validateEmail(form.email)) {
-      // x.className = "show"
-      // x.innerHTML = "Invalid Email, should be as myname@example.com"
-      // x.style.backgroundColor = "#f3648c"
-      // return setTimeout(function () {
-      //   x.className = x.className.replace("show", "")
-      // }, 3000)
       alert("Invalid Email, should be as myname@example.com")
     } else {
       server
         .post(`${apiBaseUrl}/auth/login`, form)
         .then(function (response) {
-          // x.className = "show"
-          // x.innerHTML = response.data.message
           localStorage.setItem("token", response.data.token)
-          // x.style.backgroundColor = "#585df6"
           navigate("/todo")
-          // return setTimeout(function () {
-          //   x.className = x.className.replace("show", "")
-          // }, 4000)
         })
         .catch(function (error) {
-          //   x.className = "show"
-          //   x.innerHTML = error.response.data.message
-          //   x.style.backgroundColor = "#f3648c"
-          //   return setTimeout(function () {
-          //     x.className = x.className.replace("show", "")
-          //   }, 3000)
           alert(error.response.data.message)
         })
     }
@@ -199,18 +147,6 @@ const Login = () => {
             <div className="form-container sign-in-container">
               <div className="authFormWrapper">
                 <h1>Sign in</h1>
-                {/* <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span>or use your account</span> */}
                 <Input
                   type="email"
                   placeholder="Email"
@@ -225,9 +161,6 @@ const Login = () => {
                   value={form.password}
                   onchange={onInputChange}
                 />
-                {/* <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" /> */}
-                {/* <a href="#">Forgot your password?</a> */}
                 <button onClick={LoginUserAccount}>Sign In</button>
               </div>
             </div>
@@ -236,20 +169,6 @@ const Login = () => {
             <div className="form-container sign-up-container">
               <div className="authFormWrapper">
                 <h2>Create Account</h2>
-                {/* social oauth */}
-                {/* <div className="social-container">
-              <a href="#" className="social">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a href="#" className="social">
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div> */}
-                {/* <span>or use your email for registration</span> */}
-
                 <Input
                   type="text"
                   placeholder="Name"
@@ -271,9 +190,6 @@ const Login = () => {
                   value={form.password}
                   onchange={onInputChange}
                 />
-                {/* <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" /> */}
                 <button onClick={CreateAccount}>Sign Up</button>
               </div>
             </div>
@@ -306,7 +222,6 @@ const Login = () => {
               </div>
             </div>
           </div>
-          <div id="snackbar"></div>
         </Layout>
       )}
     </div>

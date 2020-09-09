@@ -49,16 +49,23 @@
 // // ongoing todo
 .todo {
   display: flex;
-  font-family: "IBM Plex Mono";
   img {
     padding-right: 0.3rem;
     margin-top: 0.2rem;
     margin-bottom: 1rem;
   }
-  .todoItemName {
-    color: rgb(29, 29, 29);
-    text-decoration: none;
-    margin: 0;
+  button {
+    .todoItemName {
+      color: rgb(29, 29, 29);
+      text-decoration: none;
+      margin: 0;
+      font-family: "IBM Plex Mono" !important;
+      text-transform: initial !important;
+      margin-bottom: 1rem !important;
+      font-size: medium;
+      font-weight: normal;
+      letter-spacing: 0.5;
+    }
   }
 }
 
