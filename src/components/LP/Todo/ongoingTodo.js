@@ -21,21 +21,27 @@ const OngoingTodo = ({
   const [loading, setLoading] = useState(false)
   const [viewByTodo, setViewByTodo] = useState(true)
 
+  // get ongoing todo data
+  const getOngoingTodo = async () => {
+    setLoading(true)
+    try {
+      const response = await axios
+        .get(`${apiBaseUrl}/todo/ongoing`, headers)
+      setLoading(false)
+      setDataInKeywords(response.data.groupedByKeywords)
+      setData(response.data.data)
+    }
+    catch (e) {
+      setData([])
+      setLoading(false)
+    }
+  }
+
   // componentDidMount
   useEffect(() => {
-    setLoading(true)
-    axios
-      .get(`${apiBaseUrl}/todo/ongoing`, headers)
-      .then(response => {
-        setLoading(false)
-        setDataInKeywords(response.data.groupedByKeywords)
-        setData(response.data.data)
-      })
-      .catch(() => {
-        setData([])
-        setLoading(false)
-      })
-  }, [newData, apiBaseUrl])
+    getOngoingTodo()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newData])
 
   // on click view by ......, do the swapping
   const onClickSwapButton = () => {

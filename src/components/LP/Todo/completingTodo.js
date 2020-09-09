@@ -7,47 +7,49 @@ import Love from "../../../images/icons/love.svg"
 import TodoItemByKeywords from "./ByKeywords"
 
 const CompletedTodo = ({
-  newData,
   deleteTodoItem,
   editTodoItem,
   showBody,
   onClickArrow,
   apiBaseUrl,
   headers,
+  newData,
 }) => {
   const [data, setData] = useState([])
   const [dataInKeywords, setDataInKeywords] = useState([])
   const [loading, setLoading] = useState(false)
   const [viewByCompletedTodo, setViewByCompletedTodo] = useState(true)
 
-  // componentDidMount
-  useEffect(() => {
+  const getCompletedTodo = async () => {
     setLoading(true)
     setData([])
-    axios
-      .get(`${apiBaseUrl}/todo/complete`, headers)
-      .then(response => {
-        // get duration last updated
-        response.data.data.forEach(s => {
-          const durationLastUpdated = moment(
-            s.updatedAt,
-            "YYYYMMDDhhmm"
-          ).fromNow()
-          if (
-            durationLastUpdated.indexOf("hour") > 1 ||
-            durationLastUpdated.indexOf("minute") > 1
-          ) {
-            setLoading(false)
-            setDataInKeywords(response.data.groupedByKeywords) // get grouped data
-            setData(data => [...data, s])
-          }
-        })
+    try {
+      const response = await axios
+        .get(`${apiBaseUrl}/todo/complete`, headers)
+      // get duration last updated
+      response.data.data.forEach(s => {
+        const durationLastUpdated = moment(
+          s.updatedAt,
+          "YYYYMMDDhhmm"
+        ).fromNow()
+        if (durationLastUpdated.indexOf("hour") > 1 ||
+          durationLastUpdated.indexOf("minute") > 1) {
+          setLoading(false)
+          setDataInKeywords(response.data.groupedByKeywords) // get grouped data
+          setData(data => [...data, s])
+        }
       })
-      .catch(() => {
-        setData([])
-        setLoading(false)
-      })
-  }, [newData, apiBaseUrl])
+    }
+    catch (e) {
+      setData([])
+      setLoading(false)
+    }
+  }
+  // componentDidMount
+  useEffect(() => {
+    getCompletedTodo()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newData])
 
   // on click view by ......, do the swapping
   const onClickSwapButtonCompleted = () => {
@@ -59,7 +61,7 @@ const CompletedTodo = ({
       {loading ? (
         <span></span>
       ) : (
-        data.length > 0 && (
+        (data.length > 0 || dataInKeywords.length > 0) && (
           <Tabs
             todoTitleIcon={Love}
             title={`${
@@ -78,8 +80,8 @@ const CompletedTodo = ({
                 ? data.map(todo => (
                     <TodoItem
                       name={todo.name}
-                      key={todo._id}
-                      complete
+                      key={Math.random()}
+                      complete={true}
                       id={todo._id}
                       deleteTodoItem={deleteTodoItem}
                       editTodoItem={editTodoItem}
@@ -93,7 +95,7 @@ const CompletedTodo = ({
                         data={dataKeywords}
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
-                        key={dataInKeywords._id}
+                        key={Math.random()}
                         completedKeywords={true}
                         id={dataInKeywords._id}
                         complete={true}

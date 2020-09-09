@@ -6,39 +6,28 @@ import Close from "../../../../images/icons/close.svg"
 const CommonIcons = props => {
   return (
     <>
-      {!props.complete ? (
-        <img
-          src={CheckMark}
-          alt="Check todo"
-          onClick={() =>
-            props.editTodoItem({
-              id: props.data._id,
-              complete: props.data.completed,
-            })
-          }
-        />
-      ) : (
-        <img
-          src={Reload}
-          alt="Revert todo"
-          onClick={() =>
-            props.editTodoItem({
-              id: props.data._id,
-              complete: props.data.completed,
-            })
-          }
-        />
-      )}
-      <img
-        src={Close}
-        alt="Close"
+      <button
+        className="buttonUniformity"
         onClick={() =>
-          props.deleteTodoItem({
-            id: props.data._id,
-            complete: props.data.completed,
+          props.editTodoItem({
+            id: props.id,
+            complete: props.complete,
           })
         }
-      />
+      >
+        <img src={!props.complete ? CheckMark : Reload} alt="Check todo" />
+      </button>
+      <button
+        className="buttonUniformity"
+        onClick={() =>
+          props.deleteTodoItem({
+            id: props.id,
+            complete: props.complete,
+          })
+        }
+      >
+        <img src={Close} alt="Close" />
+      </button>
     </>
   )
 }

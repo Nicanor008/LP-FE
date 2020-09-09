@@ -24,7 +24,6 @@ const Header = () => {
 
   const logoutHandler = () => {
     localStorage.clear()
-    // navigate("/")
     if (typeof window !== "undefined") {
       window.location.href = ("/")
     }
@@ -52,9 +51,9 @@ const Header = () => {
             <div className="myTopNav" id="myTopNav">
               <Link to="/todo">Todo</Link>
               <button onClick={logoutHandler}>Log out</button>
-              <span className="icon" onClick={responsiveMenu}>
+              <button className="icon" onClick={responsiveMenu}>
                 <img src={Menu} alt="menu" />
-              </span>
+              </button>
             </div>
           ) : (
             <Link to="/auth" className="unAuthButton">

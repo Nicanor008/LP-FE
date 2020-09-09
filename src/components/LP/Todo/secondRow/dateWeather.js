@@ -6,7 +6,6 @@ import Degrees from "../../../../images/icons/degree.svg"
 import { Loader } from "../../../common/loader"
 import { useStaticQuery, graphql } from "gatsby"
 import { server } from "../../../../utils/baseUrl"
-import TimeCard from "./time"
 
 function DateWeather(props) {
   const [data, setState] = useState({
@@ -29,9 +28,17 @@ function DateWeather(props) {
     }
   `)
 
+  const [time, setTime] = useState(null)
+
+  useEffect(() => {
+    setInterval(() => {
+      setTime(moment().format("h:mm:ss a"))
+    }, 1000)
+  }, [time])
+
   useEffect(() => {
     setState({ ...data, loading: true })
-    
+
     axios.get("https://json.geoiplookup.io/").then(async ip => {
       const response = await axios.get(
         `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
@@ -55,6 +62,7 @@ function DateWeather(props) {
         },
       })
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   //   set temp unit(F/C)
@@ -77,7 +85,7 @@ function DateWeather(props) {
           <div className="thirdRowCardBody">
             <div>
               {/* date & time */}
-              <TimeCard />
+              <h2>{time}</h2>
               <p>{moment().format("dddd, MMMM Do YYYY")}</p>
             </div>
 
@@ -101,7 +109,12 @@ function DateWeather(props) {
                           <b>F</b>
                         </u>
                       ) : (
-                        <span onClick={() => tempUnit("F")}>F</span>
+                        <button
+                          className="buttonWeatherChange"
+                          onClick={() => tempUnit("F")}
+                        >
+                          <p>F</p>
+                        </button>
                       )}
                       /
                       {data.activeTempUnit === "C" ? (
@@ -109,7 +122,12 @@ function DateWeather(props) {
                           <b>C</b>
                         </u>
                       ) : (
-                        <span onClick={() => tempUnit("C")}>C</span>
+                        <button
+                          className="buttonWeatherChange"
+                          onClick={() => tempUnit("C")}
+                        >
+                          <p>C</p>
+                        </button>
                       )}
                     </div>
                   </h2>

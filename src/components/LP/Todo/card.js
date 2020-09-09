@@ -18,18 +18,13 @@ const Cards = ({ title, titleQuote, icon, randomizeQuote, children }) => {
         </p>
         <div>
           {icon && (
-            <img
-              src={icon}
-              alt="reload"
-              onClick={randomizeQuote}
-              className="reloadQuoteIcon"
-            />
+            <button className="buttonWeatherChange" onClick={randomizeQuote}>
+              <img src={icon} alt="reload" className="reloadQuoteIcon" />
+            </button>
           )}
-          <img
-            src={close ? CloseCard : CheckCard}
-            alt="close"
-            onClick={onClickCloseIcon}
-          />
+          <button className="buttonWeatherChange" onClick={onClickCloseIcon}>
+            <img src={close ? CloseCard : CheckCard} alt="close" />
+          </button>
         </div>
       </div>
       <div style={{ display: close ? "block" : "none" }}>{children}</div>

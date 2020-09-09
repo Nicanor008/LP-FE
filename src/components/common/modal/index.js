@@ -2,7 +2,6 @@ import React from "react"
 import { Loader } from "../loader"
 import Close from "../../../images/icons/closeCard.svg"
 
-
 const Modal = ({
   children,
   showModal,
@@ -28,9 +27,9 @@ const Modal = ({
                 <img src={statusImage} alt="status" />
                 <p style={{ color: "black" }}>{keyword}</p>
               </div>
-              <span className="close" onClick={onClickClose}>
+              <button className="buttonUniformity close" onClick={onClickClose}>
                 <img src={Close} alt="Close" />
-              </span>
+              </button>
             </div>
             <hr className="modalHR" />
             {/* body */}

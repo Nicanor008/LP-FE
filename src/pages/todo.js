@@ -57,6 +57,18 @@ const CreateTodo = () => {
     },
   }
 
+  // load data
+  useEffect(() => {
+    // get analytics
+    axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
+      setAnalytics({
+        totalItems: analytics.data.totalItems,
+        todo: analytics.data.todo,
+        analyticsLoader: false,
+      })
+    })
+  })
+
   // load user token
   useEffect(() => {
     setLoading(true)
@@ -116,16 +128,8 @@ const CreateTodo = () => {
       user: activeToken.id,
     })
 
-    // get analytics
-    axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-      setAnalytics({
-        totalItems: analytics.data.totalItems,
-        todo: analytics.data.todo,
-        analyticsLoader: false,
-      })
-    })
-
     setLoading(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     form.startTime,
     form.endTime,
@@ -301,7 +305,8 @@ const CreateTodo = () => {
         <Layout>
           <SEO
             title="Todo"
-            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic real-time todo analytics"
+            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
+              real-time todo analytics"
           />
           <div className="allTodoWrapper">
             <div className="createTodoWrapper">
