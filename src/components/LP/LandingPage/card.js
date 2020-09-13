@@ -1,18 +1,16 @@
-import React from 'react' 
+import React from "react";
 
-const CardsTodo = (props) => {
-    return (
-        <div className="cards">
-            <center>
-              <img src={props.image} alt="props.imageAlt" />
-              <br />
-              <h2 className="cardTitle">{props.title}</h2>
-            </center>
-            <p>
-              {props.description}
-            </p>
-          </div>
-    )
-}
+const CardsTodo = (props,) => (
+  <div className="cards">
+    <center>
+      <img src={props.image} alt="props.imageAlt" />
+      <br />
+      <h2 className="cardTitle">{props.title}</h2>
+    </center>
+    <p>
+      {props.description}
+    </p>
+  </div>
+);
 
-export default CardsTodo
+export default CardsTodo;

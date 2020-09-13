@@ -1,7 +1,7 @@
-import React from "react"
-import ArrowUp from "../../../images/icons/Arrow-up.svg"
-import ArrowDown from "../../../images/icons/Arrow-down.svg"
-import ButtonCard from "./ButtonCard"
+import React from "react";
+import ArrowUp from "../../../images/icons/Arrow-up.svg";
+import ArrowDown from "../../../images/icons/Arrow-down.svg";
+import ButtonCard from "./ButtonCard";
 
 const Tabs = ({
   todoTitleIcon,
@@ -13,10 +13,10 @@ const Tabs = ({
   todoItemsTab,
   viewByTodo,
   onclickSwapButton,
-}) => (
+},) => (
   <div
     className="createTodo"
-    style={{ maxHeight: showBody ? "500px" : "51px" }}
+    style={{ maxHeight: showBody ? "500px" : "51px", }}
     name={name}
   >
     {/* tab header */}
@@ -59,6 +59,6 @@ const Tabs = ({
       {children}
     </div>
   </div>
-)
+);
 
-export default Tabs
+export default Tabs;

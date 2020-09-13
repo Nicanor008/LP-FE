@@ -1,44 +1,30 @@
-import React, { useState, useEffect } from "react"
-import jwt from "jsonwebtoken"
-import moment from "moment"
-import axios from "axios"
-import SEO from "../components/seo"
-import Layout from "../components/layout"
-import Tabs from "../components/LP/Todo/tabs"
-import "../components/LP/Todo/todo.scss"
-import WriteSmall from "../images/icons/write-small.svg"
-import OngoingTodo from "../components/LP/Todo/ongoingTodo"
-import CompletedTodo from "../components/LP/Todo/completingTodo"
-import CreateTodoInputs from "../components/LP/Todo/createTodo"
-import { useStaticQuery, graphql, navigate } from "gatsby"
-import SecondRowTodo from "../components/LP/Todo/secondRowTodo"
-import { Loader } from "../components/common/loader"
-
-// get base url hook
-function useBaseUrl() {
-  const data = useStaticQuery(graphql`
-    query SiteTitleRQuery {
-      site {
-        siteMetadata {
-          apiURL
-        }
-      }
-    }
-  `)
-
-  const apiURL = data.site.siteMetadata.apiURL
-  return apiURL
-}
+import React, { useState, useEffect, } from "react";
+import jwt from "jsonwebtoken";
+import moment from "moment";
+import axios from "axios";
+import { useStaticQuery, graphql, navigate, } from "gatsby";
+import SEO from "../components/seo";
+import Layout from "../components/layout";
+import Tabs from "../components/LP/Todo/tabs";
+import "../components/LP/Todo/todo.scss";
+import WriteSmall from "../images/icons/write-small.svg";
+import OngoingTodo from "../components/LP/Todo/ongoingTodo";
+import CompletedTodo from "../components/LP/Todo/completingTodo";
+import CreateTodoInputs from "../components/LP/Todo/createTodo";
+import SecondRowTodo from "../components/LP/Todo/secondRowTodo";
+import { Loader, } from "../components/common/loader";
+import useBaseUrl from "../utils/baseUrl";
+import { getToken } from "../utils/getToken";
 
 const CreateTodo = () => {
-  const apiBaseUrl = useBaseUrl()
-  const [loading, setLoading] = useState(true)
-  const [analytics, setAnalytics] = useState({
+  const apiBaseUrl = useBaseUrl();
+  const [loading, setLoading, ] = useState(true,);
+  const [analytics, setAnalytics, ] = useState({
     totalItems: 0,
     todo: {},
     analyticsLoader: true,
-  })
-  const [form, setState] = useState({
+  },);
+  const [form, setState, ] = useState({
     category: "",
     tags: "",
     name: "",
@@ -49,76 +35,72 @@ const CreateTodo = () => {
     durationInteger: 0,
     newDataAdded: false,
     newCompletedData: false,
-  })
-  const headers = {
-    headers: {
-      Authorization:
-        typeof window !== "undefined" && localStorage.getItem("token"),
-    },
-  }
+  },);
+
+  const { headers } = getToken();
 
   // load data
   useEffect(() => {
     // get analytics
-    axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
+    axios.get(`${apiBaseUrl}/analytics/todo`, headers,).then((analytics,) => {
       setAnalytics({
         totalItems: analytics.data.totalItems,
         todo: analytics.data.todo,
         analyticsLoader: false,
-      })
-    })
-  })
+      },);
+    },);
+  },);
 
   // load user token
   useEffect(() => {
-    setLoading(true)
-    const token = localStorage.getItem("token")
-    const activeToken = token && jwt.decode(token.substr(7))
+    setLoading(true,);
+    const token = localStorage.getItem("token",);
+    const activeToken = token && jwt.decode(token.substr(7,),);
 
     if (!token) {
-      return navigate("/auth")
+      return navigate("/auth",);
     }
 
     if (typeof window !== "undefined") {
-      let session = sessionStorage.getItem("showCreateTodo")
+      const session = sessionStorage.getItem("showCreateTodo",);
       if (session === null) {
-        sessionStorage.setItem("showCreateTodo", true)
+        sessionStorage.setItem("showCreateTodo", true,);
         setState({
           ...form,
           showCreateTodo: true,
           showOngoingTodo: true,
           showCompletedTodo: true,
-        })
+        },);
       } else {
         setState({
           ...form,
           showCreateTodo: session,
-          showOngoingTodo: sessionStorage.getItem("showOngoingTodo"),
-          showCompletedTodo: sessionStorage.getItem("showCompletedTodo"),
-        })
+          showOngoingTodo: sessionStorage.getItem("showOngoingTodo",),
+          showCompletedTodo: sessionStorage.getItem("showCompletedTodo",),
+        },);
       }
     }
 
     // calculate duration
-    const start = moment(form.startTime, "HH:mm")
-    const end = moment(form.endTime, "HH:mm")
-    let minutes = end.diff(start, "minutes")
-    let durationInt = 0
+    const start = moment(form.startTime, "HH:mm",);
+    const end = moment(form.endTime, "HH:mm",);
+    let minutes = end.diff(start, "minutes",);
+    let durationInt = 0;
     if (minutes === 0 || form.endTime === "" || form.startTime === "") {
-      minutes = ""
-      durationInt = 0.0
+      minutes = "";
+      durationInt = 0.0;
     } else if (minutes > 60) {
-      durationInt = (minutes / 60).toFixed(2)
-      minutes = (minutes / 60).toFixed(2) + " hours"
+      durationInt = (minutes / 60).toFixed(2,);
+      minutes = `${(minutes / 60).toFixed(2,)} hours`;
     } else if (minutes === 1) {
-      minutes = minutes + " minute"
-      durationInt = 0.1
+      minutes += " minute";
+      durationInt = 0.1;
     } else if (minutes === 60) {
-      minutes = 1 + " hour"
-      durationInt = 1.0
+      minutes = `${1} hour`;
+      durationInt = 1.0;
     } else {
-      durationInt = minutes / 100
-      minutes = minutes + " minutes"
+      durationInt = minutes / 100;
+      minutes += " minutes";
     }
 
     setState({
@@ -126,9 +108,9 @@ const CreateTodo = () => {
       duration: minutes,
       durationInteger: durationInt,
       user: activeToken.id,
-    })
+    },);
 
-    setLoading(false)
+    setLoading(false,);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     form.startTime,
@@ -136,24 +118,22 @@ const CreateTodo = () => {
     form.duration,
     apiBaseUrl,
     form.showCreateTodo,
-  ])
+  ],);
 
   // on change event
-  const onInputChange = e => {
+  const onInputChange = (e,) => {
     setState({
       ...form,
       [e.target.name]: e.target.value,
-    })
-  }
-
-  // var x = document.getElementById("snackbar")
+    },);
+  };
 
   // submit todo
-  const onClickAddTodoButton = e => {
-    e.preventDefault()
+  const onClickAddTodoButton = (e,) => {
+    e.preventDefault();
     axios
-      .post(`${apiBaseUrl}/todo`, form)
-      .then(function (response) {
+      .post(`${apiBaseUrl}/todo`, form,)
+      .then(() => {
         setState({
           ...form,
           category: "",
@@ -162,141 +142,141 @@ const CreateTodo = () => {
           startTime: "",
           endTime: "",
           newDataAdded: !form.newDataAdded,
-        })
-        axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
+        },);
+        axios.get(`${apiBaseUrl}/analytics/todo`, headers,).then((analytics,) => {
           setAnalytics({
             totalItems: analytics.data.totalItems,
             todo: analytics.data.todo,
             analyticsLoader: false,
-          })
-        })
-      })
-      .catch(function (error) {
-        alert(error.response.data.message)
-      })
-  }
+          },);
+        },);
+      },)
+      .catch((error,) => {
+        alert(error.response.data.message,);
+      },);
+  };
 
   // close create todo body
-  const onClickArrowOnCreateTodo = e => {
+  const onClickArrowOnCreateTodo = () => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("showCreateTodo", !form.showCreateTodo)
+      sessionStorage.setItem("showCreateTodo", !form.showCreateTodo,);
       if (form.showCreateTodo === undefined) {
         return setState({
           ...form,
           showCreateTodo: false,
-        })
+        },);
       }
       return setState({
         ...form,
         showCreateTodo: !form.showCreateTodo,
-      })
+      },);
     }
-  }
+  };
 
   // close ongoing todo body
   const onClickArrowOngoingTodo = () => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("showOngoingTodo", !form.showOngoingTodo)
+      sessionStorage.setItem("showOngoingTodo", !form.showOngoingTodo,);
       if (form.showOngoingTodo === undefined) {
         return setState({
           ...form,
           showOngoingTodo: false,
-        })
+        },);
       }
       return setState({
         ...form,
         showOngoingTodo: !form.showOngoingTodo,
-      })
+      },);
     }
-  }
+  };
 
   // close create todo body
   const onClickArrowOnCompletedTodo = () => {
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("showCompletedTodo", !form.showCompletedTodo)
+      sessionStorage.setItem("showCompletedTodo", !form.showCompletedTodo,);
       if (form.showCompletedTodo === undefined) {
         return setState({
           ...form,
           showCompletedTodo: false,
-        })
+        },);
       }
       return setState({
         ...form,
         showCompletedTodo: !form.showCompletedTodo,
-      })
+      },);
     }
-  }
+  };
 
   // edit/update todo item - mark as done and undone
-  const editTodoItem = props => {
-    setState({ ...form, loading: true, analytics: { analyticsLoader: true } })
+  const editTodoItem = (props,) => {
+    setState({ ...form, loading: true, analytics: { analyticsLoader: true, }, },);
     axios
       .patch(
         `${apiBaseUrl}/todo/status/${props.id}`,
         {
           completed: props.complete,
         },
-        headers
+        headers,
       )
-      .then(response => {
+      .then(() => {
         setState({
           ...form,
           newDataAdded: !form.newDataAdded,
           newCompletedData: !form.newCompletedData,
           loading: false,
-        })
-        axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
+        },);
+        axios.get(`${apiBaseUrl}/analytics/todo`, headers,).then((analytics,) => {
           setAnalytics({
             totalItems: analytics.data.totalItems,
             todo: analytics.data.todo,
             analyticsLoader: false,
-          })
-        })
-      })
-      .catch(e => {
-        alert(e.response.data.message)
-      })
-  }
+          },);
+        },);
+      },)
+      .catch((e,) => {
+        alert(e.response.data.message,);
+      },);
+  };
 
   // delete todo
-  const deleteTodoItem = props => {
+  const deleteTodoItem = (props,) => {
     axios
       .patch(
         `${apiBaseUrl}/todo/archive/${props.id}`,
-        { archived: false },
-        headers
+        { archived: false, },
+        headers,
       )
-      .then(async response => {
+      .then(async () => {
         if (props.complete) {
           setState({
             ...form,
             newCompletedData: !form.newCompletedData,
-          })
+          },);
         } else {
           setState({
             ...form,
             newDataAdded: !form.newDataAdded,
-          })
+          },);
         }
         await axios
-          .get(`${apiBaseUrl}/analytics/todo`, headers)
-          .then(analytics => {
+          .get(`${apiBaseUrl}/analytics/todo`, headers,)
+          .then((analytics,) => {
             setAnalytics({
               totalItems: analytics.data.totalItems,
               todo: analytics.data.todo,
               analyticsLoader: false,
-            })
-          })
-      })
-      .catch(e => {
-        alert(e.response.data.message)
-      })
-  }
+            },);
+          },);
+      },)
+      .catch((e,) => {
+        alert(e.response.data.message,);
+      },);
+  };
 
   return (
     <div>
       {loading ? (
-        <div style={{ marginTop: "20%" }}>
+        <div style={{ marginTop: "20%", }}>
           <center>
             <Loader />
           </center>
@@ -305,7 +285,7 @@ const CreateTodo = () => {
         <Layout>
           <SEO
             title="Todo"
-            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
+            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic
               real-time todo analytics"
           />
           <div className="allTodoWrapper">
@@ -375,11 +355,11 @@ const CreateTodo = () => {
               <SecondRowTodo apiBaseUrl={apiBaseUrl} analytics={analytics} />
             </div>
           </div>
-          <div id="snackbar"></div>
+          <div id="snackbar" />
         </Layout>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CreateTodo
+export default CreateTodo;

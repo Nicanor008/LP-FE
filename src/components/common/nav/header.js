@@ -1,43 +1,42 @@
-import { Link } from "gatsby"
-import React, { useEffect, useState } from "react"
-import "./header.scss"
-import "../styles/_common.scss"
-import Logo from "../../../images/logo.svg"
-import Menu from "../../../images/icons/menu.svg"
-import { Loader } from "../loader"
+import { Link, } from "gatsby";
+import React, { useEffect, useState, } from "react";
+import "./header.scss";
+import "../styles/_common.scss";
+import Logo from "../../../images/logo.svg";
+import Menu from "../../../images/icons/menu.svg";
+import { Loader, } from "../loader";
 
 const Header = () => {
-  const [token, setToken] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [token, setToken, ] = useState("",);
+  const [loading, setLoading, ] = useState(false,);
   useEffect(() => {
-    setLoading(true)
-    const getToken =
-      typeof window !== "undefined" && window.localStorage.getItem("token")
+    setLoading(true,);
+    const getToken = typeof window !== "undefined" && window.localStorage.getItem("token",);
     if (getToken) {
-      setToken(getToken)
-      setLoading(false)
+      setToken(getToken,);
+      setLoading(false,);
     } else {
-      setLoading(false)
-      setToken("")
+      setLoading(false,);
+      setToken("",);
     }
-  }, [])
+  }, [],);
 
   const logoutHandler = () => {
-    localStorage.clear()
+    localStorage.clear();
     if (typeof window !== "undefined") {
-      window.location.href = ("/")
+      window.location.href = ("/");
+    }
+  };
+
+  function responsiveMenu() {
+    const x = document.getElementById("myTopNav",);
+    if (x.className === "myTopNav") {
+      x.className += " responsive";
+    } else {
+      x.className = "myTopNav";
     }
   }
 
-  function responsiveMenu() {
-    var x = document.getElementById("myTopNav")
-    if (x.className === "myTopNav") {
-      x.className += " responsive"
-    } else {
-      x.className = "myTopNav"
-    }
-  }
-  
   return (
     <header className="navHeader">
       <div className="container navMenuWrapper navWrapper">
@@ -63,7 +62,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

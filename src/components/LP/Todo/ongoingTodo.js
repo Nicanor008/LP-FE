@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react"
-import TodoItem from "./todo"
-import axios from "axios"
-import { Loader } from "../../common/loader"
-import Tabs from "./tabs"
-import Walk from "../../../images/icons/walk.svg"
-import TodoItemByKeywords from "./ByKeywords"
+import React, { useEffect, useState, } from "react";
+import axios from "axios";
+import TodoItem from "./todo";
+import { Loader, } from "../../common/loader";
+import Tabs from "./tabs";
+import Walk from "../../../images/icons/walk.svg";
+import TodoItemByKeywords from "./ByKeywords";
 
 const OngoingTodo = ({
   newData,
@@ -15,38 +15,35 @@ const OngoingTodo = ({
   loader,
   apiBaseUrl,
   headers,
-}) => {
-  const [data, setData] = useState([])
-  const [dataInKeywords, setDataInKeywords] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [viewByTodo, setViewByTodo] = useState(true)
+},) => {
+  const [data, setData, ] = useState([],);
+  const [dataInKeywords, setDataInKeywords, ] = useState([],);
+  const [loading, setLoading, ] = useState(false,);
+  const [viewByTodo, setViewByTodo, ] = useState(true,);
 
   // get ongoing todo data
   const getOngoingTodo = async () => {
-    setLoading(true)
+    setLoading(true,);
     try {
       const response = await axios
-        .get(`${apiBaseUrl}/todo/ongoing`, headers)
-      setLoading(false)
-      setDataInKeywords(response.data.groupedByKeywords)
-      setData(response.data.data)
+        .get(`${apiBaseUrl}/todo/ongoing`, headers,);
+      setLoading(false,);
+      setDataInKeywords(response.data.groupedByKeywords,);
+      setData(response.data.data,);
+    } catch (e) {
+      setData([],);
+      setLoading(false,);
     }
-    catch (e) {
-      setData([])
-      setLoading(false)
-    }
-  }
+  };
 
   // componentDidMount
   useEffect(() => {
-    getOngoingTodo()
+    getOngoingTodo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newData])
+  }, [newData, ],);
 
   // on click view by ......, do the swapping
-  const onClickSwapButton = () => {
-    return setViewByTodo(!viewByTodo)
-  }
+  const onClickSwapButton = () => setViewByTodo(!viewByTodo,);
 
   return (
     <div>
@@ -70,31 +67,29 @@ const OngoingTodo = ({
             >
               <div className="onGoingTodoWrapper">
                 {viewByTodo
-                  ? data.map(todo => (
-                      <TodoItem
-                        name={todo.name}
-                        key={todo._id}
-                        complete={false}
-                        id={todo._id}
+                  ? data.map((todo,) => (
+                    <TodoItem
+                      name={todo.name}
+                      key={todo._id}
+                      complete={false}
+                      id={todo._id}
+                      deleteTodoItem={deleteTodoItem}
+                      editTodoItem={editTodoItem}
+                      apiBaseUrl={apiBaseUrl}
+                    />
+                  ),)
+                  : dataInKeywords
+                    && dataInKeywords.map((dataKeywords,) => (
+                      <TodoItemByKeywords
+                        data={dataKeywords}
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
+                        key={Math.random()}
+                        id={dataInKeywords._id}
+                        complete={false}
                         apiBaseUrl={apiBaseUrl}
                       />
-                    ))
-                  : dataInKeywords &&
-                    dataInKeywords.map(dataKeywords => {
-                      return (
-                        <TodoItemByKeywords
-                          data={dataKeywords}
-                          deleteTodoItem={deleteTodoItem}
-                          editTodoItem={editTodoItem}
-                          key={Math.random()}
-                          id={dataInKeywords._id}
-                          complete={false}
-                          apiBaseUrl={apiBaseUrl}
-                        />
-                      )
-                    })}
+                    ),)}
               </div>
             </Tabs>
 
@@ -104,7 +99,7 @@ const OngoingTodo = ({
         )
       )}
     </div>
-  )
-}
+  );
+};
 
-export default OngoingTodo
+export default OngoingTodo;

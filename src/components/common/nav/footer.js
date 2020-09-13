@@ -1,12 +1,12 @@
-import { Link } from "gatsby"
-import React from "react"
-import "./header.scss"
-import "../styles/_common.scss"
-import LP from "../../../images/LP.svg"
+import { Link, } from "gatsby";
+import React from "react";
+import "./header.scss";
+import "../styles/_common.scss";
+import LP from "../../../images/LP.svg";
 
 const Footer = () => (
   <footer className="footer">
-  <hr className="footerHr"/>
+    <hr className="footerHr" />
     <div className="container navMenuWrapper footerDetails">
       <Link to="/">
         <img src={LP} alt="logo" />
@@ -19,6 +19,6 @@ const Footer = () => (
       <p>Terms And Conditions</p>
     </div>
   </footer>
-)
+);
 
-export default Footer
+export default Footer;

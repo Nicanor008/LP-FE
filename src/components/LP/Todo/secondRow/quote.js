@@ -1,52 +1,50 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
-import Cards from "../card"
-import { Loader } from "../../../common/loader"
-import Reload from "../../../../images/icons/reload.svg"
+import React, { useEffect, useState, } from "react";
+import axios from "axios";
+import Cards from "../card";
+import { Loader, } from "../../../common/loader";
+import Reload from "../../../../images/icons/reload.svg";
 
 function Quote() {
-  const [data, setState] = useState({
+  const [data, setState, ] = useState({
     loading: false,
     dailyQuote: {},
     minimizedActiveQuote: "",
-  })
+  },);
 
   useEffect(() => {
-    setState({ ...data, loading: true })
-    axios.get("https://type.fit/api/quotes").then(res => {
-      const quotes = res.data
-      const item = quotes[Math.floor(Math.random() * quotes.length)]
-      const minimizedActiveQuote =
-        item.text.length > 60
-          ? item.text.substr(0, 50).concat(" ...")
-          : item.text.substr(0, 50)
+    setState({ ...data, loading: true, },);
+    axios.get("https://type.fit/api/quotes",).then((res,) => {
+      const quotes = res.data;
+      const item = quotes[Math.floor(Math.random() * quotes.length,)];
+      const minimizedActiveQuote = item.text.length > 60
+        ? item.text.substr(0, 50,).concat(" ...",)
+        : item.text.substr(0, 50,);
       return setState({
         ...data,
         loading: false,
-        minimizedActiveQuote: minimizedActiveQuote,
+        minimizedActiveQuote,
         dailyQuote: item,
-      })
-    })
+      },);
+    },);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [],);
 
   const randomizeQuotes = () => {
-    setState({ ...data, loading: true })
-    axios.get("https://type.fit/api/quotes").then(res => {
-      const quotes = res.data
-      const item = quotes[Math.floor(Math.random() * quotes.length)]
-      const minimizedActiveQuote =
-        item.text.length > 60
-          ? item.text.substr(0, 50).concat(" ...")
-          : item.text.substr(0, 50)
+    setState({ ...data, loading: true, },);
+    axios.get("https://type.fit/api/quotes",).then((res,) => {
+      const quotes = res.data;
+      const item = quotes[Math.floor(Math.random() * quotes.length,)];
+      const minimizedActiveQuote = item.text.length > 60
+        ? item.text.substr(0, 50,).concat(" ...",)
+        : item.text.substr(0, 50,);
       return setState({
         ...data,
         loading: false,
-        minimizedActiveQuote: minimizedActiveQuote,
+        minimizedActiveQuote,
         dailyQuote: item,
-      })
-    })
-  }
+      },);
+    },);
+  };
 
   return (
     <div>
@@ -70,7 +68,7 @@ function Quote() {
         </div>
       </Cards>
     </div>
-  )
+  );
 }
 
-export default Quote
+export default Quote;

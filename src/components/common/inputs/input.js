@@ -1,9 +1,10 @@
-import React from "react"
-import "./inputs.scss"
+import React from "react";
+import "./inputs.scss";
 
-const Input = props => (
+const Input = (props) => (
   <>
-    <label htmlFor={props.labelClassName}>{props.labelName}</label> &nbsp;
+    <label htmlFor={props.labelClassName}>{props.labelName}</label> 
+    &nbsp;
     <br />
     <input
       type={props.type ? props.type : "text"}
@@ -15,6 +16,6 @@ const Input = props => (
       onChange={props.onchange}
     />
   </>
-)
+);
 
-export default Input
+export default Input;

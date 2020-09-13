@@ -1,28 +1,28 @@
-import React, { useState } from "react"
-import "../../common/modal/modal.scss"
-import { server } from "../../../utils/baseUrl"
-import TodoModal from "./TodoModal"
-import CommonIcons from "./icons/editAndDeleteIcons"
+import React, { useState, } from "react";
+import "../../common/modal/modal.scss";
+import { server, } from "../../../utils/baseUrl";
+import TodoModal from "./TodoModal";
+import CommonIcons from "./icons/editAndDeleteIcons";
 
-const TodoItem = props => {
-  const [data, setData] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+const TodoItem = (props,) => {
+  const [data, setData, ] = useState({},);
+  const [loading, setLoading, ] = useState(false,);
+  const [showModal, setShowModal, ] = useState(false,);
 
   // open/close modal
   const CloseOrOpenModal = () => {
-    setShowModal(!showModal)
-  }
+    setShowModal(!showModal,);
+  };
 
   // view single item
-  const onClickViewOneItem = id => {
-  setLoading(true)
-    setShowModal(!showModal)
-    server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
-      setLoading(false)
-      setData(item.data.data)
-    })
-  }
+  const onClickViewOneItem = (id,) => {
+    setLoading(true,);
+    setShowModal(!showModal,);
+    server.get(`${props.apiBaseUrl}/todo/${id}`,).then((item,) => {
+      setLoading(false,);
+      setData(item.data.data,);
+    },);
+  };
   return (
     <div>
       <div className="todo">
@@ -35,7 +35,7 @@ const TodoItem = props => {
         />
         <button
           className="buttonUniformity"
-          onClick={() => onClickViewOneItem(props.id)}
+          onClick={() => onClickViewOneItem(props.id,)}
         >
           <p className="todoItemName">{props.name}</p>
         </button>
@@ -55,7 +55,7 @@ const TodoItem = props => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default TodoItem
+export default TodoItem;

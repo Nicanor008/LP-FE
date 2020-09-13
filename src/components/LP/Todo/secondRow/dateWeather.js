@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react"
-import moment from "moment"
-import axios from "axios"
-import Cards from "../card"
-import Degrees from "../../../../images/icons/degree.svg"
-import { Loader } from "../../../common/loader"
-import { useStaticQuery, graphql } from "gatsby"
-import { server } from "../../../../utils/baseUrl"
+import React, { useEffect, useState, } from "react";
+import moment from "moment";
+import axios from "axios";
+import { useStaticQuery, graphql, } from "gatsby";
+import Cards from "../card";
+import Degrees from "../../../../images/icons/degree.svg";
+import { Loader, } from "../../../common/loader";
+import { server, } from "../../../../utils/baseUrl";
 
-function DateWeather(props) {
-  const [data, setState] = useState({
+function DateWeather(props,) {
+  const [data, setState, ] = useState({
     loading: false,
     currentWeatherData: [],
     activeTempUnit: "C",
     ipAddress: "",
     username: "",
     userLocation: {},
-  })
+  },);
 
   //   get weather api secret key
   const dataKey = useStaticQuery(graphql`
@@ -26,24 +26,24 @@ function DateWeather(props) {
         }
       }
     }
-  `)
+  `,);
 
-  const [time, setTime] = useState(null)
+  const [time, setTime, ] = useState(null,);
 
   useEffect(() => {
     setInterval(() => {
-      setTime(moment().format("h:mm:ss a"))
-    }, 1000)
-  }, [time])
+      setTime(moment().format("h:mm:ss a",),);
+    }, 1000,);
+  }, [time, ],);
 
   useEffect(() => {
-    setState({ ...data, loading: true })
+    setState({ ...data, loading: true, },);
 
-    axios.get("https://json.geoiplookup.io/").then(async ip => {
+    axios.get("https://json.geoiplookup.io/",).then(async (ip,) => {
       const response = await axios.get(
-        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
-      )
-      const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
+        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`,
+      );
+      const currentUser = await server.get(`${props.apiBaseUrl}/users/active`,);
       return setState({
         ...data,
         currentWeatherData: response.data.current,
@@ -60,15 +60,15 @@ function DateWeather(props) {
           continent_name: ip.data.continent_name,
           continent_code: ip.data.continent_code,
         },
-      })
-    })
+      },);
+    },);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [],);
 
   //   set temp unit(F/C)
-  const tempUnit = unit => {
-    setState({ ...data, activeTempUnit: unit })
-  }
+  const tempUnit = (unit,) => {
+    setState({ ...data, activeTempUnit: unit, },);
+  };
 
   return (
     <div>
@@ -77,8 +77,8 @@ function DateWeather(props) {
       ) : (
         <Cards
           title={
-            "Hello, " +
-            data.username.charAt(0).toUpperCase().concat(data.username.slice(1))
+            `Hello, ${
+              data.username.charAt(0,).toUpperCase().concat(data.username.slice(1,),)}`
           }
           id="title"
         >
@@ -86,7 +86,7 @@ function DateWeather(props) {
             <div>
               {/* date & time */}
               <h2>{time}</h2>
-              <p>{moment().format("dddd, MMMM Do YYYY")}</p>
+              <p>{moment().format("dddd, MMMM Do YYYY",)}</p>
             </div>
 
             {/* weather */}
@@ -111,7 +111,7 @@ function DateWeather(props) {
                       ) : (
                         <button
                           className="buttonWeatherChange"
-                          onClick={() => tempUnit("F")}
+                          onClick={() => tempUnit("F",)}
                         >
                           <p>F</p>
                         </button>
@@ -124,7 +124,7 @@ function DateWeather(props) {
                       ) : (
                         <button
                           className="buttonWeatherChange"
-                          onClick={() => tempUnit("C")}
+                          onClick={() => tempUnit("C",)}
                         >
                           <p>C</p>
                         </button>
@@ -145,7 +145,7 @@ function DateWeather(props) {
         </Cards>
       )}
     </div>
-  )
+  );
 }
 
-export default DateWeather
+export default DateWeather;
