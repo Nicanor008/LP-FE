@@ -67,7 +67,7 @@ const CreateTodo = () => {
         analyticsLoader: false,
       })
     })
-  })
+  }, [])
 
   // load user token
   useEffect(() => {
