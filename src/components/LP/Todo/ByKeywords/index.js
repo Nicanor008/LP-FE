@@ -40,12 +40,12 @@ const TodoItemByKeywords = props => {
           deleteTodoItem={prop.deleteTodoItem}
           id={prop.id}
         />
-        <button
+        <span
           className="buttonUniformity"
           onClick={() => onClickViewOneItem(prop.id)}
         >
           <p className="todoItemName">{prop.data.name}</p>
-        </button>
+        </span>
       </>
     )
   }
@@ -67,53 +67,6 @@ const TodoItemByKeywords = props => {
         <ul className="GroupedTodoTextWrapper">
         {props.data[1].map(data => (
           <div key={data._id}>
-              {/* {props.data[0] === "" || props.data[0] === null ? (
-                <div className="noKeywordTodoItem">
-                  {props.completedKeywords ? (
-                    moment(data.updatedAt, "YYYYMMDDhhmm")
-                      .fromNow()
-                      .indexOf("hour") > 1 && (
-                      <li
-                        className="todoItemName GroupedTodoText"
-                        key={data._id}
-                      >
-                        <IconsWithTodoName
-                          data={data}
-                          complete={props.complete}
-                          editTodoItem={props.editTodoItem}
-                          deleteTodoItem={props.deleteTodoItem}
-                          id={data._id}
-                        />
-                      </li>
-                    )
-                  ) : (
-                    <li key={data._id}>
-                      <IconsWithTodoName
-                        data={data}
-                        complete={props.complete}
-                        editTodoItem={props.editTodoItem}
-                        deleteTodoItem={props.deleteTodoItem}
-                        id={data._id}
-                      />
-                    </li>
-                  )}
-                </div>
-              ) :  */}
-              {/* {props.completedKeywords ? ( // check if completed tasks */}
-                {/* moment(data.updatedAt, "YYYYMMDDhhmm")
-                  .fromNow()
-                  .indexOf("hour") > 1 && ( // get tasks on 24 hours only
-                  <li key={data._id}>
-                    <IconsWithTodoName
-                      data={data}
-                      complete={props.complete}
-                      editTodoItem={props.editTodoItem}
-                      deleteTodoItem={props.deleteTodoItem}
-                      id={data._id}
-                    />
-                  </li>
-                )
-              ) : ( */}
                 <li key={data._id}>
                   <IconsWithTodoName
                     data={data}
@@ -123,7 +76,6 @@ const TodoItemByKeywords = props => {
                     id={data._id}
                   />
                 </li>
-              {/* )} */}
           </div>
         ))}
         </ul>
