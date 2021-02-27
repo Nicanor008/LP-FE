@@ -45,6 +45,7 @@ const CompletedTodo = ({
       setLoading(false)
     }
   }
+
   // componentDidMount
   useEffect(() => {
     getCompletedTodo()

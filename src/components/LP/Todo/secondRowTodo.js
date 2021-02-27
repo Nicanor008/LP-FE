@@ -7,7 +7,7 @@ function SecondRowTodo(props) {
   return (
     <div>
       <DateWeather apiBaseUrl={props.apiBaseUrl} />
-      <Quote />
+      {/* <Quote /> */}
       <AnalyticsCard
         apiBaseUrl={props.apiBaseUrl}
         analytics={props.analytics}
