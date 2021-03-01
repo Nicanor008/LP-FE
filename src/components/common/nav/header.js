@@ -2,7 +2,7 @@ import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import "./header.scss"
 import "../styles/_common.scss"
-import Logo from "../../../images/logo.svg"
+import Logo from "../../../images/logo2.svg"
 import Menu from "../../../images/icons/menu.svg"
 import { Loader } from "../loader"
 
