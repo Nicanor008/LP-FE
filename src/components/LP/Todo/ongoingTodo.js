@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import TodoItem from "./todo"
-import axios from "axios"
 import { Loader } from "../../common/loader"
 import Tabs from "./tabs"
 import Walk from "../../../images/icons/walk.svg"
@@ -14,28 +13,12 @@ const OngoingTodo = ({
   onClickArrow,
   loader,
   apiBaseUrl,
-  headers,
+  getOngoingTodo,
+  dataInKeywords,
+  data,
+  loading
 }) => {
-  const [data, setData] = useState([])
-  const [dataInKeywords, setDataInKeywords] = useState([])
-  const [loading, setLoading] = useState(false)
   const [viewByTodo, setViewByTodo] = useState(true)
-
-  // get ongoing todo data
-  const getOngoingTodo = async () => {
-    setLoading(true)
-    try {
-      const response = await axios
-        .get(`${apiBaseUrl}/todo/ongoing`, headers)
-      setLoading(false)
-      setDataInKeywords(response.data.groupedByKeywords)
-      setData(response.data.data)
-    }
-    catch (e) {
-      setData([])
-      setLoading(false)
-    }
-  }
 
   // componentDidMount
   useEffect(() => {

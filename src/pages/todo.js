@@ -33,11 +33,6 @@ function useBaseUrl() {
 const CreateTodo = () => {
   const apiBaseUrl = useBaseUrl()
   const [loading, setLoading] = useState(true)
-  const [analytics, setAnalytics] = useState({
-    totalItems: 0,
-    todo: {},
-    analyticsLoader: true,
-  })
   const [form, setState] = useState({
     category: "",
     tags: "",
@@ -50,6 +45,17 @@ const CreateTodo = () => {
     newDataAdded: false,
     newCompletedData: false,
   })
+
+  // completed todo state
+  const [completedData, setCompletedData] = useState([])
+  const [completedDataInKeywords, setCompletedDataInKeywords] = useState([])
+  const [completedLoader, setCompletedLoader] = useState(false)
+
+  // ongong todo state
+  const [ongoingData, setData] = useState([])
+  const [ongoingDataInKeywords, setDataInKeywords] = useState([])
+  const [ongoingoader, setOngoingLoader] = useState(false)
+
   const headers = {
     headers: {
       Authorization:
@@ -57,17 +63,48 @@ const CreateTodo = () => {
     },
   }
 
-  // load data
-  useEffect(() => {
-    // get analytics
-    axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-      setAnalytics({
-        totalItems: analytics.data.totalItems,
-        todo: analytics.data.todo,
-        analyticsLoader: false,
+  // get ongoing todo data
+  const getOngoingTodo = async () => {
+    setOngoingLoader(true)
+    try {
+      const response = await axios
+        .get(`${apiBaseUrl}/todo/ongoing`, headers)
+      setOngoingLoader(false)
+      setDataInKeywords(response.data.groupedByKeywords)
+      setData(response.data.data)
+    }
+    catch (e) {
+      setData([])
+      setOngoingLoader(false)
+    }
+  }
+
+  // get completed todo data
+  const getCompletedTodo = async () => {
+    setCompletedLoader(true)
+    setCompletedData([])
+    try {
+      const response = await axios
+        .get(`${apiBaseUrl}/todo/complete`, headers)
+      // get duration last updated
+      response.data.data.forEach(s => {
+        const durationLastUpdated = moment(
+          s.updatedAt,
+          "YYYYMMDDhhmm"
+        ).fromNow()
+        if (durationLastUpdated.indexOf("hour") > 1 ||
+          durationLastUpdated.indexOf("minute") > 1) {
+          setCompletedLoader(false)
+          setCompletedDataInKeywords(response.data.groupedByKeywords) // get grouped data
+          setCompletedData(data => [...data, s])
+        }
       })
-    })
-  }, [])
+    }
+    catch (e) {
+      setCompletedData([])
+      setCompletedLoader(false)
+    }
+  }
 
   // load user token
   useEffect(() => {
@@ -163,13 +200,6 @@ const CreateTodo = () => {
           endTime: "",
           newDataAdded: !form.newDataAdded,
         })
-        axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-          setAnalytics({
-            totalItems: analytics.data.totalItems,
-            todo: analytics.data.todo,
-            analyticsLoader: false,
-          })
-        })
       })
       .catch(function (error) {
         alert(error.response.data.message)
@@ -245,13 +275,6 @@ const CreateTodo = () => {
           newCompletedData: !form.newCompletedData,
           loading: false,
         })
-        axios.get(`${apiBaseUrl}/analytics/todo`, headers).then(analytics => {
-          setAnalytics({
-            totalItems: analytics.data.totalItems,
-            todo: analytics.data.todo,
-            analyticsLoader: false,
-          })
-        })
       })
       .catch(e => {
         alert(e.response.data.message)
@@ -278,15 +301,6 @@ const CreateTodo = () => {
             newDataAdded: !form.newDataAdded,
           })
         }
-        await axios
-          .get(`${apiBaseUrl}/analytics/todo`, headers)
-          .then(analytics => {
-            setAnalytics({
-              totalItems: analytics.data.totalItems,
-              todo: analytics.data.todo,
-              analyticsLoader: false,
-            })
-          })
       })
       .catch(e => {
         alert(e.response.data.message)
@@ -302,82 +316,94 @@ const CreateTodo = () => {
           </center>
         </div>
       ) : (
-        <Layout>
-          <SEO
-            title="Todo"
-            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
+          <Layout>
+            <SEO
+              title="Todo"
+              description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
               real-time todo analytics"
-          />
-          <div className="allTodoWrapper">
-            <div className="createTodoWrapper">
-              <br />
-              <div className="FirstRowCreateTodo">
-                {/* create todo */}
-                <Tabs
-                  todoTitleIcon={WriteSmall}
-                  title="Write Todo"
-                  showBody={
-                    form.showCreateTodo === undefined
-                      ? true
-                      : form.showCreateTodo
-                  }
-                  onClickArrow={onClickArrowOnCreateTodo}
-                >
-                  <CreateTodoInputs
-                    onClickAddTodoButton={onClickAddTodoButton}
-                    form={form}
-                    onInputChange={onInputChange}
+            />
+            <div className="allTodoWrapper">
+              <div className="createTodoWrapper">
+                <br />
+                <div className="FirstRowCreateTodo">
+                  {/* create todo */}
+                  <Tabs
+                    todoTitleIcon={WriteSmall}
+                    title="Write Todo"
+                    showBody={
+                      form.showCreateTodo === undefined
+                        ? true
+                        : form.showCreateTodo
+                    }
+                    onClickArrow={onClickArrowOnCreateTodo}
+                  >
+                    <CreateTodoInputs
+                      onClickAddTodoButton={onClickAddTodoButton}
+                      form={form}
+                      onInputChange={onInputChange}
+                    />
+                  </Tabs>
+                </div>
+
+                <br />
+                <br />
+
+                {/* ongoing todo */}
+                <div className="secondRowTodo">
+                  <OngoingTodo
+                    newData={form.newDataAdded}
+                    deleteTodoItem={deleteTodoItem}
+                    editTodoItem={editTodoItem}
+                    showBody={
+                      form.showOngoingTodo === undefined
+                        ? true
+                        : form.showOngoingTodo
+                    }
+                    onClickArrow={onClickArrowOngoingTodo}
+                    headers={headers}
+                    apiBaseUrl={apiBaseUrl}
+                    getOngoingTodo={getOngoingTodo}
+                    dataInKeywords={ongoingDataInKeywords}
+                    data={ongoingData}
+                    loading={ongoingoader}
                   />
-                </Tabs>
+                </div>
+
+                {/* completed todo */}
+                <div className="thirdRowTodo">
+                  <CompletedTodo
+                    newData={form.newCompletedData}
+                    deleteTodoItem={deleteTodoItem}
+                    editTodoItem={editTodoItem}
+                    showBody={
+                      form.showCompletedTodo === undefined
+                        ? true
+                        : form.showCompletedTodo
+                    }
+                    onClickArrow={onClickArrowOnCompletedTodo}
+                    loader={loading}
+                    apiBaseUrl={apiBaseUrl}
+                    data={completedData}
+                    dataInKeywords={completedDataInKeywords}
+                    loading={completedLoader}
+                    getCompletedTodo={getCompletedTodo}
+                  />
+                </div>
               </div>
 
-              <br />
-              <br />
-
-              {/* ongoing todo */}
-              <div className="secondRowTodo">
-                <OngoingTodo
-                  newData={form.newDataAdded}
-                  deleteTodoItem={deleteTodoItem}
-                  editTodoItem={editTodoItem}
-                  showBody={
-                    form.showOngoingTodo === undefined
-                      ? true
-                      : form.showOngoingTodo
-                  }
-                  onClickArrow={onClickArrowOngoingTodo}
-                  headers={headers}
+              {/* second row */}
+              <div className="secondTodoColumn">
+                <SecondRowTodo
                   apiBaseUrl={apiBaseUrl}
-                />
-              </div>
-
-              {/* completed todo */}
-              <div className="thirdRowTodo">
-                <CompletedTodo
-                  newData={form.newCompletedData}
-                  deleteTodoItem={deleteTodoItem}
-                  editTodoItem={editTodoItem}
-                  showBody={
-                    form.showCompletedTodo === undefined
-                      ? true
-                      : form.showCompletedTodo
-                  }
-                  onClickArrow={onClickArrowOnCompletedTodo}
-                  loader={loading}
+                  ongoingData={ongoingData}
+                  completedData={completedData}
                   headers={headers}
-                  apiBaseUrl={apiBaseUrl}
                 />
               </div>
             </div>
-
-            {/* second row */}
-            <div className="secondTodoColumn">
-              <SecondRowTodo apiBaseUrl={apiBaseUrl} analytics={analytics} />
-            </div>
-          </div>
-          <div id="snackbar"></div>
-        </Layout>
-      )}
+            <div id="snackbar"></div>
+          </Layout>
+        )}
     </div>
   )
 }

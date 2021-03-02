@@ -1,71 +1,72 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import axios from "axios"
 import Cards from "../../card"
 import "./analytics.scss"
 import { Loader } from "../../../../common/loader"
 import AnalyticsChartCard from "./analyticsChartCard"
 
 function AnalyticsCard(props) {
+  const [analytics, setAnalytics] = useState({})
+
+  // analytics data
+  useEffect(() => {
+    axios.get(`${props.apiBaseUrl}/analytics/todo`, props.headers).then(analytics => {
+      setAnalytics({
+        totalItems: analytics.data.totalItems,
+        todo: analytics.data.todo,
+        analyticsLoader: false,
+      })
+    })
+  }, [])
+
   return (
     <div>
-      {props.analytics.totalItems >= 1 && (
+      {analytics.totalItems >= 1 && (
         <>
           <br />
           <Cards title="Analytics">
             <div className="analyticsData">
-              {props.analytics.analyticsLoader ? (
+              {analytics.analyticsLoader ? (
                 <Loader />
               ) : (
                 <div>
                   <div>
                     <center>
-                      <h1>{props.analytics.totalItems} Total Tasks</h1>
+                      <h1>{analytics.totalItems} Total Tasks</h1>
                     </center>
                   </div>
-                  {(props.analytics.todo.totalTodo > 0 ||
-                    props.analytics.todo.todoActive > 0) && (
-                    <hr className="tabHeaderHR" />
-                  )}
-                  {/* <div className="analyticsTotalItemsTitle">
-                    {props.analytics.todo.totalTodo > 0 && (
-                      <h3>{props.analytics.todo.totalTodo} Total Todo</h3>
-                    )}
-                    {props.analytics.todo.todoActive > 0 && (
-                      <h3>{props.analytics.todo.todoActive} Active Todo</h3>
-                    )}
-                  </div> */}
-
-                  {(props.analytics.todo.totalUncompletedTodo > 0 ||
-                    props.analytics.todo.totalCompletedTodo > 0) && (
+                  {(analytics.todo.totalTodo > 0 ||
+                    analytics.todo.todoActive > 0) && (
                     <hr className="tabHeaderHR" />
                   )}
 
                   <div className="analyticsTotalItemsTitle">
-                    {props.analytics.todo.totalUncompletedTodo > 0 && (
+                    {props?.ongoingData?.length > 0 && (
                       <h4>
-                        {props.analytics.todo.totalUncompletedTodo} Ongoing
+                        {props?.ongoingData?.length} Ongoing
                       </h4>
                     )}
-                    {props.analytics.todo.totalCompletedTodo > 0 && (
+                    {props?.completedData?.length > 0 && (
                       <h4>
-                        {props.analytics.todo.totalCompletedTodo} Completed
+                        {props?.completedData?.length} Completed
                       </h4>
                     )}
                   </div>
 
-                  {(props.analytics.todo.totalArchived > 0 ||
-                    props.analytics.todo.dailyArchived > 0) && (
+                  {(analytics.todo.totalArchived > 0 ||
+                    analytics.todo.dailyArchived > 0) && (
                       <hr className="tabHeaderHR" />
                     )}
 
                   <div className="analyticsTotalItemsTitle">
-                    {props.analytics.todo.totalArchived > 0 && (
-                      <p>{props.analytics.todo.totalArchived} Archived</p>
+                    {analytics?.todo?.totalArchived > 0 && (
+                      <p>{analytics?.todo?.totalArchived} Archived(total)</p>
                     )}
-                    {props.analytics.todo.dailyArchived > 0 && (
+                    {analytics?.todo?.dailyArchived > 0 && (
                       <>
                         <b>|</b>
                         <p>
-                          {props.analytics.todo.dailyArchived} Archived in 24
+                          {analytics?.todo?.dailyArchived} Archived in 24
                           hours
                         </p>
                       </>
@@ -75,8 +76,8 @@ function AnalyticsCard(props) {
               )}
             </div>
           </Cards>
-          {props.analytics.totalItems > 1 && (
-            <AnalyticsChartCard data={props.analytics.todo} />
+          {analytics.totalItems > 1 && (
+            <AnalyticsChartCard data={analytics.todo} />
           )}
         </>
       )}
