@@ -77,7 +77,11 @@ function AnalyticsCard(props) {
             </div>
           </Cards>
           {analytics.totalItems > 1 && (
-            <AnalyticsChartCard data={analytics.todo} />
+            <AnalyticsChartCard 
+              data={analytics.todo} 
+              ongoingTodo={props.ongoingData} 
+              completedTodo={props.completedData}
+            />
           )}
         </>
       )}
