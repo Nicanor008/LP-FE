@@ -4,6 +4,8 @@ $titleFont: "Caveat";
 
 .navHeader {
   background-color: $mainBackgroundColor;
+  position: fixed;
+  width: 100%;
 }
 .navMenuWrapper {
   margin: 0 8rem;

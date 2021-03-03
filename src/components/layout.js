@@ -9,7 +9,7 @@ const Layout = ({ height, children }) => {
 
   return (
     <div>
-      <Header />
+        <Header />
         <main style={{ height }}>{children}</main>
         <Footer />
     </div>

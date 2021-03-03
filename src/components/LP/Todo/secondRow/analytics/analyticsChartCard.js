@@ -12,8 +12,8 @@ function AnalyticsChartCard(props) {
         loader={<Loader />}
         data={[
           ["Task", "Total Number of Tasks"],
-          ["Completed", props.completedTodo],
-          ["Ongoing", props.ongoingTodo]
+          ["Done", props.completedTodo.length],
+          ["Ongoing", props.ongoingTodo.length]
         ]}
         options={{
           title: "Daily Statistics",
