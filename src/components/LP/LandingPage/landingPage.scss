@@ -92,6 +92,10 @@ $primaryFont: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       width: 90%;
       font-size: 18px;
     }
+  &__subtext {
+    width: 90%;
+    margin-bottom: 7rem;
+  }
   }
   .percentageImage {
     display: none;
@@ -108,5 +112,8 @@ $primaryFont: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   .videoPlayer {
     height: 200px;
     width: 300px;
+  }
+  .imageRecording {
+    width: 84%;
   }
 }
