@@ -3,6 +3,7 @@ import React from "react"
 import "./header.scss"
 import "../styles/_common.scss"
 import LP from "../../../images/LP.svg"
+import "./footer.scss"
 
 const Footer = () => (
   <footer className="footer">
@@ -12,10 +13,8 @@ const Footer = () => (
         <img src={LP} alt="logo" />
       </Link>
       &nbsp;
-      <p>&copy;2020</p>
-      <p>|</p>
-      <p>Privacy</p>
-      <p>|</p>
+      <p>&copy;2021 <span className="divider">|</span> </p>
+      <p>Privacy <span className="divider">|</span> </p>
       <p>Terms And Conditions</p>
     </div>
   </footer>
