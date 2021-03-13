@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react"
-import moment from "moment"
-import axios from "axios"
 import TodoItem from "./todo"
 import Tabs from "./tabs"
 import Love from "../../../images/icons/love.svg"
@@ -12,39 +10,13 @@ const CompletedTodo = ({
   showBody,
   onClickArrow,
   apiBaseUrl,
-  headers,
   newData,
+  data,
+  dataInKeywords,
+  loading,
+  getCompletedTodo
 }) => {
-  const [data, setData] = useState([])
-  const [dataInKeywords, setDataInKeywords] = useState([])
-  const [loading, setLoading] = useState(false)
   const [viewByCompletedTodo, setViewByCompletedTodo] = useState(true)
-
-  const getCompletedTodo = async () => {
-    setLoading(true)
-    setData([])
-    try {
-      const response = await axios
-        .get(`${apiBaseUrl}/todo/complete`, headers)
-      // get duration last updated
-      response.data.data.forEach(s => {
-        const durationLastUpdated = moment(
-          s.updatedAt,
-          "YYYYMMDDhhmm"
-        ).fromNow()
-        if (durationLastUpdated.indexOf("hour") > 1 ||
-          durationLastUpdated.indexOf("minute") > 1) {
-          setLoading(false)
-          setDataInKeywords(response.data.groupedByKeywords) // get grouped data
-          setData(data => [...data, s])
-        }
-      })
-    }
-    catch (e) {
-      setData([])
-      setLoading(false)
-    }
-  }
 
   // componentDidMount
   useEffect(() => {

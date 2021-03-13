@@ -4,17 +4,36 @@ import Flower from "../../../images/version2/flower.jpg"
 import Version2Values from "./version2/values/version2Values"
 import "./landingPage.scss"
 import Development from "./version2/development/development"
+import RecordingIncoming from "../../../images/lp-incoming-video.svg"
+import "./whyUseLP/whyUseLP.scss"
 
 const Version2LandingPage = () => {
     return (
-        <div>
+        <div style={{ paddingTop: "4rem" }}>
             <div className="landingPage1stRow">
                 {/* first row */}
-                <center><p className="landingPage1stRow__text">
-                    Smartly Manage your<span className="landingPage1stRow__title">Activities</span>.
-                    Let’s Help you with <span className="landingPage1stRow__title">Analysis</span>{" "}
-                    and <span className="landingPage1stRow__title">Prediction</span>, and Get work <span className="landingPage1stRow__title">DONE</span>
-                </p></center>
+                <center>
+                    <p className="landingPage1stRow__text">
+                        Smartly Manage your
+                        <span className="landingPage1stRow__title">Activities</span>. 
+                        Let’s Help you with{" "}
+                        <span className="landingPage1stRow__title">Analysis</span> and{" "}
+                        <span className="landingPage1stRow__title">Prediction</span>, 
+                        and Get work 
+                        <span className="landingPage1stRow__title">DONE</span>
+                    </p>
+                    <p className="landingPage1stRow__subtext">
+                        LP is a free tool to help users track their daily activities with
+                        self clinic and auto-generated analytics. Predictive analysis is in
+                        development.
+                    </p>
+                    <button className="landingPage1stRow__button">GET STARTED</button>
+                </center>
+            </div>
+
+            {/* image */}
+            <div>
+                <center><img className="imageRecording" src={RecordingIncoming} alt="recorded video" /></center>
             </div>
 
             <Version2Header
