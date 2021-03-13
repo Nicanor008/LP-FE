@@ -3,80 +3,106 @@ import "./landingPage.scss"
 import WriteIcon from "../../../images/icons/write.svg"
 import ManageIcon from "../../../images/icons/manage.svg"
 import AnalyticsIcon from "../../../images/icons/analytics.svg"
+import FlowerIcon from "../../../images/icons/flower.jpg"
+import RecordingIncoming from "../../../images/lp-incoming-video.svg"
 import CardsTodo from "./card"
+import "./whyUseLP/whyUseLP.scss"
 
 const Version2LandingPage = () => {
-    return (
-        <div>
-            <div className="landingPage1stRow">
-                {/* first row */}
-                <center><p className="landingPage1stRow__text">
-                    Smartly Manage your<span className="landingPage1stRow__title">Activities</span>.
-                    Let’s Help you with <span className="landingPage1stRow__title">Analysis</span>{" "}
-                    and <span className="landingPage1stRow__title">Prediction</span>, and Get work <span className="landingPage1stRow__title">DONE</span>
-                </p></center>
-            </div>
+  return (
+    <div style={{ paddingTop: "4rem" }}>
+      <div className="landingPage1stRow">
+        {/* first row */}
+        <center>
+          <p className="landingPage1stRow__text">
+            Smartly Manage your
+            <span className="landingPage1stRow__title">Activities</span>. Let’s
+            Help you with{" "}
+            <span className="landingPage1stRow__title">Analysis</span> and{" "}
+            <span className="landingPage1stRow__title">Prediction</span>, and
+            Get work <span className="landingPage1stRow__title">DONE</span>
+          </p>
+          <p className="landingPage1stRow__subtext">
+            LP is a free tool to help users track their daily activities with
+            self clinic and auto-generated analytics. Predictive analysis is in
+            development.
+          </p>
+          <button className="landingPage1stRow__button">GET STARTED</button>
+        </center>
+      </div>
 
-            {/* second row and third Row */}
-            <div className="container thirdRow">
-                <div className="cardsWrapper">
-                    <CardsTodo
-                        image={WriteIcon}
-                        imageAlt="Write Todo"
-                        title="Create a Todo List"
-                        description="Write Your daily/weekly/monthly todo items on your own controlled
+      {/* image */}
+      <div>
+          <center><img className="imageRecording" src={RecordingIncoming} alt="recorded video" /></center>
+      </div>
+
+      {/* why use Learning PAttern */}
+      <div className="whyUseLP">
+          <div className="whyUseLPHeader">
+            <img src={FlowerIcon} alt="flower" />
+          </div>
+      </div>
+
+      {/* second row and third Row */}
+      <div className="container thirdRow">
+        <div className="cardsWrapper">
+          <CardsTodo
+            image={WriteIcon}
+            imageAlt="Write Todo"
+            title="Create a Todo List"
+            description="Write Your daily/weekly/monthly todo items on your own controlled
               environment"
-                    />
-                    <CardsTodo
-                        image={ManageIcon}
-                        imageAlt="Manage Todo List"
-                        title="Manage"
-                        description="Manage your todo items over time. Mark as complete/incomplete, add 
+          />
+          <CardsTodo
+            image={ManageIcon}
+            imageAlt="Manage Todo List"
+            title="Manage"
+            description="Manage your todo items over time. Mark as complete/incomplete, add 
                 comments, set reminders, etc"
-                    />
-                    <CardsTodo
-                        image={AnalyticsIcon}
-                        imageAlt="Analytics"
-                        title="Analytics"
-                        description="Get in-depth analytics for all your todo items. Track your progress, 
+          />
+          <CardsTodo
+            image={AnalyticsIcon}
+            imageAlt="Analytics"
+            title="Analytics"
+            description="Get in-depth analytics for all your todo items. Track your progress, 
                 get suggestions on your data."
-                    />
-                </div>
+          />
+        </div>
 
-                <div className="thirdSecondRow">
-                    <center>
-                        <h2 className="cardTitle whyUseLPTitle">Why Use LP</h2>
-                    </center>
+        <div className="thirdSecondRow">
+          <center>
+            <h2 className="cardTitle whyUseLPTitle">Why Use LP</h2>
+          </center>
 
-                    <div className="whyUseLPWrapper">
-                        <div className="videoPlayer">
-                            <br />
-                            <br />
-                            <br />
-                            <br />
-                            <br />
-                            <br />
+          <div className="whyUseLPWrapper">
+            <div className="videoPlayer">
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
               LP Video Tutorial
             </div>
 
-                        <div className="whyUseLPDescription">
-                            <ul>
-                                <li>Complete control of your environment</li>
-                                <li>Automated reminders</li>
-                                <li>Real-time based analytics</li>
-                                <li>Share your success/outputs</li>
-                                <li>Manage your history</li>
-                                <li>Weekly autogenerated summary</li>
-                                <li>Collaborate with your team(teams todo)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <br />
+            <div className="whyUseLPDescription">
+              <ul>
+                <li>Complete control of your environment</li>
+                <li>Automated reminders</li>
+                <li>Real-time based analytics</li>
+                <li>Share your success/outputs</li>
+                <li>Manage your history</li>
+                <li>Weekly autogenerated summary</li>
+                <li>Collaborate with your team(teams todo)</li>
+              </ul>
             </div>
+          </div>
         </div>
-    )
+        <br />
+        <br />
+      </div>
+    </div>
+  )
 }
 
 export default Version2LandingPage

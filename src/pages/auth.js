@@ -142,7 +142,7 @@ const Login = () => {
       ) : (
         <Layout height={height && height - 15}>
           <SEO title="Sign In|Up" description="Sign in or sign up to LP" />
-          <main style={{ paddingTop: '8rem' }}>
+          <main style={{ paddingTop: '9.2rem' }}>
             <div className="loginContainer" id="container">
             {/* sign in */}
             <div className="form-container sign-in-container">
