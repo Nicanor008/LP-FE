@@ -9,7 +9,7 @@ import CardsTodo from "./card"
 
 const LandingPage = () => {
   return (
-    <div style={{ paddingTop: '4rem' }}>
+    <div style={{ paddingTop: '4srem' }}>
       <div className="landingPage1stRow">
         {/* first row */}
         <div className="imageWrapper container">
