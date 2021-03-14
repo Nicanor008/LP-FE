@@ -11,9 +11,11 @@ const Development = () => {
                 <ol>
                     <li>Analytics Enhancements</li>
                     <li>Predict your todo activities</li>
+                    <li>Goals Module</li>
                     <li>Team access and collaboration on the same activities</li>
                     <li>Organisation access</li>
                     <li>Payment module</li>
+                    <li>LP Enhancements - minor & major system improvements</li>
                 </ol>
                 <img className="featuredImage" src={Features} alt="features" />
             </div>

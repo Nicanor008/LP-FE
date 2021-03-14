@@ -6,6 +6,7 @@ import "./landingPage.scss"
 import Development from "./version2/development/development"
 import RecordingIncoming from "../../../images/lp-incoming-video.svg"
 import "./whyUseLP/whyUseLP.scss"
+import Feedback from "./version2/feedback/feedback"
 
 const Version2LandingPage = () => {
     return (
@@ -51,6 +52,9 @@ const Version2LandingPage = () => {
             />
 
             <Development />
+
+            {/* testimonial */}
+            <Feedback />
         </div>
     )
 }

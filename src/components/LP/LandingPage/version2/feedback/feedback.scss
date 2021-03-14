@@ -1,0 +1,98 @@
+.feedbackWrapper {
+    margin: 5rem 0;
+    position: relative;
+    &__flowerImage, &__blueFlowerImage, &__dotsFullImage, &__dotsLessImage {
+        position: absolute;
+    }
+    &__flowerImage {
+        margin-left: 7%;
+    }
+    &__blueFlowerImage {
+        margin-top: 15%;
+        margin-left: 82%;
+        z-index: -100;
+    }
+    &__dotsFullImage {
+        margin-left: 7%;
+        margin-top: 12%;
+    }
+    &__dotsLessImage {
+        margin-left: 82%;
+    }
+}
+.feedback {
+    margin: 0 10rem;
+    padding: 2rem 0;
+    background: linear-gradient(208.18deg, #67C3F3 9.05%, #A3A7FE 76.74%);
+    border-radius: 24px;
+    color: white;
+    &__title {
+        font-style: normal;
+        font-size: 36px;
+        padding-top: 18px;
+        font-family: 'Nunito';
+        hr {
+            width: 6%;
+            color: white;
+            height: 3px;
+            background: white;
+        }
+    }
+    &__content {
+        display: flex;
+        justify-content: space-around;
+        align-self: center;
+        &-user {
+            display: flex;
+            align-self: center;
+        }
+        .feeback__content-userDetails {
+            align-self: center;
+            padding-left: 1rem;
+            p {
+                margin-block-end: 0;
+                margin-block-start: 0;
+                margin-bottom: 0;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 22px;
+                font-family: 'Nunito';
+            }
+        }
+        &-testimonial {
+            align-self: center;
+            width: 60%;
+            font-style: normal;
+            font-family: 'Nunito';
+            font-weight: normal;
+            font-size: 22px;
+        }
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .feedbackWrapper {
+        margin: 2rem 0;
+    }
+    .feedback {
+        margin: 0 4rem;
+    }
+}
+@media only screen and (max-width: 568px) {
+    .feedback {
+        margin: 0 1rem;
+        &__content {
+            display: inline;
+            &-user {
+                padding-left: 1rem;
+            }
+            &-testimonial {
+                width: 98%;
+                padding: 0 1rem;
+            }
+        }
+    }
+    .feedbackWrapper__blueFlowerImage {
+        display: none;
+    }
+}
