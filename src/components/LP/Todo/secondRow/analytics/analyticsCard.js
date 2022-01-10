@@ -35,8 +35,8 @@ function AnalyticsCard(props) {
                       <h1>{analytics.totalItems} Total Tasks</h1>
                     </center>
                   </div>
-                  {(analytics.todo.totalTodo > 0 ||
-                    analytics.todo.todoActive > 0) && (
+                  {(props?.ongoingData?.length > 0 ||
+                    props?.completedData?.length > 0) && (
                     <hr className="tabHeaderHR" />
                   )}
 
