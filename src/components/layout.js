@@ -5,11 +5,11 @@ import "./layout.css"
 import Header from "./common/nav/header"
 import Footer from "./common/nav/footer"
 
-const Layout = ({ height, children }) => {
+const Layout = ({ height, children, isDashboard }) => {
 
   return (
     <div>
-        <Header />
+        <Header isDashboard={isDashboard} />
         <main style={{ height }}>{children}</main>
         <Footer />
     </div>

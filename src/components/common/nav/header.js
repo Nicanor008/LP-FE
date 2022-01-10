@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react"
 import "./header.scss"
 import "../styles/_common.scss"
 import Logo from "../../../images/logo2.svg"
+import DashboardLogo from "../../../images/dashboard-logo.svg"
 import Menu from "../../../images/icons/menu.svg"
 import { Loader } from "../loader"
 
-const Header = () => {
+const Header = ({ isDashboard }) => {
   const [token, setToken] = useState("")
   const [loading, setLoading] = useState(false)
   useEffect(() => {
@@ -37,12 +38,26 @@ const Header = () => {
       x.className = "myTopNav"
     }
   }
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+      const position = window.pageYOffset;
+      setScrollPosition(position);
+  };
+
+  useEffect(() => {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      return () => {
+          window.removeEventListener('scroll', handleScroll);
+      };
+  }, []);
   
   return (
     <header className="navHeader">
       <div className="container navMenuWrapper navWrapper">
         <Link to="/">
-          <img src={Logo} alt="logo" className="logo" />
+          <img src={isDashboard || scrollPosition > 224 ? DashboardLogo : Logo} alt="logo" className="logo" />
         </Link>
         <div className="menu" id="meTest">
           {loading ? (
