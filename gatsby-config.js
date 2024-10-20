@@ -8,8 +8,8 @@ module.exports = {
     description: `Learning Pattern is an advanced todo with auto generated analytics.`,
     keywords: `LP, learning pattern, Learning-pattern, todo, todo-list, automated-todo, Nicanor Korir, todo analytics, todo time tracking, todo productivity, productivity, productivity tools, Nicanor Project, real time todo`,
     author: `Nicanor Korir`,
-    apiURL: "https://lp-be-1.onrender.com",
-    // apiURL: process.env.LP_PROD_API,
+    // apiURL: "http://localhost:4001",
+    apiURL: process.env.LP_PROD_API,
     weatherApiKey: process.env.WEATHER_API_KEY,
   },
   plugins: [

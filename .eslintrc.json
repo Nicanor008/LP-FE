@@ -1,0 +1,7 @@
+{
+    "rules": {
+      "react/jsx-pascal-case": "off",
+      "jsx-a11y/label-has-associated-control": "off"
+    }
+  }
+  

@@ -39,29 +39,42 @@ function DateWeather(props) {
   useEffect(() => {
     setState({ ...data, loading: true })
 
-    axios.get("https://json.geoiplookup.io/").then(async ip => {
-      const response = await axios.get(
-        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
-      )
-      const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
-      return setState({
-        ...data,
-        currentWeatherData: response.data.current,
-        loading: false,
-        ipAddress: ip.data.ip,
-        username: currentUser.data.data.name,
-        userLocation: {
+    try {
+      axios.get("https://json.geoiplookup.io/").then(async ip => {
+        const response = await axios.get(
+          `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
+        )
+        const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
+        return setState({
+          ...data,
+          currentWeatherData: response.data.current,
+          loading: false,
           ipAddress: ip.data.ip,
-          latitude: ip.data.latitude,
-          longitude: ip.data.longitude,
-          city: ip.data.city,
-          country_name: ip.data.country_name,
-          country_code: ip.data.country_code,
-          continent_name: ip.data.continent_name,
-          continent_code: ip.data.continent_code,
-        },
+          username: currentUser.data.data.name,
+          userLocation: {
+            ipAddress: ip.data.ip,
+            latitude: ip.data.latitude,
+            longitude: ip.data.longitude,
+            city: ip.data.city,
+            country_name: ip.data.country_name,
+            country_code: ip.data.country_code,
+            continent_name: ip.data.continent_name,
+            continent_code: ip.data.continent_code,
+          },
+        })
       })
-    })
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status code out of 2xx range
+        console.error('Error Response:', error.response.status, error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Error Request:', error.request);
+      } else {
+        // Something else happened
+        console.error('Error Message:', error.message);
+      }
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

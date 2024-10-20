@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import jwt from "jsonwebtoken"
+import { jwtDecode } from "jwt-decode"
 import moment from "moment"
 import axios from "axios"
 import SEO from "../components/seo"
@@ -110,7 +110,7 @@ const CreateTodo = () => {
   useEffect(() => {
     setLoading(true)
     const token = localStorage.getItem("token")
-    const activeToken = token && jwt.decode(token.substr(7))
+    const activeToken = token && jwtDecode(token.substr(7))
 
     if (!token) {
       return navigate("/auth")
@@ -317,6 +317,7 @@ const CreateTodo = () => {
         </div>
       ) : (
           <Layout isDashboard={true}>
+            {/* eslint-disable-next-line react/jsx-pascal-case */}
             <SEO
               title="Todo"
               description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 

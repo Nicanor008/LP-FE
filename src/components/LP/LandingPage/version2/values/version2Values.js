@@ -10,7 +10,7 @@ import Value from './value'
 const Version2Values = ({ img, title, tag }) => {
     return (
         <div className="version2values">
-            <img className="version2values__image" src={LPCycle} />
+            <img className="version2values__image" src={LPCycle}  alt="values" />
             <div style={{ alignSelf: 'center' }}>
                 <div className="version2values__wrapper">
                     <Value

@@ -13,39 +13,65 @@ function Quote() {
 
   useEffect(() => {
     setState({ ...data, loading: true })
-    axios.get("https://type.fit/api/quotes").then(res => {
-      const quotes = res.data
-      const item = quotes[Math.floor(Math.random() * quotes.length)]
-      const minimizedActiveQuote =
-        item.text.length > 60
-          ? item.text.substr(0, 50).concat(" ...")
-          : item.text.substr(0, 50)
-      return setState({
-        ...data,
-        loading: false,
-        minimizedActiveQuote: minimizedActiveQuote,
-        dailyQuote: item,
+    try {
+      axios.get("https://type.fit/api/quotes").then(res => {
+        const quotes = res.data
+        const item = quotes[Math.floor(Math.random() * quotes.length)]
+        const minimizedActiveQuote =
+          item.text.length > 60
+            ? item.text.substr(0, 50).concat(" ...")
+            : item.text.substr(0, 50)
+        return setState({
+          ...data,
+          loading: false,
+          minimizedActiveQuote: minimizedActiveQuote,
+          dailyQuote: item,
+        })
       })
-    })
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status code out of 2xx range
+        console.error('Error Response:', error.response.status, error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Error Request:', error.request);
+      } else {
+        // Something else happened
+        console.error('Error Message:', error.message);
+      }
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const randomizeQuotes = () => {
-    setState({ ...data, loading: true })
-    axios.get("https://type.fit/api/quotes").then(res => {
-      const quotes = res.data
-      const item = quotes[Math.floor(Math.random() * quotes.length)]
-      const minimizedActiveQuote =
-        item.text.length > 60
-          ? item.text.substr(0, 50).concat(" ...")
-          : item.text.substr(0, 50)
-      return setState({
-        ...data,
-        loading: false,
-        minimizedActiveQuote: minimizedActiveQuote,
-        dailyQuote: item,
+    try {
+      setState({ ...data, loading: true })
+      axios.get("https://type.fit/api/quotes").then(res => {
+        const quotes = res.data
+        const item = quotes[Math.floor(Math.random() * quotes.length)]
+        const minimizedActiveQuote =
+          item.text.length > 60
+            ? item.text.substr(0, 50).concat(" ...")
+            : item.text.substr(0, 50)
+        return setState({
+          ...data,
+          loading: false,
+          minimizedActiveQuote: minimizedActiveQuote,
+          dailyQuote: item,
+        })
       })
-    })
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status code out of 2xx range
+        console.error('Error Response:', error.response.status, error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Error Request:', error.request);
+      } else {
+        // Something else happened
+        console.error('Error Message:', error.message);
+      }
+    }
   }
 
   return (
