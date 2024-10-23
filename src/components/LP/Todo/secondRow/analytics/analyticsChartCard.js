@@ -1,10 +1,11 @@
 import React from "react"
 import { Chart } from "react-google-charts"
+import { Box } from "@chakra-ui/react"
 import { Loader } from "../../../../common/loader"
 
 function AnalyticsChartCard(props) {
   return (
-    <div>
+    <Box>
       {props.completedTodo.length ? (
         <Chart
           width={"350px"}
@@ -16,13 +17,14 @@ function AnalyticsChartCard(props) {
             ["Done", props.completedTodo.length],
             ["Ongoing", props.ongoingTodo.length]
           ]}
-          options={{
-            title: "Daily Statistics",
-          }}
-          rootProps={{ "data-testid": "1" }}
+          // options={{
+          //   title: "Daily Statistics",
+          // }}
+          zIndex={0}
+          rootProps={{ "lp-analytics": "1" }}
         />
       ): null}
-    </div>
+    </Box>
   )
 }
 

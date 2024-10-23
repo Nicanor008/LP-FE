@@ -323,7 +323,7 @@ const CreateTodo = () => {
               description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
               real-time todo analytics"
             />
-            <div className="allTodoWrapper" style={{ minHeight: '700px', paddingTop: '4rem' }}>
+            <div className="allTodoWrapper" style={{ minHeight: '90vh', paddingTop: '4rem' }}>
               <div className="createTodoWrapper">
                 <br />
                 <div className="FirstRowCreateTodo">

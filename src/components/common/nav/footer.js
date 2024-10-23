@@ -1,23 +1,24 @@
 import { Link } from "gatsby"
 import React from "react"
+import { Box, Divider, Image } from "@chakra-ui/react"
 import "./header.scss"
 import "../styles/_common.scss"
 import LP from "../../../images/LP.svg"
 import "./footer.scss"
 
 const Footer = () => (
-  <footer className="footer">
-  <hr className="footerHr"/>
-    <div className="container navMenuWrapper footerDetails">
+  <Box className="footer" bg="#ccceff" position="relative">
+    <Divider color="red" bg="blue" />
+    <Box className="container navMenuWrapper footerDetails">
       <Link to="/">
-        <img src={LP} alt="logo" />
+        <Image src={LP} alt="logo" />
       </Link>
       &nbsp;
-      <p>&copy;2021 <span className="divider">|</span> </p>
+      <p>&copy;{new Date().getFullYear()} <span className="divider">|</span> </p>
       <p>Privacy <span className="divider">|</span> </p>
       <p>Terms And Conditions</p>
-    </div>
-  </footer>
+    </Box>
+  </Box>
 )
 
 export default Footer

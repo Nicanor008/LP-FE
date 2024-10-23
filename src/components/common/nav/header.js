@@ -1,5 +1,6 @@
 import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
+import { Box } from "@chakra-ui/react"
 import "./header.scss"
 import "../styles/_common.scss"
 import Logo from "../../../images/logo2.svg"
@@ -55,7 +56,7 @@ const Header = ({ isDashboard }) => {
   
   return (
     <header className="navHeader">
-      <div className="container navMenuWrapper navWrapper">
+      <Box className="container navMenuWrapper navWrapper" pb="0.5rem">
         <Link to="/">
           <img src={isDashboard || scrollPosition > 224 ? DashboardLogo : Logo} alt="logo" className="logo" />
         </Link>
@@ -65,6 +66,8 @@ const Header = ({ isDashboard }) => {
           ) : token ? (
             <div className="myTopNav" id="myTopNav">
               <Link to="/todo">Todo</Link>
+              <Link to="#">Notes</Link>
+              <Link to="#">FutureMe</Link>{" "}
               <button onClick={logoutHandler}>Log out</button>
               <button className="icon" onClick={responsiveMenu}>
                 <img src={Menu} alt="menu" />
@@ -76,7 +79,7 @@ const Header = ({ isDashboard }) => {
             </Link>
           )}
         </div>
-      </div>
+      </Box>
     </header>
   )
 }

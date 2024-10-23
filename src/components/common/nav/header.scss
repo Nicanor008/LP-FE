@@ -40,6 +40,9 @@ $titleFont: "Caveat";
 }
 .myTopNav {
   overflow: hidden;
+  a {
+    padding-left: 1rem;
+  }
   .icon {
     display: none;
   }
