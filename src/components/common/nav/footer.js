@@ -7,7 +7,7 @@ import LP from "../../../images/LP.svg"
 import "./footer.scss"
 
 const Footer = () => (
-  <Box className="footer" bg="#ccceff" position="relative">
+  <Box className="footer" bg="#ccceff" w="100vw" position="fixed">
     <Divider color="red" bg="blue" />
     <Box className="container navMenuWrapper footerDetails">
       <Link to="/">
