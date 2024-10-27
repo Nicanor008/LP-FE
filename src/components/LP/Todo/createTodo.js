@@ -3,22 +3,22 @@ import Input from "../../common/inputs/input"
 import Button from "../../common/buttons/button"
 import Plus from "../../../images/icons/plus.svg"
 
-const CreateTodoInputs = props => {
+const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) => {
   return (
     <div>
       <Input
         type="text"
         placeholder="Keyword"
         name="tags"
-        value={props.form.tags}
-        onchange={props.onInputChange}
+        value={form.tags}
+        onchange={onInputChange}
       />
       <Input
         type="text"
         placeholder="Todo Item"
         name="name"
-        value={props.form.name}
-        onchange={props.onInputChange}
+        value={form.name}
+        onchange={onInputChange}
       />
 
       {/* time details */}
@@ -31,8 +31,8 @@ const CreateTodoInputs = props => {
               id="startTime"
               labelClassName="startTime"
               labelName="Start Time"
-              value={props.form.startTime}
-              onchange={props.onInputChange}
+              value={form.startTime}
+              onchange={onInputChange}
             />
           </div>
           &nbsp;
@@ -43,19 +43,19 @@ const CreateTodoInputs = props => {
               id="endTime"
               labelClassName="endTime"
               labelName="End Time"
-              value={props.form.endTime}
-              onchange={props.onInputChange}
+              value={form.endTime}
+              onchange={onInputChange}
             />
           </div>
           &nbsp;&nbsp;
         </div>
         <div>
-          {props.form.duration !== "" && (
+          {form.duration !== "" && (
             <>
               <span>Duration</span>
               <br />
               <p style={{ paddingTop: "0.8rem" }} id="duration">
-                {props.form.duration}
+                {form.duration}
               </p>
             </>
           )}
@@ -69,8 +69,9 @@ const CreateTodoInputs = props => {
       <Button
         name="Add Todo"
         classButtonName="button"
-        onclick={props.onClickAddTodoButton}
+        onclick={onClickAddTodoButton}
         icon={Plus}
+        loading={loading}
       />
       <br />
     </div>

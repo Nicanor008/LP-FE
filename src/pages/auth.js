@@ -7,6 +7,8 @@ import { server } from "../utils/baseUrl"
 import { navigate, useStaticQuery, graphql } from "gatsby"
 import { Loader } from "../components/common/loader"
 import SEO from "../components/seo"
+import { Box, Button } from "@chakra-ui/react"
+import axios from "axios"
 
 // return action window dimensions
 function getWindowDimensions() {
@@ -67,6 +69,8 @@ const Login = () => {
     email: "",
     password: "",
   })
+  const [loadingSignup, setLoadingSignup] = useState(false)
+  const [loadingSignin, setLoadingSignin] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -85,43 +89,69 @@ const Login = () => {
     })
   }
 
+  useEffect(() => {
+    console.log('Loading Signin State:', loadingSignin);
+  }, [loadingSignin]);
+  
+
   // submit/create user account
-  const CreateAccount = () => {
-    if (form.name === "" || form.email === "" || form.password === "") {
-      alert("All fields are required*")
-    } else if (!validateEmail(form.email)) {
-      alert("Invalid Email, should be as myname@example.com")
-    } else {
-      server
-        .post(`${apiBaseUrl}/auth/register`, form)
-        .then(function (response) {
-          localStorage.setItem("token", response.data.token)
-          navigate("/todo")
-        })
-        .catch(function (error) {
-          alert(error.response.data.message)
-        })
+  const CreateAccount = async () => {
+    setLoadingSignup(true)
+    try {
+      if (form.name === "" || form.email === "" || form.password === "") {
+        alert("All fields are required*")
+        setLoadingSignup(false)
+        return;
+      } else if (!validateEmail(form.email)) {
+        alert("Invalid Email, should be as myname@example.com")
+        setLoadingSignup(false)
+        return;
+      } else {
+        await server
+          .post(`${apiBaseUrl}/auth/register`, form)
+          .then(function (response) {
+            localStorage.setItem("token", response.data.token)
+            navigate("/todo")
+            setLoadingSignup(false)
+          })
+          .catch(function (error) {
+            alert(error?.response?.data?.message)
+            setLoadingSignup(false)
+            return;
+          })
+      }
+    } catch (error) {
+      setLoadingSignup(false);
+      alert(error?.response?.data?.message || "Login failed");
     }
   }
 
   // login user
-  const LoginUserAccount = () => {
-    if (form.email === "" || form.password === "") {
-      alert("All fields are required*")
-    } else if (!validateEmail(form.email)) {
-      alert("Invalid Email, should be as myname@example.com")
-    } else {
-      server
-        .post(`${apiBaseUrl}/auth/login`, form)
-        .then(function (response) {
-          localStorage.setItem("token", response.data.token)
-          navigate("/todo")
-        })
-        .catch(function (error) {
-          alert(error.response.data.message)
-        })
+  const LoginUserAccount = async () => {
+    setLoadingSignin(true);
+    try {
+      if (form.email === "" || form.password === "") {
+        alert("All fields are required*");
+        return setLoadingSignin(false);
+      }
+  
+      if (!validateEmail(form.email)) {
+        alert("Invalid Email, should be as myname@example.com");
+        return setLoadingSignin(false);
+      }
+  
+      const response = await axios.post(`${apiBaseUrl}/auth/login`, form);
+
+      localStorage.setItem("token", response.data.token);
+
+      setLoadingSignin(false);
+      navigate("/todo");
+    } catch (error) {
+      setLoadingSignin(false);
+      alert(error?.response?.data?.message || "Login failed");
     }
-  }
+  };  
+  
 
   const onClickSignUpButton = () => {
     document.getElementById("container").classList.add("right-panel-active")
@@ -142,8 +172,8 @@ const Login = () => {
       ) : (
         <Layout height={height && height - 15}>
           <SEO title="Sign In|Up" description="Sign in or sign up to LP" />
-          <main style={{ paddingTop: '9.2rem' }}>
-            <div className="loginContainer" id="container">
+          <main style={{ paddingTop: '9.2rem', minHeight: '92vh', paddingTop: '9.5rem' }}>
+            <Box className="loginContainer" id="container" h="78vh" minH="100%">
             {/* sign in */}
             <div className="form-container sign-in-container">
               <div className="authFormWrapper">
@@ -162,7 +192,7 @@ const Login = () => {
                   value={form.password}
                   onchange={onInputChange}
                 />
-                <button onClick={LoginUserAccount}>Sign In</button>
+                <Button onClick={LoginUserAccount} bg="#796FED" color="white" isLoading={loadingSignin} loadingText="Signing In ...">Sign In</Button>
               </div>
             </div>
 
@@ -191,7 +221,7 @@ const Login = () => {
                   value={form.password}
                   onchange={onInputChange}
                 />
-                <button onClick={CreateAccount}>Sign Up</button>
+                <Button isLoading={loadingSignup} loadingText="Creating Account ..." onClick={CreateAccount} bg="#796FED" color="white">Sign Up</Button>
               </div>
             </div>
 
@@ -201,28 +231,30 @@ const Login = () => {
                 <div className="overlay-panel overlay-left">
                   <h1>Welcome Back!</h1>
                   <p>To keep connected, please login with your personal info</p>
-                  <button
-                    className="ghost"
-                    id="signIn"
+                  <Button
                     onClick={() => onClickSignInButton()}
+                    bg="transparent"
+                    borderColor="#ffffff"
+                    color="white"
                   >
                     Sign In
-                  </button>
+                  </Button>
                 </div>
                 <div className="overlay-panel overlay-right">
                   <h1>Hello, Friend!</h1>
                   <p>Enter your personal details and start journey with us</p>
-                  <button
-                    className="ghost"
-                    id="signUp"
+                  <Button
                     onClick={() => onClickSignUpButton()}
+                    bg="transparent"
+                    borderColor="#ffffff"
+                    color="white"
                   >
                     Sign Up
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
-          </div>
+          </Box>
           </main>
         </Layout>
       )}

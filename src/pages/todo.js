@@ -50,6 +50,7 @@ const CreateTodo = () => {
   const [completedData, setCompletedData] = useState([])
   const [completedDataInKeywords, setCompletedDataInKeywords] = useState([])
   const [completedLoader, setCompletedLoader] = useState(false)
+  const [createLoading, setCreateLoading] = useState(false);
 
   // ongong todo state
   const [ongoingData, setData] = useState([])
@@ -188,22 +189,31 @@ const CreateTodo = () => {
   // submit todo
   const onClickAddTodoButton = e => {
     e.preventDefault()
-    axios
-      .post(`${apiBaseUrl}/todo`, form)
-      .then(function (response) {
-        setState({
-          ...form,
-          category: "",
-          tags: "",
-          name: "",
-          startTime: "",
-          endTime: "",
-          newDataAdded: !form.newDataAdded,
+    setCreateLoading(true)
+
+    try {
+      axios
+        .post(`${apiBaseUrl}/todo`, form)
+        .then(function (response) {
+          setState({
+            ...form,
+            category: "",
+            tags: "",
+            name: "",
+            startTime: "",
+            endTime: "",
+            newDataAdded: !form.newDataAdded,
+          })
+          setCreateLoading(false)
         })
-      })
-      .catch(function (error) {
-        alert(error.response.data.message)
-      })
+        .catch(function (error) {
+          alert(error?.response?.data?.message)
+          setCreateLoading(false)
+        })
+    } catch (e) {
+      alert(e?.response?.data?.message)
+      setCreateLoading(false)
+    }
   }
 
   // close create todo body
@@ -308,104 +318,103 @@ const CreateTodo = () => {
   }
 
   return (
-    <div style={{ minHeight: '700px' }}>
-      {loading ? (
-        <div style={{ marginTop: "20%" }}>
-          <center>
-            <Loader />
-          </center>
-        </div>
-      ) : (
-          <Layout isDashboard={true}>
-            {/* eslint-disable-next-line react/jsx-pascal-case */}
-            <SEO
-              title="Todo"
-              description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
-              real-time todo analytics"
-            />
-            <div className="allTodoWrapper" style={{ minHeight: '91.5vh', paddingTop: '4rem' }}>
-              <div className="createTodoWrapper">
-                <br />
-                <div className="FirstRowCreateTodo">
-                  {/* create todo */}
-                  <Tabs
-                    todoTitleIcon={WriteSmall}
-                    title="Write Todo"
-                    showBody={
-                      form.showCreateTodo === undefined
-                        ? true
-                        : form.showCreateTodo
-                    }
-                    onClickArrow={onClickArrowOnCreateTodo}
-                  >
-                    <CreateTodoInputs
-                      onClickAddTodoButton={onClickAddTodoButton}
-                      form={form}
-                      onInputChange={onInputChange}
-                    />
-                  </Tabs>
-                </div>
-
-                <br />
-                <br />
-
-                {/* ongoing todo */}
-                <div className="secondRowTodo">
-                  <OngoingTodo
-                    newData={form.newDataAdded}
-                    deleteTodoItem={deleteTodoItem}
-                    editTodoItem={editTodoItem}
-                    showBody={
-                      form.showOngoingTodo === undefined
-                        ? true
-                        : form.showOngoingTodo
-                    }
-                    onClickArrow={onClickArrowOngoingTodo}
-                    headers={headers}
-                    apiBaseUrl={apiBaseUrl}
-                    getOngoingTodo={getOngoingTodo}
-                    dataInKeywords={ongoingDataInKeywords}
-                    data={ongoingData}
-                    loading={ongoingoader}
+    loading ? (
+      <div style={{ marginTop: "20%" }}>
+        <center>
+          <Loader />
+        </center>
+      </div>
+    ) : (
+        <Layout isDashboard={true}>
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
+          <SEO
+            title="Todo"
+            description="Create Todo, view ongoing todo, view completed todo, real time date, time and weather, random quotes and automatic 
+            real-time todo analytics"
+          />
+          <div className="allTodoWrapper" style={{ minHeight: '92vh', paddingTop: '4rem' }}>
+            <div className="createTodoWrapper">
+              <br />
+              <div className="FirstRowCreateTodo">
+                {/* create todo */}
+                <Tabs
+                  todoTitleIcon={WriteSmall}
+                  title="Write Todo"
+                  showBody={
+                    form.showCreateTodo === undefined
+                      ? true
+                      : form.showCreateTodo
+                  }
+                  onClickArrow={onClickArrowOnCreateTodo}
+                >
+                  <CreateTodoInputs
+                    onClickAddTodoButton={onClickAddTodoButton}
+                    form={form}
+                    onInputChange={onInputChange}
+                    loading={createLoading}
                   />
-                </div>
-
-                {/* completed todo */}
-                <div className="thirdRowTodo">
-                  <CompletedTodo
-                    newData={form.newCompletedData}
-                    deleteTodoItem={deleteTodoItem}
-                    editTodoItem={editTodoItem}
-                    showBody={
-                      form.showCompletedTodo === undefined
-                        ? true
-                        : form.showCompletedTodo
-                    }
-                    onClickArrow={onClickArrowOnCompletedTodo}
-                    loader={loading}
-                    apiBaseUrl={apiBaseUrl}
-                    data={completedData}
-                    dataInKeywords={completedDataInKeywords}
-                    loading={completedLoader}
-                    getCompletedTodo={getCompletedTodo}
-                  />
-                </div>
+                </Tabs>
               </div>
 
-              {/* second row */}
-              <div className="secondTodoColumn">
-                <SecondRowTodo
-                  apiBaseUrl={apiBaseUrl}
-                  ongoingData={ongoingData}
-                  completedData={completedData}
+              <br />
+              <br />
+
+              {/* ongoing todo */}
+              <div className="secondRowTodo">
+                <OngoingTodo
+                  newData={form.newDataAdded}
+                  deleteTodoItem={deleteTodoItem}
+                  editTodoItem={editTodoItem}
+                  showBody={
+                    form.showOngoingTodo === undefined
+                      ? true
+                      : form.showOngoingTodo
+                  }
+                  onClickArrow={onClickArrowOngoingTodo}
                   headers={headers}
+                  apiBaseUrl={apiBaseUrl}
+                  getOngoingTodo={getOngoingTodo}
+                  dataInKeywords={ongoingDataInKeywords}
+                  data={ongoingData}
+                  loading={ongoingoader}
+                />
+              </div>
+
+              {/* completed todo */}
+              <div className="thirdRowTodo">
+                <CompletedTodo
+                  newData={form.newCompletedData}
+                  deleteTodoItem={deleteTodoItem}
+                  editTodoItem={editTodoItem}
+                  showBody={
+                    form.showCompletedTodo === undefined
+                      ? true
+                      : form.showCompletedTodo
+                  }
+                  onClickArrow={onClickArrowOnCompletedTodo}
+                  loader={loading}
+                  apiBaseUrl={apiBaseUrl}
+                  data={completedData}
+                  dataInKeywords={completedDataInKeywords}
+                  loading={completedLoader}
+                  getCompletedTodo={getCompletedTodo}
                 />
               </div>
             </div>
-            <div id="snackbar"></div>
-          </Layout>
-        )}
-    </div>
+
+            {/* second row */}
+            <div className="secondTodoColumn">
+              <SecondRowTodo
+                apiBaseUrl={apiBaseUrl}
+                ongoingData={ongoingData}
+                completedData={completedData}
+                headers={headers}
+              />
+            </div>
+          </div>
+          <div id="snackbar"></div>
+        </Layout>
+      )
   )
 }
 

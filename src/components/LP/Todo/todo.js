@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Flex } from "@chakra-ui/react"
 import "../../common/modal/modal.scss"
 import { server } from "../../../utils/baseUrl"
 import TodoModal from "./TodoModal"
@@ -25,7 +26,7 @@ const TodoItem = props => {
   }
   return (
     <div>
-      <div className="todo">
+      <Flex className="todo" alignItems="center">
         <CommonIcons
           data={data}
           complete={props.complete}
@@ -39,7 +40,7 @@ const TodoItem = props => {
         >
           <p className="todoItemName">{props.name}</p>
         </button>
-      </div>
+      </Flex>
 
       {/* modal */}
       {showModal && (

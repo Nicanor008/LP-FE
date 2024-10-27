@@ -65,19 +65,17 @@ const TodoItemByKeywords = props => {
         )}
 
         <ul className="GroupedTodoTextWrapper">
-        {props.data[1].map(data => (
-          <div key={data._id}>
-                <li key={data._id}>
-                  <IconsWithTodoName
-                    data={data}
-                    complete={props.complete}
-                    editTodoItem={props.editTodoItem}
-                    deleteTodoItem={props.deleteTodoItem}
-                    id={data._id}
-                  />
-                </li>
-          </div>
-        ))}
+          {props.data[1].map(data => (
+            <li key={data._id} style={{ alignItems: 'center', marginBottom: 0 }}>
+              <IconsWithTodoName
+                data={data}
+                complete={props.complete}
+                editTodoItem={props.editTodoItem}
+                deleteTodoItem={props.deleteTodoItem}
+                id={data._id}
+              />
+            </li>
+          ))}
         </ul>
       </div>
 

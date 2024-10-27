@@ -1,13 +1,14 @@
 import React from "react"
 import "./buttonCard.scss"
+import { Flex } from "@chakra-ui/react"
 
 const ButtonCard = ({ onclickSwapButton, viewByTodo }) => {
   return (
-    <div className="buttonCardWrapper">
+    <Flex alignItems="center" className="buttonCardWrapper">
       <button className="buttonCard" onClick={onclickSwapButton}>
         {!viewByTodo ? `View By Todo name` : `View By Keywords`}
       </button>
-    </div>
+    </Flex>
   )
 }
 

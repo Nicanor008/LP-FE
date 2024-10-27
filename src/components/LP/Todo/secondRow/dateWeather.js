@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react"
-import moment from "moment"
-import axios from "axios"
-import Cards from "../card"
-import Degrees from "../../../../images/icons/degree.svg"
-import { Loader } from "../../../common/loader"
-import { useStaticQuery, graphql } from "gatsby"
-import { server } from "../../../../utils/baseUrl"
+import React, { useEffect, useState } from "react";
+import moment from "moment";
+import axios from "axios";
+import Cards from "../card";
+import Degrees from "../../../../images/icons/degree.svg";
+import { Loader } from "../../../common/loader";
+import { useStaticQuery, graphql } from "gatsby";
+import { server } from "../../../../utils/baseUrl";
 
 function DateWeather(props) {
   const [data, setState] = useState({
@@ -15,73 +15,107 @@ function DateWeather(props) {
     ipAddress: "",
     username: "",
     userLocation: {},
-  })
+  });
 
-  //   get weather api secret key
   const dataKey = useStaticQuery(graphql`
     query SiteWeatherApiKeyQuery {
       site {
         siteMetadata {
           weatherApiKey
+          ipInfoAPIToken
         }
       }
     }
-  `)
+  `);
 
-  const [time, setTime] = useState(null)
+  const [time, setTime] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
 
+  // Update the current time every second
   useEffect(() => {
-    setInterval(() => {
-      setTime(moment().format("h:mm:ss a"))
-    }, 1000)
-  }, [time])
+    const timeInterval = setInterval(() => {
+      setTime(moment().format("h:mm:ss a"));
+    }, 1000);
 
+    return () => clearInterval(timeInterval); // Cleanup interval on unmount
+  }, []);
+
+  // Fetch the current user
   useEffect(() => {
-    setState({ ...data, loading: true })
-
-    try {
-      axios.get("https://json.geoiplookup.io/").then(async ip => {
-        const response = await axios.get(
-          `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ip.data.ip}`
-        )
-        const currentUser = await server.get(`${props.apiBaseUrl}/users/active`)
-        return setState({
-          ...data,
-          currentWeatherData: response.data.current,
-          loading: false,
-          ipAddress: ip.data.ip,
-          username: currentUser.data.data.name,
-          userLocation: {
-            ipAddress: ip.data.ip,
-            latitude: ip.data.latitude,
-            longitude: ip.data.longitude,
-            city: ip.data.city,
-            country_name: ip.data.country_name,
-            country_code: ip.data.country_code,
-            continent_name: ip.data.continent_name,
-            continent_code: ip.data.continent_code,
-          },
-        })
-      })
-    } catch (error) {
-      if (error.response) {
-        // Server responded with a status code out of 2xx range
-        console.error('Error Response:', error.response.status, error.response.data);
-      } else if (error.request) {
-        // Request was made but no response received
-        console.error('Error Request:', error.request);
-      } else {
-        // Something else happened
-        console.error('Error Message:', error.message);
+    async function fetchCurrentUser() {
+      try {
+        const currentUserResponse = await server.get(`${props.apiBaseUrl}/users/active`);
+        if (currentUserResponse?.data?.data) {
+          setCurrentUser(currentUserResponse.data.data);
+        }
+      } catch (error) {
+        handleError(error);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
-  //   set temp unit(F/C)
-  const tempUnit = unit => {
-    setState({ ...data, activeTempUnit: unit })
-  }
+    fetchCurrentUser();
+  }, [props.apiBaseUrl]);
+
+  // Fetch the weather data
+  const fetchWeatherData = async () => {
+    setState({ ...data, loading: true });
+
+    try {
+      const ipResponse = await axios.get(`https://ipinfo.io?token=${dataKey.site.siteMetadata.ipInfoAPIToken}`);
+      const weatherResponse = await axios.get(
+        `https://api.weatherapi.com/v1/current.json?key=${dataKey.site.siteMetadata.weatherApiKey}&q=${ipResponse.data.ip}`
+      );
+
+      if (weatherResponse?.data && ipResponse?.data) {
+        setState({
+          ...data,
+          currentWeatherData: weatherResponse.data.current,
+          loading: false,
+          ipAddress: ipResponse.data?.ip,
+          username: currentUser?.name || "",
+          userLocation: {
+            ipAddress: ipResponse.data.ip,
+            latitude: ipResponse.data.latitude,
+            longitude: ipResponse.data.longitude,
+            city: ipResponse.data.city,
+            country_name: ipResponse.data.country_name,
+            country_code: ipResponse.data.country_code,
+            continent_name: ipResponse.data.continent_name,
+            continent_code: ipResponse.data.continent_code,
+          },
+        });
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  // Call the weather fetch every 30 minutes
+  useEffect(() => {
+    // Fetch weather data immediately on component mount
+    fetchWeatherData();
+
+    // Set an interval to fetch weather every 30 minutes (30 * 60 * 1000 ms)
+    const weatherInterval = setInterval(() => {
+      fetchWeatherData();
+    }, 30 * 60 * 1000); // 30 minutes
+
+    return () => clearInterval(weatherInterval); // Cleanup interval on unmount
+  }, [currentUser, dataKey]);
+
+  const tempUnit = (unit) => {
+    setState({ ...data, activeTempUnit: unit });
+  };
+
+  const handleError = (error) => {
+    if (error.response) {
+      console.error("Error Response:", error.response?.status, error.response?.data);
+    } else if (error.request) {
+      console.error("Error Request:", error.request);
+    } else {
+      console.error("Error Message:", error.message);
+    }
+  };
 
   return (
     <div>
@@ -90,23 +124,19 @@ function DateWeather(props) {
       ) : (
         <Cards
           title={
-            "Hello, " +
-            data.username.charAt(0).toUpperCase().concat(data.username.slice(1))
+            data.username
+              ? `Hello, ${data.username.charAt(0).toUpperCase() + data.username.slice(1)}`
+              : ""
           }
           id="title"
         >
           <div className="thirdRowCardBody">
             <div>
-              {/* date & time */}
               <h2>{time}</h2>
               <p>{moment().format("dddd, MMMM Do YYYY")}</p>
             </div>
 
-            {/* weather */}
             <div className="weatherData">
-              {/* {data.loading ? (
-              <Loader />
-            ) : ( */}
               {data.currentWeatherData.length !== 0 && (
                 <>
                   <h2>
@@ -152,13 +182,12 @@ function DateWeather(props) {
                   />
                 </>
               )}
-              {/* )} */}
             </div>
           </div>
         </Cards>
       )}
     </div>
-  )
+  );
 }
 
-export default DateWeather
+export default DateWeather;

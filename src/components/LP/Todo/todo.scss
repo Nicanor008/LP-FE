@@ -14,15 +14,10 @@
   display: flex;
   justify-content: space-between;
 }
-.tabHeaderHR {
-  width: 105.49%;
-  margin-left: -1rem;
-  background-color: #c2c5ff;
-}
 .tabTitle {
   padding-left: 0.3rem;
   font-family: "Caveat" !important;
-  font-size: xx-large;
+  font-size: x-large;
   min-width: fit-content;
 }
 .tabTitleItem {
@@ -161,16 +156,6 @@
     }
   }
 }
-@media only screen and (min-width: 3567px) {
-  .tabHeaderHR {
-    width: 102%;
-  }
-}
-@media only screen and (min-width: 1567px) {
-  .tabHeaderHR {
-    width: 102.7%;
-  }
-}
 @media only screen and (max-width: 1167px) {
   .FirstRowCreateTodo {
     display: block;
@@ -178,10 +163,6 @@
   .createTodo {
     width: 93%;
     padding: 0.2rem 0.5rem;
-  }
-  .tabHeaderHR {
-    width: 102%;
-    margin-left: -0.5rem;
   }
   .tabTitle {
     font-size: xx-large;
@@ -207,10 +188,6 @@
   .createTodo {
     width: 93%;
     padding: 0.2rem 0.5rem;
-  }
-  .tabHeaderHR {
-    width: 103%;
-    margin-left: -0.5rem;
   }
   .tabTitle {
     font-size: xx-large;
@@ -248,10 +225,6 @@
   }
   .createTodo {
     width: 90% !important;
-  }
-  .tabHeaderHR {
-    width: 105%;
-    margin-left: -0.5rem;
   }
   .tabTitle {
     font-size: x-large;

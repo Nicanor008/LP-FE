@@ -8,12 +8,12 @@ function SecondRowTodo(props) {
     <div className="secondRow">
       <DateWeather apiBaseUrl={props.apiBaseUrl} />
       {/* <Quote /> */}
-      <AnalyticsCard
+      {/* <AnalyticsCard
         ongoingData={props.ongoingData}
         completedData={props.completedData}
         headers={props.headers}
         apiBaseUrl={props.apiBaseUrl}
-      />
+      /> */}
     </div>
   )
 }

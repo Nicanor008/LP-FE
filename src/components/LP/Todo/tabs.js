@@ -2,6 +2,7 @@ import React from "react"
 import ArrowUp from "../../../images/icons/Arrow-up.svg"
 import ArrowDown from "../../../images/icons/Arrow-down.svg"
 import ButtonCard from "./ButtonCard"
+import { Divider } from "@chakra-ui/react"
 
 const Tabs = ({
   todoTitleIcon,
@@ -45,7 +46,7 @@ const Tabs = ({
         </button>
       </div>
     </div>
-    {showBody && <hr className="tabHeaderHR" />}
+    {showBody && <Divider bg="#c2c5ff" borderWidth={1} />}
 
     {/* tab body */}
     <div

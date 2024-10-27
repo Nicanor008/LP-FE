@@ -31,7 +31,7 @@ function Quote() {
     } catch (error) {
       if (error.response) {
         // Server responded with a status code out of 2xx range
-        console.error('Error Response:', error.response.status, error.response.data);
+        console.error('Error Response:', error.response?.status, error.response?.data);
       } else if (error.request) {
         // Request was made but no response received
         console.error('Error Request:', error.request);
@@ -63,7 +63,7 @@ function Quote() {
     } catch (error) {
       if (error.response) {
         // Server responded with a status code out of 2xx range
-        console.error('Error Response:', error.response.status, error.response.data);
+        console.error('Error Response:', error.response?.status, error.response?.data);
       } else if (error.request) {
         // Request was made but no response received
         console.error('Error Request:', error.request);
