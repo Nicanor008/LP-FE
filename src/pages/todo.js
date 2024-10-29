@@ -7,7 +7,6 @@ import SEO from "../components/seo";
 import Layout from "../components/layout";
 import "../components/LP/Todo/todo.scss";
 import SecondRowTodo from "../components/LP/Todo/secondRowTodo";
-// import { Loader } from "../components/common";
 import { CreateTodo, InProgressAndCompletedTodo } from "../components/LP/Todo";
 import { Loader } from "../components/common";
 
@@ -88,7 +87,7 @@ const TodoDashboard = () => {
       />
       <Box
         className="allTodoWrapper"
-        style={{ minHeight: `calc(100vh - 4.5rem)`, paddingTop: "4rem" }}
+        style={{ minHeight: `calc(100vh - 9rem)`, overflow: 'scroll' }}
       >
         <Box className="createTodoWrapper">
           <CreateTodo form={form} setState={setForm} />

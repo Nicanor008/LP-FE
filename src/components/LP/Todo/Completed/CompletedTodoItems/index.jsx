@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react"
+import { Box, Text, useBreakpointValue } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Love from "../../../../../images/icons/love.svg"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
@@ -20,6 +20,7 @@ const CompletedTodoItems = ({
 }) => {
   const [viewByCompletedTodo, setViewByCompletedTodo] = useState(true)
   const apiBaseUrl = useBaseUrl()
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   // componentDidMount
   useEffect(() => {
@@ -38,48 +39,51 @@ const CompletedTodoItems = ({
         <Loader />
       ) : (
         (data.length > 0 || dataInKeywords.length > 0) && (
-          <Tabs
-            todoTitleIcon={Love}
-            title={`${
-              data.length > 1
-                ? `${data.length} Tasks Completed`
-                : `${data.length} Task Completed`
-            }`}
-            showBody={data.length > 0 && showBody}
-            onClickArrow={onClickArrow}
-            todoItemsTab="true"
-            onclickSwapButton={onClickSwapButtonCompleted}
-            viewByTodo={viewByCompletedTodo}
-          >
-            <Box className="onGoingTodoWrapper">
-              {viewByCompletedTodo
-                ? data.map(todo => (
-                    <TodoItem
-                      name={todo.name}
-                      key={Math.random()}
-                      complete={true}
-                      id={todo._id}
-                      deleteTodoItem={deleteTodoItem}
-                      editTodoItem={editTodoItem}
-                      apiBaseUrl={apiBaseUrl}
-                    />
-                  ))
-                : dataInKeywords &&
-                  dataInKeywords.map(dataKeywords => {
-                    return (
-                      <TodoItemByKeywords
-                        data={dataKeywords}
+          <>
+            {isMobile && (
+              <Text mx={3} fontWeight={700} pb={0} mb={0}>
+                {data.length} Task{data.length > 1 ? 's' : ''} Completed in 24 hours
+              </Text>
+            )}
+            <Tabs
+              todoTitleIcon={Love}
+              title={`${!isMobile ? `${data.length} Task${data.length > 1 ? 's' : ''} Completed` : ''}`}
+              showBody={data.length > 0 && showBody}
+              onClickArrow={onClickArrow}
+              todoItemsTab="true"
+              onclickSwapButton={onClickSwapButtonCompleted}
+              viewByTodo={viewByCompletedTodo}
+            >
+              <Box className="onGoingTodoWrapper">
+                {viewByCompletedTodo
+                  ? data.map(todo => (
+                      <TodoItem
+                        name={todo.name}
+                        key={Math.random()}
+                        complete={true}
+                        id={todo._id}
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
-                        key={Math.random()}
-                        completedKeywords={true}
-                        id={dataInKeywords._id}
-                        complete={true}
+                        apiBaseUrl={apiBaseUrl}
                       />
-                    )
-                  })}
-            </Box>
-          </Tabs>
+                    ))
+                  : dataInKeywords &&
+                    dataInKeywords.map(dataKeywords => {
+                      return (
+                        <TodoItemByKeywords
+                          data={dataKeywords}
+                          deleteTodoItem={deleteTodoItem}
+                          editTodoItem={editTodoItem}
+                          key={Math.random()}
+                          completedKeywords={true}
+                          id={dataInKeywords._id}
+                          complete={true}
+                        />
+                      )
+                    })}
+              </Box>
+            </Tabs>
+            </>
         )
       )}
     </Box>

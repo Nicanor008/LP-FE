@@ -10,7 +10,7 @@ import Feedback from "./version2/feedback/feedback"
 
 const Version2LandingPage = () => {
     return (
-        <div style={{ paddingTop: "4rem" }}>
+        <div>
             <div className="landingPage1stRow">
                 {/* first row */}
                 <center>

@@ -1,6 +1,6 @@
 import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
-import { Box } from "@chakra-ui/react"
+import { Box, useBreakpointValue } from "@chakra-ui/react"
 import Logo from "../../../../images/logo2.svg"
 import DashboardLogo from "../../../../images/dashboard-logo.svg"
 import Menu from "../../../../images/icons/menu.svg"
@@ -11,6 +11,8 @@ import "./header.scss"
 const Header = ({ isDashboard }) => {
   const [token, setToken] = useState("")
   const [loading, setLoading] = useState(false)
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   useEffect(() => {
     setLoading(true)
     const getToken =
@@ -66,8 +68,12 @@ const Header = ({ isDashboard }) => {
           ) : token ? (
             <div className="myTopNav" id="myTopNav">
               <Link to="/todo">Todo</Link>
-              <Link to="#">Notes</Link>
-              <Link to="#">FutureMe</Link>{" "}
+              {!isMobile && (
+                <>
+                  <Link to="#">Notes</Link>
+                  <Link to="#">FutureMe</Link>{" "}
+                </>
+              )}
               <button onClick={logoutHandler}>Log out</button>
               <button className="icon" onClick={responsiveMenu}>
                 <img src={Menu} alt="menu" />

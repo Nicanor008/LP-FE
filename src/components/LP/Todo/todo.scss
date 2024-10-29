@@ -70,7 +70,6 @@
 .allTodoWrapper {
   display: flex;
   width: 100%;
-  padding-top: 9.8rem;
   .createTodoWrapper {
     width: 50%;
     margin: 1rem 5rem;
@@ -82,7 +81,7 @@
 
     .secondRowCardWrapper,
     .quoteCardWrapper {
-      width: 100%;
+      // width: 100%;
       padding: 0.5rem 1rem;
       border-radius: 3px;
       font-family: "IBM Plex mono";
@@ -207,9 +206,6 @@
   }
 }
 @media only screen and (max-width: 467px) {
-  .allTodoWrapper {
-    padding-top: 4.3rem;
-  }
   .allTodoWrapper {
     display: block;
     .createTodoWrapper {

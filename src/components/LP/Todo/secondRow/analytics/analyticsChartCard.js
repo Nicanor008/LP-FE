@@ -5,7 +5,7 @@ import { Loader } from "../../../../common"
 
 function AnalyticsChartCard({ completedTodo, ongoingTodo }) {
   return (
-    <Box>
+    <Box zIndex={-1000}>
       {completedTodo ? (
         <Chart
           width={"350px"}
@@ -20,7 +20,7 @@ function AnalyticsChartCard({ completedTodo, ongoingTodo }) {
           // options={{
           //   title: "Daily Statistics",
           // }}
-          zIndex={0}
+          zIndex={-1000}
           rootProps={{ "lp-analytics": "1" }}
         />
       ): null}

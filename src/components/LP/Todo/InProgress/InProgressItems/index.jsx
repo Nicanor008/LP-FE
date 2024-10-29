@@ -1,10 +1,9 @@
-import { Box } from "@chakra-ui/react"
+import { Box, Text, useBreakpointValue } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Walk from "../../../../../images/icons/walk.svg"
 import TodoItem from "../../todo"
 import TodoItemByKeywords from "../../ByKeywords"
 import Tabs from "../../tabs"
-import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 import { Loader } from "../../../../common"
 
 const InProgressItems = ({
@@ -19,8 +18,8 @@ const InProgressItems = ({
   data,
   loading
 }) => {
-  const apiBaseUrl = useBaseUrl()
   const [viewByTodo, setViewByTodo] = useState(true)
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   // componentDidMount
   useEffect(() => {
@@ -40,13 +39,10 @@ const InProgressItems = ({
       ) : (
         data.length > 0 && (
           <>
+            {isMobile && <Text mx={3} fontWeight={700} pb={0} mb={0}>{data.length} Task{data.length > 1 ? 's' : ''} in Progress</Text>}
             <Tabs
               todoTitleIcon={Walk}
-              title={`${
-                data.length > 1
-                  ? `${data.length} Tasks in Progress`
-                  : `${data.length} Task in Progress`
-              }`}
+              title={`${!isMobile ? `${data.length} Task${data.length > 1 ? 's' : ''} in Progress` : ''}`}
               showBody={data.length > 0 && showBody}
               onClickArrow={onClickArrow}
               todoItemsTab="true"

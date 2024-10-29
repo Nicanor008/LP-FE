@@ -1,3 +1,4 @@
+import { Flex, useBreakpointValue } from "@chakra-ui/react"
 import React, { useState, useEffect } from "react"
 import Cards from "../../card"
 import "./analytics.scss"
@@ -9,6 +10,7 @@ import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 function AnalyticsCard() {
   const [analytics, setAnalytics] = useState({})
   const apiBaseUrl = useBaseUrl()
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   // analytics data
   useEffect(() => {
@@ -55,7 +57,7 @@ function AnalyticsCard() {
                     <hr className="tabHeaderHR" />
                   )}
 
-                  <div className="analyticsTotalItemsTitle">
+                  <Flex className="analyticsTotalItemsTitle" flexDir={["column", "row"]}>
                     {analytics?.todo?.totalUncompletedTodo > 0 && (
                       <h4>
                         {analytics?.todo?.totalUncompletedTodo} Ongoing
@@ -66,10 +68,9 @@ function AnalyticsCard() {
                         {analytics?.todo?.totalCompletedTodo} Completed
                       </h4>
                     )}
-                  </div>
+                  </Flex>
 
-                  {(analytics.todo.totalArchived > 0 ||
-                    analytics.todo.dailyArchived > 0) && (
+                  {(analytics.todo.totalArchived > 0) && (
                       <hr className="tabHeaderHR" />
                     )}
 
@@ -77,7 +78,7 @@ function AnalyticsCard() {
                     {analytics?.todo?.totalArchived > 0 && (
                       <p>{analytics?.todo?.totalArchived} Archived(total)</p>
                     )}
-                    {analytics?.todo?.dailyArchived > 0 && (
+                    {/* {analytics?.todo?.dailyArchived > 0 && (
                       <>
                         <b>|</b>
                         <p>
@@ -85,13 +86,13 @@ function AnalyticsCard() {
                           hours
                         </p>
                       </>
-                    )}
+                    )} */}
                   </div>
                 </div>
               )}
             </div>
           </Cards>
-          {analytics.totalItems > 1 && (
+          {analytics.totalItems > 1 && !isMobile && (
             <AnalyticsChartCard
               data={analytics.todo} 
               ongoingTodo={analytics?.todo?.totalUncompletedTodo} 

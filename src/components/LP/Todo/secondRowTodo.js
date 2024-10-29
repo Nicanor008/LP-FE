@@ -5,9 +5,10 @@ import DateWeather from "./secondRow/dateWeather"
 import AnalyticsCard from "./secondRow/analytics/analyticsCard"
 
 function SecondRowTodo() {
+
   return (
     <Box className="secondTodoColumn">
-      <Box className="secondRow">
+      <Box className="secondRow" minW={["100%", "34%"]} position={["relative", "fixed"]}>
         <DateWeather />
         {/* <Quote /> */}
         <AnalyticsCard />

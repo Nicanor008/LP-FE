@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import axios from "axios";
@@ -134,7 +134,7 @@ function DateWeather() {
           }
           id="title"
         >
-          <Box className="thirdRowCardBody">
+          <Flex className="thirdRowCardBody" flexDir={["column", "row"]}>
             <Box>
               <h2>{time}</h2>
               <p>{moment().format("dddd, MMMM Do YYYY")}</p>
@@ -187,7 +187,7 @@ function DateWeather() {
                 </>
               )}
             </Box>
-          </Box>
+          </Flex>
         </Cards>
       )}
     </Box>

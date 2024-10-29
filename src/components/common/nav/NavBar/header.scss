@@ -4,7 +4,7 @@ $titleFont: "Caveat";
 
 .navHeader {
   background-color: $mainBackgroundColor;
-  position: fixed;
+  // position: fixed;
   width: 100%;
 }
 .navMenuWrapper {
@@ -110,13 +110,13 @@ $titleFont: "Caveat";
     margin: 0 1rem;
   }
 }
-@media only screen and (max-width: 667px) {
-  .navMenuWrapper {
-    margin: 0 2rem;
-  }
-}
-@media only screen and (max-width: 967px) {
-  .navMenuWrapper {
-    margin: 0 4rem;
-  }
-}
+// @media only screen and (max-width: 667px) {
+//   .navMenuWrapper {
+//     margin: 0 2rem;
+//   }
+// }
+// @media only screen and (max-width: 967px) {
+//   .navMenuWrapper {
+//     margin: 0 4rem;
+//   }
+// }
