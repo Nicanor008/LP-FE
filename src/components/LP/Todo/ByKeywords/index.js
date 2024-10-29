@@ -1,16 +1,19 @@
 import React, { useState } from "react"
+import { Box } from "@chakra-ui/react"
 import moment from "moment"
-import "../../../common/modal/modal.scss"
-import "./byKeywords.scss"
 import CommonIcons from "../icons/editAndDeleteIcons"
 import TodoModal from "../TodoModal"
 import { server } from "../../../../utils/baseUrl"
+import "../../../common/modal/modal.scss"
+import "./byKeywords.scss"
+import { useBaseUrl } from "../../../../hooks/useBaseUrl"
 
 export const timeByDuration = ({ time, value }) => {
   return moment(time, "YYYYMMDDhhmm").fromNow().indexOf(value) > 1
 }
 
 const TodoItemByKeywords = props => {
+  const apiBaseUrl = useBaseUrl()
   const [dataModal, setDataModal] = useState({})
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -24,7 +27,7 @@ const TodoItemByKeywords = props => {
   const onClickViewOneItem = id => {
     setLoading(true)
     setShowModal(!showModal)
-    server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
+    server.get(`${apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)
       return setDataModal(item.data.data)
     })
@@ -51,8 +54,8 @@ const TodoItemByKeywords = props => {
   }
 
   return (
-    <div>
-      <div className="groupedTodo">
+    <Box>
+      <Box className="groupedTodo">
         {props.completedKeywords ? ( // determine the todo status
           props.data[1].map(s => {
             // get active in the last 24 hours : TODO: Optimize this code, doesn't work at the moment
@@ -77,7 +80,7 @@ const TodoItemByKeywords = props => {
             </li>
           ))}
         </ul>
-      </div>
+      </Box>
 
       {/* modal */}
       {showModal && (
@@ -92,7 +95,7 @@ const TodoItemByKeywords = props => {
           deleteTodoItem={props.deleteTodoItem}
         />
       )}
-    </div>
+    </Box>
   )
 }
 

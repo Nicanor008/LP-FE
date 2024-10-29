@@ -1,9 +1,9 @@
 import { Link } from "gatsby"
 import React from "react"
 import { Box, Divider, Image } from "@chakra-ui/react"
-import "./header.scss"
-import "../styles/_common.scss"
-import LP from "../../../images/LP.svg"
+import "../NavBar/header.scss"
+import "../../styles/_common.scss"
+import LP from "../../../../images/LP.svg"
 import "./footer.scss"
 
 const Footer = () => (

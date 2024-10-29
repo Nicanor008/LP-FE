@@ -1,12 +1,12 @@
 import React from "react"
-import { IconButton, Image } from "@chakra-ui/react"
+import { Flex, IconButton, Image } from "@chakra-ui/react"
 import CheckMark from "../../../../images/icons/checkmark.svg"
 import Reload from "../../../../images/icons/reload.svg"
 import Close from "../../../../images/icons/close.svg"
 
 const CommonIcons = props => {
   return (
-    <>
+    <Flex w="50px" minW="50px">
       <IconButton
         className="buttonUniformity"
         aria-label="edit"
@@ -23,7 +23,7 @@ const CommonIcons = props => {
         minW="16px"
         minH="16px"
       >
-        <Image src={!props.complete ? CheckMark : Reload} alt="Check todo" w="full" />
+        <Image src={!props.complete ? CheckMark : Reload} alt="Check todo" w="full" minW="fit-content" />
       </IconButton>
       <IconButton
         className="buttonUniformity"
@@ -42,9 +42,9 @@ const CommonIcons = props => {
         minW="16px"
         minH="16px"
       >
-        <Image src={Close} alt="Close" w="full" />
+        <Image src={Close} alt="Close" w="full" minW="fit-content" />
       </IconButton>
-    </>
+    </Flex>
   )
 }
 

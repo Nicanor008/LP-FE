@@ -1,20 +1,19 @@
 import React from "react"
-import Input from "../../../../common/inputs/input"
-import Button from "../../../../common/buttons/button"
 import Plus from "../../../../../images/icons/plus.svg"
 import PropTypes from "prop-types"
+import { AddTodoButton, InputWithLabel } from "../../../../common"
 
 const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) => {
   return (
     <div>
-      <Input
+      <InputWithLabel
         type="text"
         placeholder="Keyword"
         name="tags"
         value={form.tags}
         onchange={onInputChange}
       />
-      <Input
+      <InputWithLabel
         type="text"
         placeholder="Todo Item"
         name="name"
@@ -26,7 +25,7 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
       {/* <div className="timeDurationWrapper">
         <div className="timeWrapper">
           <div className="time">
-            <Input
+            <InputWithLabel
               type="time"
               name="startTime"
               id="startTime"
@@ -38,7 +37,7 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
           </div>
           &nbsp;
           <div>
-            <Input
+            <InputWithLabel
               type="time"
               name="endTime"
               id="endTime"
@@ -67,7 +66,7 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
       {/* remind me to start and end task */}
 
       {/* submit button */}
-      <Button
+      <AddTodoButton
         name="Add Todo"
         classButtonName="button"
         onclick={onClickAddTodoButton}

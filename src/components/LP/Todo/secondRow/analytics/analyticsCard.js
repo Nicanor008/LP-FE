@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Cards from "../../card"
 import "./analytics.scss"
-import { Loader } from "../../../../common/loader"
+import { Loader } from "../../../../common"
 import AnalyticsChartCard from "./analyticsChartCard"
 import { server } from "../../../../../utils/baseUrl"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
@@ -13,7 +13,7 @@ function AnalyticsCard() {
   // analytics data
   useEffect(() => {
     try {
-      server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
+      server.get(`${apiBaseUrl}/todo/analytics/todo`).then(analytics => {
         setAnalytics({
           totalItems: analytics.data.totalItems,
           todo: analytics.data.todo,

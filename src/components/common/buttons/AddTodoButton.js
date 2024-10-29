@@ -2,7 +2,7 @@ import React from "react"
 import { Button as Btn, Image } from "@chakra-ui/react"
 import "./button.scss"
 
-const Button = props => (
+const AddTodoButton = props => (
   <Btn
     className={`${props.classButtonName} btn btn-white btn-animate`}
     onClick={props.onclick}
@@ -18,4 +18,4 @@ const Button = props => (
   </Btn>
 )
 
-export default Button
+export default AddTodoButton

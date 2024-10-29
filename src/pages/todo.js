@@ -7,8 +7,9 @@ import SEO from "../components/seo";
 import Layout from "../components/layout";
 import "../components/LP/Todo/todo.scss";
 import SecondRowTodo from "../components/LP/Todo/secondRowTodo";
-import { Loader } from "../components/common/loader";
+// import { Loader } from "../components/common";
 import { CreateTodo, InProgressAndCompletedTodo } from "../components/LP/Todo";
+import { Loader } from "../components/common";
 
 const TodoDashboard = () => {
   const [loading, setLoading] = useState(true);

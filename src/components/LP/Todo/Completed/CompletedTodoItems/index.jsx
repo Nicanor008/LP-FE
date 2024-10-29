@@ -5,6 +5,7 @@ import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 import Tabs from "../../tabs"
 import TodoItem from "../../todo"
 import TodoItemByKeywords from "../../ByKeywords"
+import { Loader } from "../../../../common"
 
 const CompletedTodoItems = ({
   deleteTodoItem,
@@ -34,7 +35,7 @@ const CompletedTodoItems = ({
   return (
     <Box>
       {loading ? (
-        <span></span>
+        <Loader />
       ) : (
         (data.length > 0 || dataInKeywords.length > 0) && (
           <Tabs
@@ -74,7 +75,6 @@ const CompletedTodoItems = ({
                         completedKeywords={true}
                         id={dataInKeywords._id}
                         complete={true}
-                        apiBaseUrl={apiBaseUrl}
                       />
                     )
                   })}

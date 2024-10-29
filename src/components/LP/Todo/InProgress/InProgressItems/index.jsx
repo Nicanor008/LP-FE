@@ -4,8 +4,8 @@ import Walk from "../../../../../images/icons/walk.svg"
 import TodoItem from "../../todo"
 import TodoItemByKeywords from "../../ByKeywords"
 import Tabs from "../../tabs"
-import { Loader } from "../../../../common/loader"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
+import { Loader } from "../../../../common"
 
 const InProgressItems = ({
   newData,
@@ -63,7 +63,6 @@ const InProgressItems = ({
                         id={todo._id}
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
-                        apiBaseUrl={apiBaseUrl}
                       />
                     ))
                   : dataInKeywords &&
@@ -76,7 +75,6 @@ const InProgressItems = ({
                           key={Math.random()}
                           id={dataInKeywords._id}
                           complete={false}
-                          apiBaseUrl={apiBaseUrl}
                         />
                       )
                     })}

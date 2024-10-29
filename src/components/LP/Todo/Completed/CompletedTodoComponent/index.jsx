@@ -9,10 +9,6 @@ const CompletedTodoComponent = ({
     form,
     deleteTodoItem,
     editTodoItem,
-    // data,
-    // dataInKeywords,
-    // completedLoader,
-    // getCompletedTodo,
     setState
 }) => {
   const [completedLoader, setCompletedLoader] = useState(false)

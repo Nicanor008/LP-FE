@@ -1,11 +1,13 @@
 import React, { useState } from "react"
-import { Flex } from "@chakra-ui/react"
-import "../../common/modal/modal.scss"
+import { Box, Flex } from "@chakra-ui/react"
 import { server } from "../../../utils/baseUrl"
 import TodoModal from "./TodoModal"
 import CommonIcons from "./icons/editAndDeleteIcons"
+import { useBaseUrl } from "../../../hooks/useBaseUrl"
+import "../../common/modal/modal.scss"
 
 const TodoItem = props => {
+  const apiBaseUrl = useBaseUrl()
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -19,13 +21,13 @@ const TodoItem = props => {
   const onClickViewOneItem = id => {
   setLoading(true)
     setShowModal(!showModal)
-    server.get(`${props.apiBaseUrl}/todo/${id}`).then(item => {
+    server.get(`${apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)
       setData(item.data.data)
     })
   }
   return (
-    <div>
+    <Box>
       <Flex className="todo" alignItems="center">
         <CommonIcons
           data={data}
@@ -55,7 +57,7 @@ const TodoItem = props => {
           deleteTodoItem={props.deleteTodoItem}
         />
       )}
-    </div>
+    </Box>
   )
 }
 

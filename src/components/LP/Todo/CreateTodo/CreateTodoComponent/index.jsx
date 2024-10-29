@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import { Box } from '@chakra-ui/react'
 import CreateTodoInputs from "../CreateTodoInputs"
 import Tabs from "../../tabs"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 import WriteSmall from "../../../../../images/icons/write-small.svg"
 import { server } from '../../../../../utils/baseUrl'
-import { Box } from '@chakra-ui/react'
 
 const CreateTodo = ({ form, setState }) => {
   const [createLoading, setCreateLoading] = useState(false);

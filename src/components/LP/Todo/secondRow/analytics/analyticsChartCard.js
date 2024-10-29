@@ -1,7 +1,7 @@
 import React from "react"
 import { Chart } from "react-google-charts"
 import { Box } from "@chakra-ui/react"
-import { Loader } from "../../../../common/loader"
+import { Loader } from "../../../../common"
 
 function AnalyticsChartCard({ completedTodo, ongoingTodo }) {
   return (

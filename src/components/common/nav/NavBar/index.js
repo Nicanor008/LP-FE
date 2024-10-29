@@ -1,12 +1,12 @@
 import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
 import { Box } from "@chakra-ui/react"
+import Logo from "../../../../images/logo2.svg"
+import DashboardLogo from "../../../../images/dashboard-logo.svg"
+import Menu from "../../../../images/icons/menu.svg"
+import Loader from "../../loader"
+import "../../styles/_common.scss"
 import "./header.scss"
-import "../styles/_common.scss"
-import Logo from "../../../images/logo2.svg"
-import DashboardLogo from "../../../images/dashboard-logo.svg"
-import Menu from "../../../images/icons/menu.svg"
-import { Loader } from "../loader"
 
 const Header = ({ isDashboard }) => {
   const [token, setToken] = useState("")

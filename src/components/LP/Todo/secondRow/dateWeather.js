@@ -1,12 +1,13 @@
+import { Box } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import axios from "axios";
 import Cards from "../card";
 import Degrees from "../../../../images/icons/degree.svg";
-import { Loader } from "../../../common/loader";
 import { useStaticQuery, graphql } from "gatsby";
 import { server } from "../../../../utils/baseUrl";
 import { useBaseUrl } from "../../../../hooks/useBaseUrl";
+import { Loader } from "../../../common";
 
 function DateWeather() {
   const apiBaseUrl = useBaseUrl()
@@ -121,7 +122,7 @@ function DateWeather() {
   };
 
   return (
-    <div>
+    <Box>
       {data.loading ? (
         <Loader contextT="Loading ..." />
       ) : (
@@ -133,13 +134,13 @@ function DateWeather() {
           }
           id="title"
         >
-          <div className="thirdRowCardBody">
-            <div>
+          <Box className="thirdRowCardBody">
+            <Box>
               <h2>{time}</h2>
               <p>{moment().format("dddd, MMMM Do YYYY")}</p>
-            </div>
+            </Box>
 
-            <div className="weatherData">
+            <Box className="weatherData">
               {data.currentWeatherData.length !== 0 && (
                 <>
                   <h2>
@@ -149,7 +150,7 @@ function DateWeather() {
                     <span>
                       <img src={Degrees} alt="degrees" />
                     </span>
-                    <div className="tempUnit">
+                    <Box className="tempUnit">
                       {data.activeTempUnit === "F" ? (
                         <u>
                           <b>F</b>
@@ -175,7 +176,7 @@ function DateWeather() {
                           <p>C</p>
                         </button>
                       )}
-                    </div>
+                    </Box>
                   </h2>
                   <img
                     src={data.currentWeatherData.condition.icon}
@@ -185,11 +186,11 @@ function DateWeather() {
                   />
                 </>
               )}
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Cards>
       )}
-    </div>
+    </Box>
   );
 }
 

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react"
 import Layout from "../components/layout"
 import "../components/LP/Auth/login.css"
-import Input from "../components/common/inputs/input"
 import "../components/common/toast/toast.css"
 import { server } from "../utils/baseUrl"
 import { navigate, useStaticQuery, graphql } from "gatsby"
-import { Loader } from "../components/common/loader"
 import SEO from "../components/seo"
 import { Box, Button } from "@chakra-ui/react"
 import axios from "axios"
+import { InputWithLabel, Loader } from "../components/common"
 
 // return action window dimensions
 function getWindowDimensions() {
@@ -178,14 +177,14 @@ const Login = () => {
             <div className="form-container sign-in-container">
               <div className="authFormWrapper">
                 <h1>Sign in</h1>
-                <Input
+                <InputWithLabel
                   type="email"
                   placeholder="Email"
                   name="email"
                   value={form.email}
                   onchange={onInputChange}
                 />
-                <Input
+                <InputWithLabel
                   type="password"
                   placeholder="password"
                   name="password"
@@ -200,21 +199,21 @@ const Login = () => {
             <div className="form-container sign-up-container">
               <div className="authFormWrapper">
                 <h2>Create Account</h2>
-                <Input
+                <InputWithLabel
                   type="text"
                   placeholder="Name"
                   name="name"
                   value={form.name}
                   onchange={onInputChange}
                 />
-                <Input
+                <InputWithLabel
                   type="email"
                   placeholder="Email"
                   name="email"
                   value={form.email}
                   onchange={onInputChange}
                 />
-                <Input
+                <InputWithLabel
                   type="password"
                   placeholder="password"
                   name="password"

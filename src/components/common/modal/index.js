@@ -1,6 +1,7 @@
+import { Box } from "@chakra-ui/react"
 import React from "react"
-import { Loader } from "../loader"
 import Close from "../../../images/icons/closeCard.svg"
+import { Loader } from ".."
 
 const Modal = ({
   children,
@@ -11,33 +12,35 @@ const Modal = ({
   keyword,
 }) => {
   return (
-    <div
-      id="myModal"
-      className="modal"
-      style={{ display: showModal ? "block" : "none" }}
-    >
-      <div className="modal-content">
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            {/* header */}
-            <div className="modalHeader">
-              <div className="modalHeaderFirstColumn">
-                <img src={statusImage} alt="status" />
-                <p style={{ color: "black" }}>{keyword}</p>
-              </div>
-              <button className="buttonUniformity close" onClick={onClickClose}>
-                <img src={Close} alt="Close" />
-              </button>
-            </div>
-            <hr className="modalHR" />
-            {/* body */}
-            {children}
-          </>
-        )}
-      </div>
-    </div>
+    showModal && (
+      <Box
+        id="myModal"
+        className="modal"
+        style={{ display: showModal ? "block" : "none" }}
+      >
+        <Box className="modal-content">
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              {/* header */}
+              <Box className="modalHeader">
+                <Box className="modalHeaderFirstColumn">
+                  <img src={statusImage} alt="status" />
+                  <p style={{ color: "black" }}>{keyword}</p>
+                </Box>
+                <button className="buttonUniformity close" onClick={onClickClose}>
+                  <img src={Close} alt="Close" />
+                </button>
+              </Box>
+              <hr className="modalHR" />
+              {/* body */}
+              {children}
+            </>
+          )}
+        </Box>
+      </Box>
+    )
   )
 }
 

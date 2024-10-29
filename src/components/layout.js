@@ -1,10 +1,8 @@
+import { Box } from "@chakra-ui/react"
 import React  from "react"
 import PropTypes from "prop-types"
-
+import {Header, Footer} from "./common"
 import "./layout.css"
-import Header from "./common/nav/header"
-import Footer from "./common/nav/footer"
-import { Box } from "@chakra-ui/react"
 
 const Layout = ({ height, children, isDashboard }) => {
 

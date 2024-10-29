@@ -1,7 +1,7 @@
 import React from "react"
 import "./inputs.scss"
 
-const Input = props => (
+const InputWithLabel = props => (
   <>
     <label htmlFor={props.labelClassName}>{props.labelName}</label> &nbsp;
     <br />
@@ -19,4 +19,4 @@ const Input = props => (
   </>
 )
 
-export default Input
+export default InputWithLabel

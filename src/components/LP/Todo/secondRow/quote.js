@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
 import Cards from "../card"
-import { Loader } from "../../../common/loader"
+import { Loader } from "../../../common"
 import Reload from "../../../../images/icons/reload.svg"
 
 function Quote() {
