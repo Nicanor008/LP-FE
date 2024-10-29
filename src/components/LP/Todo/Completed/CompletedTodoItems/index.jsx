@@ -1,15 +1,16 @@
+import { Box } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import TodoItem from "./todo"
-import Tabs from "./tabs"
-import Love from "../../../images/icons/love.svg"
-import TodoItemByKeywords from "./ByKeywords"
+import Love from "../../../../../images/icons/love.svg"
+import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
+import Tabs from "../../tabs"
+import TodoItem from "../../todo"
+import TodoItemByKeywords from "../../ByKeywords"
 
-const CompletedTodo = ({
+const CompletedTodoItems = ({
   deleteTodoItem,
   editTodoItem,
   showBody,
   onClickArrow,
-  apiBaseUrl,
   newData,
   data,
   dataInKeywords,
@@ -17,6 +18,7 @@ const CompletedTodo = ({
   getCompletedTodo
 }) => {
   const [viewByCompletedTodo, setViewByCompletedTodo] = useState(true)
+  const apiBaseUrl = useBaseUrl()
 
   // componentDidMount
   useEffect(() => {
@@ -30,7 +32,7 @@ const CompletedTodo = ({
   }
 
   return (
-    <div>
+    <Box>
       {loading ? (
         <span></span>
       ) : (
@@ -48,7 +50,7 @@ const CompletedTodo = ({
             onclickSwapButton={onClickSwapButtonCompleted}
             viewByTodo={viewByCompletedTodo}
           >
-            <div className="onGoingTodoWrapper">
+            <Box className="onGoingTodoWrapper">
               {viewByCompletedTodo
                 ? data.map(todo => (
                     <TodoItem
@@ -76,12 +78,12 @@ const CompletedTodo = ({
                       />
                     )
                   })}
-            </div>
+            </Box>
           </Tabs>
         )
       )}
-    </div>
+    </Box>
   )
 }
 
-export default CompletedTodo
+export default CompletedTodoItems

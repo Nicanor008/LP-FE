@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react"
-import axios from "axios"
 import Cards from "../../card"
 import "./analytics.scss"
 import { Loader } from "../../../../common/loader"
 import AnalyticsChartCard from "./analyticsChartCard"
+import { server } from "../../../../../utils/baseUrl"
+import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 
-function AnalyticsCard(props) {
+function AnalyticsCard() {
   const [analytics, setAnalytics] = useState({})
+  const apiBaseUrl = useBaseUrl()
 
   // analytics data
   useEffect(() => {
     try {
-      axios.get(`${props.apiBaseUrl}/analytics/todo`, props.headers).then(analytics => {
+      server.get(`${apiBaseUrl}/analytics/todo`).then(analytics => {
         setAnalytics({
           totalItems: analytics.data.totalItems,
           todo: analytics.data.todo,
@@ -48,20 +50,20 @@ function AnalyticsCard(props) {
                       <h1>{analytics.totalItems} Total Tasks</h1>
                     </center>
                   </div>
-                  {(props?.ongoingData?.length > 0 ||
-                    props?.completedData?.length > 0) && (
+                  {(analytics?.todo?.totalUncompletedTodo > 0 ||
+                    analytics?.todo?.totalCompletedTodo > 0) && (
                     <hr className="tabHeaderHR" />
                   )}
 
                   <div className="analyticsTotalItemsTitle">
-                    {props?.ongoingData?.length > 0 && (
+                    {analytics?.todo?.totalUncompletedTodo > 0 && (
                       <h4>
-                        {props?.ongoingData?.length} Ongoing
+                        {analytics?.todo?.totalUncompletedTodo} Ongoing
                       </h4>
                     )}
-                    {props?.completedData?.length > 0 && (
+                    {analytics?.todo?.totalCompletedTodo > 0 && (
                       <h4>
-                        {props?.completedData?.length} Completed
+                        {analytics?.todo?.totalCompletedTodo} Completed
                       </h4>
                     )}
                   </div>
@@ -92,8 +94,8 @@ function AnalyticsCard(props) {
           {analytics.totalItems > 1 && (
             <AnalyticsChartCard
               data={analytics.todo} 
-              ongoingTodo={props.ongoingData} 
-              completedTodo={props.completedData}
+              ongoingTodo={analytics?.todo?.totalUncompletedTodo} 
+              completedTodo={analytics?.todo?.totalCompletedTodo}
             />
           )}
         </>

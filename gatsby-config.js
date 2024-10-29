@@ -12,7 +12,8 @@ module.exports = {
     ipInfoAPIToken: "83684f7099807a",
     // ipInfoAPIToken: process.env.ipInfoAPIToken,
     // apiURL: process.env.LP_PROD_API,
-    weatherApiKey: process.env.WEATHER_API_KEY,
+    weatherApiKey: "f0c992e01a794c68b7b73844242010",
+    // weatherApiKey: process.env.WEATHER_API_KEY,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

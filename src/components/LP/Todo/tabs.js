@@ -1,8 +1,8 @@
+import { Box, Divider } from "@chakra-ui/react"
 import React from "react"
 import ArrowUp from "../../../images/icons/Arrow-up.svg"
 import ArrowDown from "../../../images/icons/Arrow-down.svg"
 import ButtonCard from "./ButtonCard"
-import { Divider } from "@chakra-ui/react"
 
 const Tabs = ({
   todoTitleIcon,
@@ -15,18 +15,18 @@ const Tabs = ({
   viewByTodo,
   onclickSwapButton,
 }) => (
-  <div
+  <Box
     className="createTodo"
     style={{ maxHeight: showBody ? "500px" : "51px" }}
     name={name}
   >
     {/* tab header */}
-    <div className="tabHeader">
-      <div className="innerTabHeader">
+    <Box className="tabHeader" mb={1}>
+      <Box className="innerTabHeader">
         <img src={todoTitleIcon} alt="Todo" className="tabTitleItem" />
         <h3 className="tabTitle tabTitleItem">{title}</h3>
-      </div>
-      <div className="innerTabHeaderRight">
+      </Box>
+      <Box className="innerTabHeaderRight">
         {todoItemsTab && showBody && (
           <ButtonCard
             onclickSwapButton={onclickSwapButton}
@@ -44,22 +44,23 @@ const Tabs = ({
             className="arrowIcon"
           />
         </button>
-      </div>
-    </div>
-    {showBody && <Divider bg="#c2c5ff" borderWidth={1} />}
+      </Box>
+    </Box>
+    {showBody && <Divider bg="#c2c5ff" borderWidth={0.3} h="0.1px" />}
 
     {/* tab body */}
-    <div
-      className="tabBody"
-      style={{
-        display: showBody ? "block" : "none",
-        cursor: "pointer",
-        maxHeight: showBody ? "400px" : "0",
-      }}
-    >
-      {children}
-    </div>
-  </div>
+    {showBody && (
+      <Box
+        className="tabBody"
+        style={{
+          cursor: "pointer",
+          maxHeight: "400px",
+        }}
+      >
+        {children}
+      </Box>
+    )}
+  </Box>
 )
 
 export default Tabs

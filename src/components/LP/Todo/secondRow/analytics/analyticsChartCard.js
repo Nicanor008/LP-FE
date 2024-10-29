@@ -3,10 +3,10 @@ import { Chart } from "react-google-charts"
 import { Box } from "@chakra-ui/react"
 import { Loader } from "../../../../common/loader"
 
-function AnalyticsChartCard(props) {
+function AnalyticsChartCard({ completedTodo, ongoingTodo }) {
   return (
     <Box>
-      {props.completedTodo.length ? (
+      {completedTodo ? (
         <Chart
           width={"350px"}
           height={"300px"}
@@ -14,8 +14,8 @@ function AnalyticsChartCard(props) {
           loader={<Loader />}
           data={[
             ["Task", "Total Number of Tasks"],
-            ["Done", props.completedTodo.length],
-            ["Ongoing", props.ongoingTodo.length]
+            ["Done", completedTodo],
+            ["Ongoing", ongoingTodo]
           ]}
           // options={{
           //   title: "Daily Statistics",

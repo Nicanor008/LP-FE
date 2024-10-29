@@ -1,23 +1,25 @@
+import { Box } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import TodoItem from "./todo"
-import { Loader } from "../../common/loader"
-import Tabs from "./tabs"
-import Walk from "../../../images/icons/walk.svg"
-import TodoItemByKeywords from "./ByKeywords"
+import Walk from "../../../../../images/icons/walk.svg"
+import TodoItem from "../../todo"
+import TodoItemByKeywords from "../../ByKeywords"
+import Tabs from "../../tabs"
+import { Loader } from "../../../../common/loader"
+import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 
-const OngoingTodo = ({
+const InProgressItems = ({
   newData,
   deleteTodoItem,
   editTodoItem,
   showBody,
   onClickArrow,
   loader,
-  apiBaseUrl,
   getOngoingTodo,
   dataInKeywords,
   data,
   loading
 }) => {
+  const apiBaseUrl = useBaseUrl()
   const [viewByTodo, setViewByTodo] = useState(true)
 
   // componentDidMount
@@ -32,7 +34,7 @@ const OngoingTodo = ({
   }
 
   return (
-    <div>
+    <Box>
       {loading || loader ? (
         <Loader />
       ) : (
@@ -51,7 +53,7 @@ const OngoingTodo = ({
               onclickSwapButton={onClickSwapButton}
               viewByTodo={viewByTodo}
             >
-              <div className="onGoingTodoWrapper">
+              <Box className="onGoingTodoWrapper">
                 {viewByTodo
                   ? data.map(todo => (
                       <TodoItem
@@ -78,16 +80,13 @@ const OngoingTodo = ({
                         />
                       )
                     })}
-              </div>
+              </Box>
             </Tabs>
-
-            <br />
-            <br />
           </>
         )
       )}
-    </div>
+    </Box>
   )
 }
 
-export default OngoingTodo
+export default InProgressItems

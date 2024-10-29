@@ -6,8 +6,11 @@ import Degrees from "../../../../images/icons/degree.svg";
 import { Loader } from "../../../common/loader";
 import { useStaticQuery, graphql } from "gatsby";
 import { server } from "../../../../utils/baseUrl";
+import { useBaseUrl } from "../../../../hooks/useBaseUrl";
 
-function DateWeather(props) {
+function DateWeather() {
+  const apiBaseUrl = useBaseUrl()
+
   const [data, setState] = useState({
     loading: false,
     currentWeatherData: [],
@@ -44,7 +47,7 @@ function DateWeather(props) {
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
-        const currentUserResponse = await server.get(`${props.apiBaseUrl}/users/active`);
+        const currentUserResponse = await server.get(`${apiBaseUrl}/users/active`);
         if (currentUserResponse?.data?.data) {
           setCurrentUser(currentUserResponse.data.data);
         }
@@ -54,7 +57,7 @@ function DateWeather(props) {
     }
 
     fetchCurrentUser();
-  }, [props.apiBaseUrl]);
+  }, [apiBaseUrl]);
 
   // Fetch the weather data
   const fetchWeatherData = async () => {

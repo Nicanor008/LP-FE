@@ -1,7 +1,8 @@
 import React from "react"
-import Input from "../../common/inputs/input"
-import Button from "../../common/buttons/button"
-import Plus from "../../../images/icons/plus.svg"
+import Input from "../../../../common/inputs/input"
+import Button from "../../../../common/buttons/button"
+import Plus from "../../../../../images/icons/plus.svg"
+import PropTypes from "prop-types"
 
 const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) => {
   return (
@@ -22,7 +23,7 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
       />
 
       {/* time details */}
-      <div className="timeDurationWrapper">
+      {/* <div className="timeDurationWrapper">
         <div className="timeWrapper">
           <div className="time">
             <Input
@@ -60,7 +61,7 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
             </>
           )}
         </div>
-      </div>
+      </div> */}
 
       {/* check box */}
       {/* remind me to start and end task */}
@@ -77,5 +78,15 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
     </div>
   )
 }
+
+CreateTodoInputs.propTypes = {
+  onClickAddTodoButton: PropTypes.func,
+  form: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+  }),
+  onInputChange: PropTypes.func,
+  loading: PropTypes.bool,
+};
 
 export default CreateTodoInputs
