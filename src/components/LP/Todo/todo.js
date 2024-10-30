@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Flex } from "@chakra-ui/react"
+import { Box, Flex, Text } from "@chakra-ui/react"
 import { server } from "../../../utils/baseUrl"
 import TodoModal from "./TodoModal"
 import CommonIcons from "./icons/editAndDeleteIcons"
@@ -35,13 +35,18 @@ const TodoItem = props => {
           editTodoItem={props.editTodoItem}
           deleteTodoItem={props.deleteTodoItem}
           id={props.id}
+          viewTodoItem={onClickViewOneItem}
         />
-        <button
-          className="buttonUniformity"
+        <Text
+          bg="inherit"
+          m={0}
+          cursor="pointer"
+          fontSize="initial"
+          fontFamily="IBM Plex mono"
           onClick={() => onClickViewOneItem(props.id)}
         >
           <p className="todoItemName">{props.name}</p>
-        </button>
+        </Text>
       </Flex>
 
       {/* modal */}

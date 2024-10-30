@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box } from "@chakra-ui/react"
+import { Box, Text } from "@chakra-ui/react"
 import moment from "moment"
 import CommonIcons from "../icons/editAndDeleteIcons"
 import TodoModal from "../TodoModal"
@@ -42,13 +42,19 @@ const TodoItemByKeywords = props => {
           editTodoItem={prop.editTodoItem}
           deleteTodoItem={prop.deleteTodoItem}
           id={prop.id}
+          viewTodoItem={onClickViewOneItem}
         />
-        <span
-          className="buttonUniformity"
-          onClick={() => onClickViewOneItem(prop.id)}
+
+        <Text
+          bg="inherit"
+          m={0}
+          cursor="pointer"
+          fontSize="initial"
+          fontFamily="IBM Plex mono"
+          onClick={() => onClickViewOneItem(prop.data?.id)}
         >
-          <p className="todoItemName">{prop.data.name}</p>
-        </span>
+          <p className="todoItemName">{prop.data?.name}</p>
+        </Text>
       </>
     )
   }

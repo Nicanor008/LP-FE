@@ -1,12 +1,13 @@
 import React from "react"
 import { Flex, IconButton, Image } from "@chakra-ui/react"
+import { IoEyeOutline } from "@react-icons/all-files/io5/IoEyeOutline";
 import CheckMark from "../../../../images/icons/checkmark.svg"
 import Reload from "../../../../images/icons/reload.svg"
 import Close from "../../../../images/icons/close.svg"
 
 const CommonIcons = props => {
   return (
-    <Flex w="50px" minW="50px">
+    <Flex w="56px" minW="66px" alignItems="center" mx={1} justifyContent="space-between">
       <IconButton
         className="buttonUniformity"
         aria-label="edit"
@@ -16,15 +17,11 @@ const CommonIcons = props => {
             complete: props.complete,
           })
         }
-        bg="red"
-        pb={-4}
-        mb={-3}
         size="sm"
         minW="16px"
         minH="16px"
-      >
-        <Image src={!props.complete ? CheckMark : Reload} alt="Check todo" w="full" minW="fit-content" />
-      </IconButton>
+        icon={<Image src={!props.complete ? CheckMark : Reload} alt="Check todo" w="full" minW="fit-content" m={0} p={0} pr={1} />}
+      />
       <IconButton
         className="buttonUniformity"
         aria-label="archive"
@@ -34,16 +31,24 @@ const CommonIcons = props => {
             complete: props.complete,
           })
         }
-        p={0}
-        m={0}
-        pb={-4}
-        mb={-3}
         size="sm"
         minW="16px"
         minH="16px"
-      >
-        <Image src={Close} alt="Close" w="full" minW="fit-content" />
-      </IconButton>
+        // mx={2}
+        icon={<Image src={Close} alt="Close" w="full" minW="fit-content" my={0} mx={0} p={0} />}
+      />
+      <IconButton
+        className="buttonUniformity"
+        aria-label="archive"
+        onClick={() =>
+          props.viewTodoItem(props.id)
+        }
+        size="sm"
+        minW="16px"
+        minH="16px"
+        alignItems="center"
+        icon={<IoEyeOutline size="76%"  bg="lime" color="blue" />}
+      />
     </Flex>
   )
 }
