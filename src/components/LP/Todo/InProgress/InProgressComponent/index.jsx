@@ -8,10 +8,6 @@ const InProgressComponent = ({
     form,
     deleteTodoItem,
     editTodoItem,
-    // getOngoingTodo,
-    // dataInKeywords,
-    // data,
-    // loading,
     setState
 }) => {
     const apiBaseUrl = useBaseUrl()
@@ -27,6 +23,15 @@ const InProgressComponent = ({
       const response = await server
         .get(`${apiBaseUrl}/todo/ongoing`)
       setOngoingLoader(false)
+
+      // if user has todo items in progress, then hide write todo
+      if (response.data) {
+        setState({
+        ...form,
+        showCreateTodo: false,
+        })
+      }
+      
       setDataInKeywords(response.data.groupedByKeywords)
       setData(response.data.data)
     }
