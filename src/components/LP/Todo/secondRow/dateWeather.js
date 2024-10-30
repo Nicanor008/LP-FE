@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import axios from "axios";
@@ -11,6 +11,7 @@ import { Loader } from "../../../common";
 
 function DateWeather() {
   const apiBaseUrl = useBaseUrl()
+  const [activeTempUnit, setActiveTempUnit] = useState('C')
 
   const [data, setState] = useState({
     loading: false,
@@ -109,6 +110,7 @@ function DateWeather() {
 
   const tempUnit = (unit) => {
     setState({ ...data, activeTempUnit: unit });
+    setActiveTempUnit(unit)
   };
 
   const handleError = (error) => {
@@ -141,47 +143,30 @@ function DateWeather() {
             </Box>
 
             <Box className="weatherData">
-              {data.currentWeatherData.length !== 0 && (
+              {data.currentWeatherData && Object.keys(data.currentWeatherData).length > 0 && (
                 <>
-                  <h2>
-                    {data.activeTempUnit === "C"
-                      ? data.currentWeatherData.temp_c
-                      : data.currentWeatherData.temp_f}
-                    <span>
-                      <img src={Degrees} alt="degrees" />
-                    </span>
-                    <Box className="tempUnit">
-                      {data.activeTempUnit === "F" ? (
-                        <u>
-                          <b>F</b>
-                        </u>
-                      ) : (
-                        <button
-                          className="buttonWeatherChange"
-                          onClick={() => tempUnit("F")}
-                        >
-                          <p>F</p>
-                        </button>
-                      )}
-                      /
-                      {data.activeTempUnit === "C" ? (
-                        <u>
-                          <b>C</b>
-                        </u>
-                      ) : (
-                        <button
-                          className="buttonWeatherChange"
-                          onClick={() => tempUnit("C")}
-                        >
-                          <p>C</p>
-                        </button>
-                      )}
-                    </Box>
-                  </h2>
-                  <img
+                  <Flex>
+                    <h2>
+                      {data.activeTempUnit === "C"
+                        ? `${data.currentWeatherData.temp_c}°`
+                        : `${data.currentWeatherData.temp_f}°`}
+                      <span>
+                        <Image src={Degrees} alt="degrees" display="inline" />
+                      </span>
+                    </h2>
+
+                    <Flex alignItems="center" justifyContent="center" gap="2">
+                      <WeatherSymbol data={data} tempUnit={() => tempUnit("F")} active={activeTempUnit === 'F'}>F</WeatherSymbol>
+
+                      <WeatherSymbol data={data} active={false}>/</WeatherSymbol>
+
+                      <WeatherSymbol data={data} tempUnit={() => tempUnit("C")} active={activeTempUnit === 'C'}>C</WeatherSymbol>
+                    </Flex>
+                  </Flex>
+
+                  <Image
                     src={data.currentWeatherData.condition.icon}
-                    height="60"
-                    width="60"
+                    h="70%"
                     alt="current weather"
                   />
                 </>
@@ -195,3 +180,27 @@ function DateWeather() {
 }
 
 export default DateWeather;
+
+
+const WeatherSymbol = ({ data, tempUnit, active, children }) => (
+  <Button
+    variant="plain"
+    fontWeight={active ? "bold" : "normal"}
+    fontSize={active ? "0.8em" : "1em"}
+    textDecoration={active? "underline" : "none"}
+    onClick={tempUnit ?? null}
+    bg="transparent"
+    border={0}
+    color="black"
+    p={0}
+    m={0}
+    top={["-18px", "-36px"]}
+    paddingInline={0}
+    paddingInlineStart={0}
+    paddingInlineEnd={0}
+    lineHeight="1"
+    w={0} minW={0}
+  >
+    {children}
+  </Button>
+)
