@@ -36,6 +36,14 @@ const CreateComment = ({ setWriteComment, todo, addComment }) => {
     }
   };
 
+  const onKeyDownComment = (e) => {
+    // Check if Enter key is pressed without Shift
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();  // Prevent new line
+        handleSubmit(submitComment)();  // Trigger form submission
+      }
+  }
+
   return (
     <Box as="form" onSubmit={handleSubmit(submitComment)} p={4} my={2} fontFamily="arial">
       <FormControl isInvalid={errors.comment} mb={4}>
@@ -43,6 +51,7 @@ const CreateComment = ({ setWriteComment, todo, addComment }) => {
         <Textarea
           id="comment"
           placeholder="Comment on the above todo item"
+          onKeyDown={onKeyDownComment}
           {...register('comment', {
             required: 'Comment is required',
             minLength: { value: 3, message: 'Comment must be at least 3 characters' }
