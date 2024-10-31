@@ -22,7 +22,7 @@ const Tabs = ({
   >
     {/* tab header */}
     <Box className="tabHeader" mb={1}>
-      <Box className="innerTabHeader">
+      <Box className="innerTabHeader" onClick={onClickArrow} role="button">
         <img src={todoTitleIcon} alt="Todo" className="tabTitleItem" />
         <h3 className="tabTitle tabTitleItem">{title}</h3>
       </Box>

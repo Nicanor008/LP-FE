@@ -19,7 +19,7 @@ const TodoItem = props => {
 
   // view single item
   const onClickViewOneItem = id => {
-  setLoading(true)
+    setLoading(true)
     setShowModal(!showModal)
     server.get(`${apiBaseUrl}/todo/${id}`).then(item => {
       setLoading(false)

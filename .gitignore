@@ -55,6 +55,8 @@ typings/
 .env*
 .env
 
+public.zip
+
 # gatsby files
 .cache/
 public/*

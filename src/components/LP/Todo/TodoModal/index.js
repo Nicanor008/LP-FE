@@ -1,4 +1,5 @@
-import React from "react"
+import { Button } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import moment from "moment"
 import Modal from "../../../common/modal"
 import Completed from "../../../../images/Completed.svg"
@@ -6,8 +7,21 @@ import InProgress from "../../../../images/inProgress.svg"
 import Reload from "../../../../images/icons/reload.svg"
 import Close from "../../../../images/icons/close.svg"
 import CheckMark from "../../../../images/icons/checkmark.svg"
+import { CreateComment, ViewComments } from "../Comments"
 
 const TodoModal = ( props ) => {
+  const [writeComment, setWriteComment] = useState(true)
+  const [comments, setComments] = useState(props?.data?.comments);
+
+  useEffect(() => {
+    setComments(props?.data?.comments ?? [])
+  }, [props?.data])
+
+  // Function to add a new comment to the comments array
+  const addComment = (newComment) => {
+    setComments((prevComments) => [newComment, ...prevComments]);
+  };
+
   return (
     props.data !== undefined && (
       <Modal
@@ -71,7 +85,21 @@ const TodoModal = ( props ) => {
               >
                 <img src={Close} alt="Add Todo" /> Delete
               </button>
+              {!writeComment && (
+                <Button variant="surface" onClick={() => setWriteComment(true)} bg="#5b60e9" >
+                  Comment
+                </Button>
+              )}
             </div>
+
+            {/* comments */}
+            {writeComment && (
+              <>
+                <CreateComment setWriteComment={setWriteComment} todo={props.data} addComment={addComment} />
+
+                {comments?.length > 0 && <ViewComments comments={comments} />}
+              </>
+            )}
           </div>
         </div>
       </Modal>
