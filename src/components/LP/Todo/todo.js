@@ -60,6 +60,7 @@ const TodoItem = props => {
           id={props.id}
           editTodoItem={props.editTodoItem}
           deleteTodoItem={props.deleteTodoItem}
+          setData={setData}
         />
       )}
     </Box>
