@@ -1,21 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, Stack, Box, Flex } from "@chakra-ui/react";
+import { jwtDecode } from 'jwt-decode';
 import { ChakraButton } from '../../../../common/buttons/ChakraButton';
 import { server } from '../../../../../utils/baseUrl';
 import { useBaseUrl } from '../../../../../hooks/useBaseUrl';
 
-const ViewComments = ({ comments, setData }) => {
+const ViewComments = ({ todo, comments, setData }) => {
     const apiBaseUrl = useBaseUrl()
+    const [createNewTodo, setCreateNewTodo] = useState(false)
 
   const OnDeleteComment = async (comment) => {
     try {
         await server.patch(`${apiBaseUrl}/todo/comments/archive/${comment?._id}`)
 
         await server.get(`${apiBaseUrl}/todo/${comment?.todo}`).then(item => {
-            setData(item.data.data)
-          })
+          setData(item.data.data)
+        })
     } catch (e) {
         console.error('Error ', e.message)
+    }
+  }
+
+  const createNewTodoHandler = (comment) => {
+    setCreateNewTodo(true)
+    const token = localStorage.getItem("token");
+
+    const activeToken = token && jwtDecode(token.slice(7));
+    try {
+        server
+            .post(`${apiBaseUrl}/todo/comments/create-todo-from-comment`, 
+                { 
+                    todoCommentId: comment?._id,
+                    name: comment?.comment, 
+                    createdFromComment: comment?._id,
+                    tags: todo?.tags,
+                    user: activeToken?.id
+                })
+            .then(async () => {
+                setCreateNewTodo(false)
+                window.location.reload()
+            })
+            .catch(function (error) {
+                alert(error?.response?.data?.message)
+                setCreateNewTodo(false)
+            }
+        )
+    } catch (e) {
+        alert(e?.response?.data?.message)
+        setCreateNewTodo(false)
     }
   }
 
@@ -36,7 +68,7 @@ const ViewComments = ({ comments, setData }) => {
               })}
             </Text>
             <Flex gap={3} py={3} flexDir={["column", "row"]}>
-                <ChakraButton>Create New Todo</ChakraButton>
+                <ChakraButton onClick={() => createNewTodoHandler(comment)} isLoading={createNewTodo}>Create New Todo</ChakraButton>
                 <ChakraButton>Update to a Todo Item</ChakraButton>
                 <ChakraButton bg="red" color="white" onClick={() => OnDeleteComment(comment)}>Delete</ChakraButton>
             </Flex>

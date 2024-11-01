@@ -97,7 +97,7 @@ const TodoModal = ( props ) => {
               <>
                 <CreateComment setWriteComment={setWriteComment} todo={props.data} addComment={addComment} />
 
-                {comments?.length > 0 && <ViewComments comments={comments} setData={props?.setData} />}
+                {comments?.length > 0 && <ViewComments todo={props?.data} comments={comments} setData={props?.setData} />}
               </>
             )}
           </div>
