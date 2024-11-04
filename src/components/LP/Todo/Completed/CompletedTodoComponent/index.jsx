@@ -60,23 +60,23 @@ const CompletedTodoComponent = ({
     }
 
     return (
-        <Box className="thirdRowTodo">
-            <CompletedTodoItems
-                newData={form.newCompletedData}
-                deleteTodoItem={deleteTodoItem}
-                editTodoItem={editTodoItem}
-                showBody={
-                    form.showCompletedTodo === undefined
-                        ? true
-                        : form.showCompletedTodo
-                }
-                onClickArrow={onClickArrowOnCompletedTodo}
-                data={completedData}
-                dataInKeywords={completedDataInKeywords}
-                loading={completedLoader}
-                getCompletedTodo={getCompletedTodo}
-            />
-        </Box>
+      <Box className="thirdRowTodo">
+        <CompletedTodoItems
+          newData={form.newCompletedData}
+          deleteTodoItem={deleteTodoItem}
+          editTodoItem={editTodoItem}
+          showBody={
+            form.showCompletedTodo === undefined
+              ? true
+              : form.showCompletedTodo
+          }
+          onClickArrow={onClickArrowOnCompletedTodo}
+          data={completedData}
+          dataInKeywords={completedDataInKeywords}
+          loading={completedLoader}
+          getCompletedTodo={getCompletedTodo}
+        />
+      </Box>
     )
 }
 

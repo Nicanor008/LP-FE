@@ -59,23 +59,23 @@ const InProgressComponent = ({
   }
 
     return (
-        <Box my={4} className="secondRowTodo">
-            <InProgressItems
-                newData={form.newDataAdded}
-                deleteTodoItem={deleteTodoItem}
-                editTodoItem={editTodoItem}
-                showBody={
-                form.showOngoingTodo === undefined
-                    ? true
-                    : form.showOngoingTodo
-                }
-                onClickArrow={onClickArrowOngoingTodo}
-                getOngoingTodo={getOngoingTodo}
-                dataInKeywords={ongoingDataInKeywords}
-                data={ongoingData}
-                loading={ongoingoader}
-            />
-        </Box>
+      <Box my={4} className="secondRowTodo">
+        <InProgressItems
+          newData={form.newDataAdded}
+          deleteTodoItem={deleteTodoItem}
+          editTodoItem={editTodoItem}
+          showBody={
+          form.showOngoingTodo === undefined
+              ? true
+              : form.showOngoingTodo
+          }
+          onClickArrow={onClickArrowOngoingTodo}
+          getOngoingTodo={getOngoingTodo}
+          dataInKeywords={ongoingDataInKeywords}
+          data={ongoingData}
+          loading={ongoingoader}
+        />
+      </Box>
     )
 }
 

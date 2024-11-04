@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Text } from "@chakra-ui/react"
+import { Box, Flex, Text } from "@chakra-ui/react"
 import moment from "moment"
 import CommonIcons from "../icons/editAndDeleteIcons"
 import TodoModal from "../TodoModal"
@@ -33,9 +33,17 @@ const TodoItemByKeywords = props => {
     })
   }
 
+  const cleanAndTruncateHTML = (html, maxLength = 200) => {
+    // Remove HTML tags and trim whitespace
+    const plainText = html.replace(/<p><br\s*\/?><\/p>/g, '').trim();
+    
+    // Truncate to the specified max length and add ellipsis if necessary
+    return plainText.length > maxLength ? `${plainText.slice(0, maxLength)}...` : plainText;
+  };
+
   const IconsWithTodoName = prop => {
     return (
-      <>
+      <Flex className="todo" alignItems="center" borderBottom="0.2px solid" borderColor="blue.100" w="100%">
         <CommonIcons
           data={prop.data}
           complete={prop.complete}
@@ -45,17 +53,16 @@ const TodoItemByKeywords = props => {
           viewTodoItem={onClickViewOneItem}
         />
 
-        <Text
+        <Box
           bg="inherit"
           m={0}
           cursor="pointer"
           fontSize="initial"
-          fontFamily="IBM Plex mono"
+          fontFamily="IBM Plex Mono"
           onClick={() => onClickViewOneItem(prop.data?.id)}
-        >
-          <p className="todoItemName">{prop.data?.name}</p>
-        </Text>
-      </>
+          dangerouslySetInnerHTML={{ __html: cleanAndTruncateHTML(prop.data?.name) }}
+        />
+      </Flex>
     )
   }
 

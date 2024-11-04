@@ -56,7 +56,17 @@ const ViewComments = ({ todo, comments, setData }) => {
       <Stack spacing={3}>
         {comments?.map((comment) => (
           <Box key={comment._id} px={4} pt={4} bg="white" borderRadius="sm">
-            <Text fontSize="md" mb={1}>{comment?.comment}</Text>
+            {/* <Text fontSize="md" mb={1}>{comment?.comment}</Text> */}
+            <Box
+                bg="inherit"
+                m={0}
+                cursor="pointer"
+                fontSize="initial"
+                fontFamily="IBM Plex Mono"
+                onClick={() => onClickViewOneItem(props.id)}
+                dangerouslySetInnerHTML={{ __html: comment?.comment }}
+            />
+
             <Text fontSize="sm" color="gray.400" mb={0}>
               {new Date(comment?.createdAt).toLocaleString("en-US", {
                 weekday: 'short',

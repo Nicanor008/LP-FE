@@ -9,7 +9,7 @@ import WriteSmall from '../../../../../images/icons/write-small.svg';
 import { server } from '../../../../../utils/baseUrl';
 
 const CreateTodo = ({ setState, form }) => {
-  const { register, handleSubmit, reset, watch, formState: { isSubmitting } } = useForm({
+  const { register, handleSubmit, reset, watch, control, formState: { isSubmitting } } = useForm({
     defaultValues: {
       category: "",
       tags: "",
@@ -96,6 +96,7 @@ const CreateTodo = ({ setState, form }) => {
           loading={isSubmitting}
           activeCreateTodoOption={activeCreateTodoOption}
           watch={watch}
+          control={control}
         />
       </Tabs>
     </Box>

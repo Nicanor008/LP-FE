@@ -1,12 +1,13 @@
 import React from 'react';
 import {jwtDecode} from "jwt-decode";
-import { Box, Button, Flex, FormControl, FormLabel, Textarea, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { server } from '../../../../../utils/baseUrl';
 import { useBaseUrl } from '../../../../../hooks/useBaseUrl';
+import { RichTextArea } from '../../../../common';
 
 const CreateComment = ({ setWriteComment, todo, addComment }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { control, handleSubmit, formState: { errors }, reset } = useForm();
   const toast = useToast();
   const apiBaseUrl = useBaseUrl()
 
@@ -48,14 +49,11 @@ const CreateComment = ({ setWriteComment, todo, addComment }) => {
     <Box as="form" onSubmit={handleSubmit(submitComment)} p={4} my={2} fontFamily="arial">
       <FormControl isInvalid={errors.comment} mb={4}>
         <FormLabel htmlFor="comment">Comments</FormLabel>
-        <Textarea
-          id="comment"
+        <RichTextArea
+          name="comment"
+          control={control}
           placeholder="Comment on the above todo item"
           onKeyDown={onKeyDownComment}
-          {...register('comment', {
-            required: 'Comment is required',
-            minLength: { value: 3, message: 'Comment must be at least 3 characters' }
-          })}
         />
         {errors.comment && (
           <Box color="red.500" mt={2}>

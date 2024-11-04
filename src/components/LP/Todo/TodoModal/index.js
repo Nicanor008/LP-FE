@@ -70,7 +70,12 @@ const TodoModal = ( props ) => {
                 )}
               </Flex>
             </Flex>
-            <p className="todoName">{props.data.name}</p>
+            {/* <p className="todoName">{props.data.name}</p> */}
+            <Box
+              className="todoName"
+              onClick={() => onClickViewOneItem(props.data?.id)}
+              dangerouslySetInnerHTML={{ __html: props.data?.name }}
+            />
 
             {/* time */}
             <Flex flexDir="column" className="todoItemTimeWrapper" justifyContent="center">
