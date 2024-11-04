@@ -1,69 +1,88 @@
-import React from "react"
-import Plus from "../../../../../images/icons/plus.svg"
-import PropTypes from "prop-types"
-import { AddTodoButton, InputWithLabel } from "../../../../common"
+import React from 'react';
+import PropTypes from 'prop-types';
+import Plus from '../../../../../images/icons/plus.svg';
+import { AddTodoButton } from '../../../../common';
+import DurationSelector from './DurationSelector';
+import { Box, Flex, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text, VStack } from '@chakra-ui/react';
 
-const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) => {
+const CreateTodoInputs = ({ onClickAddTodoButton, register, loading, activeCreateTodoOption, watch }) => {
+  const onKeyDownTodoHandler = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();  // Prevent new line
+      onClickAddTodoButton();  // Trigger form submission
+    }
+  }
   return (
-    <div>
-      <InputWithLabel
-        type="text"
-        placeholder="Keyword"
-        name="tags"
-        value={form.tags}
-        onchange={onInputChange}
-      />
-      <InputWithLabel
-        type="text"
-        placeholder="Todo Item"
-        name="name"
-        value={form.name}
-        onchange={onInputChange}
-      />
+    <Box fontFamily="'IBM Plex Mono', monospace">
+      {activeCreateTodoOption !== 'Basic' && (
+      <FormControl mb={0}>
+        <FormLabel htmlFor="name" fontWeight={700}>Tags</FormLabel>
+        <Input
+          type="text"
+          placeholder="Tags"
+          className="input"
+          {...register("tags")}
+        />
+      </FormControl>
+      )}
+      <FormControl mb={0}>
+        <FormLabel htmlFor="name" fontWeight={700}>Todo Description</FormLabel>
+        <Input
+          type="text"
+          placeholder="Todo Description"
+          className="input"
+          onKeyDown={onKeyDownTodoHandler}
+          {...register("name")}
+        />
+      </FormControl>
+
+      {/* Duration */}
+      {activeCreateTodoOption === 'Advanced' && (
+        <DurationSelector register={register} watch={watch} />
+      )}
 
       {/* time details */}
-      {/* <div className="timeDurationWrapper">
-        <div className="timeWrapper">
-          <div className="time">
-            <InputWithLabel
-              type="time"
-              name="startTime"
-              id="startTime"
-              labelClassName="startTime"
-              labelName="Start Time"
-              value={form.startTime}
-              onchange={onInputChange}
+      {activeCreateTodoOption === 'Advanced' && (
+        <Flex className="timeDurationWrapper" wrap="wrap" w="100%" alignItems="center" gap={4}>
+          <FormControl mb={0} className="time" w="fit-content">
+            <FormLabel htmlFor="name" fontWeight={700}>Start Time</FormLabel>
+            <Input
+              type="datetime-local"
+              {...register("startTime")}
             />
-          </div>
-          &nbsp;
-          <div>
-            <InputWithLabel
-              type="time"
-              name="endTime"
-              id="endTime"
-              labelClassName="endTime"
-              labelName="End Time"
-              value={form.endTime}
-              onchange={onInputChange}
-            />
-          </div>
-          &nbsp;&nbsp;
-        </div>
-        <div>
-          {form.duration !== "" && (
-            <>
-              <span>Duration</span>
-              <br />
-              <p style={{ paddingTop: "0.8rem" }} id="duration">
-                {form.duration}
-              </p>
-            </>
-          )}
-        </div>
-      </div> */}
+          </FormControl>
 
-      {/* check box */}
-      {/* remind me to start and end task */}
+          <FormControl mb={0} className="time" w="fit-content">
+            <FormLabel htmlFor="name" fontWeight={700}>End Time</FormLabel>
+            <Input
+              type="datetime-local"
+              {...register("endTime")}
+            />
+          </FormControl>
+
+          {watch("recurrence") && (
+            <VStack alignItems="left">
+              <Box fontWeight={700}>Duration</Box>
+              <Text>
+                {watch("recurrence")}
+              </Text>
+            </VStack>
+          )}
+        </Flex>
+      )}
+
+      {activeCreateTodoOption === 'Advanced' && (
+        <FormControl mb={4}>
+          <FormLabel fontWeight={700}>Priority Level</FormLabel>
+          <RadioGroup>
+            <Stack direction="row">
+              <Radio value="High"  {...register("priority")} name="priority">High</Radio>
+              <Radio value="Medium"  {...register("priority")} name="priority">Medium</Radio>
+              <Radio value="Low"  {...register("priority")} name="priority">Low</Radio>
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+      )}
 
       {/* submit button */}
       <AddTodoButton
@@ -73,19 +92,14 @@ const CreateTodoInputs = ({onClickAddTodoButton, form, onInputChange, loading}) 
         icon={Plus}
         loading={loading}
       />
-      <br />
-    </div>
-  )
-}
+    </Box>
+  );
+};
 
 CreateTodoInputs.propTypes = {
-  onClickAddTodoButton: PropTypes.func,
-  form: PropTypes.shape({
-    title: PropTypes.string,
-    description: PropTypes.string,
-  }),
-  onInputChange: PropTypes.func,
+  onClickAddTodoButton: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
 
-export default CreateTodoInputs
+export default CreateTodoInputs;

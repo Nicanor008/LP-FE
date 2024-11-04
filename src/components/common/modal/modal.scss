@@ -36,6 +36,7 @@
 .modalChildren {
   .todoName {
     font-family: "IBM Plex Mono" !important;
+    text-transform: capitalize;
   }
   .todoTime,
   .todoItemTimeWrapper {

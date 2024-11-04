@@ -1,90 +1,105 @@
-import React, { useState } from 'react'
-import { Box } from '@chakra-ui/react'
-import CreateTodoInputs from "../CreateTodoInputs"
-import Tabs from "../../tabs"
-import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
-import WriteSmall from "../../../../../images/icons/write-small.svg"
-import { server } from '../../../../../utils/baseUrl'
+import React, { useEffect, useState } from 'react';
+import { Box, useToast } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { jwtDecode } from "jwt-decode"
+import CreateTodoInputs from '../CreateTodoInputs';
+import Tabs from '../../tabs';
+import { useBaseUrl } from '../../../../../hooks/useBaseUrl';
+import WriteSmall from '../../../../../images/icons/write-small.svg';
+import { server } from '../../../../../utils/baseUrl';
 
-const CreateTodo = ({ form, setState }) => {
-  const [createLoading, setCreateLoading] = useState(false);
-  const apiBaseUrl = useBaseUrl()
-   
-  // submit todo
-  const onClickAddTodoButton = e => {
-    e.preventDefault()
-    setCreateLoading(true)
+const CreateTodo = ({ setState, form }) => {
+  const { register, handleSubmit, reset, watch, formState: { isSubmitting } } = useForm({
+    defaultValues: {
+      category: "",
+      tags: "",
+      name: "",
+      startTime: "",
+      endTime: "",
+      duration: "",
+      recurrence: "",
+      priority: "",
+      newDataAdded: false,
+      newCompletedData: false
+    }
+  });
+  const apiBaseUrl = useBaseUrl();
+  const [activeCreateTodoOption, setActiveCreateTodoOption] = useState('Medium');
+  const toast = useToast();
+
+  useEffect(() => {
+    setActiveCreateTodoOption(sessionStorage.getItem("activeCreateTodoOption") ?? "Medium")
+  }, [])
+
+  const handleSelectActiveCreateTodoOption = (option) => {
+    sessionStorage.setItem("activeCreateTodoOption", option)
+    setActiveCreateTodoOption(option);
+  };
+
+  const onSubmit = async (data) => {
+    const token = localStorage.getItem("token");
+    const activeToken = token && jwtDecode(token.slice(7));
     try {
-      server
-        .post(`${apiBaseUrl}/todo`, form)
-        .then(function (response) {
-          setState({
-            ...form,
-            category: "",
-            tags: "",
-            name: "",
-            startTime: "",
-            endTime: "",
-            newDataAdded: !form.newDataAdded,
-          })
-          setCreateLoading(false)
-        })
-        .catch(function (error) {
-          alert(error?.response?.data?.message)
-          setCreateLoading(false)
-        })
-    } catch (e) {
-      alert(e?.response?.data?.message)
-      setCreateLoading(false)
-    }
-  }
-
-  // close create todo body
-  const onClickArrowOnCreateTodo = e => {
-      if (typeof window !== "undefined") {
-          sessionStorage.setItem("showCreateTodo", !form.showCreateTodo)
-          if (form.showCreateTodo === undefined) {
-          return setState({
-              ...form,
-              showCreateTodo: false,
-          })
-      }
-      return setState({
-      ...form,
-      showCreateTodo: !form.showCreateTodo,
+      await server.post(`${apiBaseUrl}/todo`, {
+        ...data,
+        duration: data?.recurrence ?? '',
+        user: activeToken?.id
       })
-    }
-  }
-
-  // on change event
-  const onInputChange = e => {
+      reset();
       setState({
-        ...form,
-        [e.target.name]: e.target.value,
+        newDataAdded: !form.newDataAdded,
       })
+      toast({
+        title: 'Task Created Successully!',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+      setState({
+        newDataAdded: !form.newDataAdded,
+      })
+    } catch (error) {
+      toast({
+        title: 'Failed to create task',
+        description: error.message || "An error occurred.",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
     }
+  };
+
+  const onClickArrowOnCreateTodo = () => {
+    if (typeof window !== "undefined") {
+      const showCreateTodo = !watch('showCreateTodo');
+      sessionStorage.setItem("showCreateTodo", showCreateTodo);
+      setState((prevState) => ({
+        ...prevState,
+        showCreateTodo,
+      }));
+    }
+  };
 
   return (
     <Box mt={[1, 4]} className="FirstRowCreateTodo">
       <Tabs
         todoTitleIcon={WriteSmall}
         title="Write Todo"
-        showBody={
-        form.showCreateTodo === undefined
-            ? true
-            : form.showCreateTodo
-        }
+        showBody={watch('showCreateTodo', true)}
         onClickArrow={onClickArrowOnCreateTodo}
+        handleSelectActiveCreateTodoOption={handleSelectActiveCreateTodoOption}
+        activeCreateTodoOption={activeCreateTodoOption}
       >
         <CreateTodoInputs
-          onClickAddTodoButton={onClickAddTodoButton}
-          form={form}
-          onInputChange={onInputChange}
-          loading={createLoading}
+          onClickAddTodoButton={handleSubmit(onSubmit)}
+          register={register}
+          loading={isSubmitting}
+          activeCreateTodoOption={activeCreateTodoOption}
+          watch={watch}
         />
       </Tabs>
     </Box>
-  )
-}
+  );
+};
 
-export default CreateTodo
+export default CreateTodo;

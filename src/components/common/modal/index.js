@@ -17,6 +17,7 @@ const Modal = ({
         id="myModal"
         className="modal"
         style={{ display: showModal ? "block" : "none" }}
+        fontFamily="Arial"
       >
         <Box className="modal-content">
           {loading ? (

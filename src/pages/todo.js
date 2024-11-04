@@ -2,7 +2,6 @@ import { Box } from "@chakra-ui/react";
 import React, { useState, useEffect, useCallback } from "react";
 import { navigate } from "gatsby";
 import {jwtDecode} from "jwt-decode";
-import moment from "moment";
 import SEO from "../components/seo";
 import Layout from "../components/layout";
 import "../components/LP/Todo/todo.scss";
@@ -13,17 +12,10 @@ import { Loader } from "../components/common";
 const TodoDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
-    category: "",
-    tags: "",
-    name: "",
-    startTime: "",
-    endTime: "",
-    duration: "",
-    user: "",
-    durationInteger: 0,
     newDataAdded: false,
     newCompletedData: false
   });
+  // sessionStorage.setItem("activeCreateTodoOption", option)
 
   const initializeSessionState = useCallback(() => {
     const session = sessionStorage.getItem("showCreateTodo");
@@ -35,26 +27,6 @@ const TodoDashboard = () => {
     }));
   }, []);
 
-  const calculateDuration = useCallback(() => {
-    const start = moment(form.startTime, "HH:mm");
-    const end = moment(form.endTime, "HH:mm");
-    const minutes = end.diff(start, "minutes");
-
-    if (!form.startTime || !form.endTime || minutes <= 0) {
-      return { duration: "", durationInteger: 0 };
-    }
-
-    const hours = minutes / 60;
-    const formattedDuration =
-      minutes > 60
-        ? `${hours.toFixed(2)} hours`
-        : minutes === 1
-        ? "1 minute"
-        : `${minutes} minutes`;
-
-    return { duration: formattedDuration, durationInteger: +hours.toFixed(2) };
-  }, [form.startTime, form.endTime]);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return navigate("/auth");
@@ -62,16 +34,13 @@ const TodoDashboard = () => {
     const activeToken = token && jwtDecode(token.slice(7));
     initializeSessionState();
 
-    const { duration, durationInteger } = calculateDuration();
     setForm((prevForm) => ({
       ...prevForm,
       user: activeToken.id,
-      duration,
-      durationInteger,
     }));
 
     setLoading(false);
-  }, [calculateDuration, initializeSessionState]);
+  }, [initializeSessionState]);
 
   return loading ? (
     <Box style={{ marginTop: "20%" }}>

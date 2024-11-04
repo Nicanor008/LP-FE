@@ -32,7 +32,7 @@ const ViewComments = ({ todo, comments, setData }) => {
                 { 
                     todoCommentId: comment?._id,
                     name: comment?.comment, 
-                    createdFromComment: comment?._id,
+                    createdFromComment: todo?._id,
                     tags: todo?.tags,
                     user: activeToken?.id
                 })
@@ -69,7 +69,8 @@ const ViewComments = ({ todo, comments, setData }) => {
             </Text>
             <Flex gap={3} py={3} flexDir={["column", "row"]}>
                 <ChakraButton onClick={() => createNewTodoHandler(comment)} isLoading={createNewTodo}>Create New Todo</ChakraButton>
-                <ChakraButton>Update to a Todo Item</ChakraButton>
+                {/* TODO: to work on this logic later, doesn't seem ideal now */}
+                {/* <ChakraButton onClick={() => updateCommentToMainTodoItem(comment)}>Update to a Todo Item</ChakraButton> */}
                 <ChakraButton bg="red" color="white" onClick={() => OnDeleteComment(comment)}>Delete</ChakraButton>
             </Flex>
           </Box>

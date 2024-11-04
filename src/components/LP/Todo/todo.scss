@@ -13,6 +13,7 @@
 .innerTabHeaderRight {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .tabTitle {
   padding-left: 0.3rem;
@@ -25,13 +26,9 @@
   padding-bottom: 0.4rem;
 }
 .timeDurationWrapper {
-  display: flex;
   font-family: "IBM Plex Mono", monospace;
   .timeWrapper {
     display: flex;
-    div {
-      padding-right: 0.4rem;
-    }
   }
 }
 .tabBody {
