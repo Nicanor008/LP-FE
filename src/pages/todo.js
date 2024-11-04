@@ -12,10 +12,10 @@ import { Loader } from "../components/common";
 const TodoDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
+    showCreateTodo: false,
     newDataAdded: false,
     newCompletedData: false
   });
-  // sessionStorage.setItem("activeCreateTodoOption", option)
 
   const initializeSessionState = useCallback(() => {
     const session = sessionStorage.getItem("showCreateTodo");

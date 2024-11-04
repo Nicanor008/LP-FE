@@ -18,9 +18,7 @@ const CreateTodo = ({ setState, form }) => {
       endTime: "",
       duration: "",
       recurrence: "",
-      priority: "",
-      newDataAdded: false,
-      newCompletedData: false
+      priority: ""
     }
   });
   const apiBaseUrl = useBaseUrl();
@@ -71,11 +69,9 @@ const CreateTodo = ({ setState, form }) => {
 
   const onClickArrowOnCreateTodo = () => {
     if (typeof window !== "undefined") {
-      const showCreateTodo = !watch('showCreateTodo');
-      sessionStorage.setItem("showCreateTodo", showCreateTodo);
       setState((prevState) => ({
         ...prevState,
-        showCreateTodo,
+        showCreateTodo: !form.showCreateTodo,
       }));
     }
   };
@@ -85,7 +81,11 @@ const CreateTodo = ({ setState, form }) => {
       <Tabs
         todoTitleIcon={WriteSmall}
         title="Write Todo"
-        showBody={watch('showCreateTodo', true)}
+        showBody={
+          form.showCreateTodo === undefined
+            ? true
+            : form.showCreateTodo
+          }
         onClickArrow={onClickArrowOnCreateTodo}
         handleSelectActiveCreateTodoOption={handleSelectActiveCreateTodoOption}
         activeCreateTodoOption={activeCreateTodoOption}
