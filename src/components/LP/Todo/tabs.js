@@ -47,9 +47,9 @@ const Tabs = ({
                 {activeCreateTodoOption}
               </MenuButton>
               <MenuList maxW="100">
-                <MenuItemButton option="Basic" onClick={handleSelectActiveCreateTodoOption}>Basic</MenuItemButton>
-                <MenuItemButton option="Medium" onClick={handleSelectActiveCreateTodoOption}>Medium</MenuItemButton>
-                <MenuItemButton option="Advanced" onClick={handleSelectActiveCreateTodoOption}>Advanced</MenuItemButton>
+                <MenuItemButton option="Basic" onClick={handleSelectActiveCreateTodoOption} activeOption={activeCreateTodoOption === "Basic"}>Basic</MenuItemButton>
+                <MenuItemButton option="Medium" onClick={handleSelectActiveCreateTodoOption} activeOption={activeCreateTodoOption === "Medium"}>Medium</MenuItemButton>
+                <MenuItemButton option="Advanced" onClick={handleSelectActiveCreateTodoOption} activeOption={activeCreateTodoOption === "Advanced"}>Advanced</MenuItemButton>
               </MenuList>
             </Menu>
           )}
@@ -93,6 +93,16 @@ const Tabs = ({
 export default Tabs
 
 
-const MenuItemButton = ({ option, children, onClick }) => (
-  <MenuItem onClick={() => onClick(option)} _hover={{ bg: "#ccceff" }} fontSize="xs">{children}</MenuItem>
+export const MenuItemButton = ({ option, activeOption, children, onClick }) => (
+  <MenuItem
+    onClick={() => !activeOption ? onClick(option) : null}
+    _hover={{ bg: "#ccceff" }}
+    bg={activeOption ? "#ccceff" : "transparent"}
+    fontWeight={activeOption ? "bold" : "normal"}
+    fontSize="xs"
+    rounded="sm"
+    cursor={activeOption ? "default" : "cursor"}
+  >
+    {children}
+  </MenuItem>
 )

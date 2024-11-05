@@ -15,6 +15,7 @@ const CompletedTodoComponent = ({
   const apiBaseUrl = useBaseUrl()
   const [completedData, setCompletedData] = useState([])
   const [completedDataInKeywords, setCompletedDataInKeywords] = useState([])
+  const [completedDataInPriority, setCompletedDataInPriority] = useState([])
 
   // get completed todo data
   const getCompletedTodo = async () => {
@@ -34,6 +35,7 @@ const CompletedTodoComponent = ({
         //   setCompletedLoader(false)
           setCompletedDataInKeywords(response.data.groupedByKeywords) // get grouped data
           setCompletedData(data => [...data, s])
+          setCompletedDataInPriority(response.data?.groupedByPriority)
         }
       })
     }
@@ -75,6 +77,7 @@ const CompletedTodoComponent = ({
           dataInKeywords={completedDataInKeywords}
           loading={completedLoader}
           getCompletedTodo={getCompletedTodo}
+          completedDataInPriority={completedDataInPriority}
         />
       </Box>
     )

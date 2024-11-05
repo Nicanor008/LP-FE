@@ -16,10 +16,15 @@ const InProgressItems = ({
   getOngoingTodo,
   dataInKeywords,
   data,
-  loading
+  loading,
+  dataInPriority
 }) => {
-  const [viewByTodo, setViewByTodo] = useState(true)
+  const [viewByTodo, setViewByTodo] = useState('name')
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  useEffect(() => {
+    setViewByTodo(sessionStorage?.getItem('viewOngoingTodoBy'))
+  }, [])
 
   // componentDidMount
   useEffect(() => {
@@ -28,8 +33,9 @@ const InProgressItems = ({
   }, [newData])
 
   // on click view by ......, do the swapping
-  const onClickSwapButton = () => {
-    return setViewByTodo(!viewByTodo)
+  const onClickSwapButton = (option) => {
+    sessionStorage.setItem('viewOngoingTodoBy', option)
+    return setViewByTodo(option)
   }
 
   return (
@@ -50,8 +56,8 @@ const InProgressItems = ({
               viewByTodo={viewByTodo}
             >
               <Box className="onGoingTodoWrapper">
-                {viewByTodo
-                  ? data.map(todo => (
+                {viewByTodo === 'name' && (
+                  data.map(todo => (
                       <TodoItem
                         name={todo.name}
                         key={todo._id}
@@ -60,8 +66,11 @@ const InProgressItems = ({
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
                       />
-                    ))
-                  : dataInKeywords &&
+                    )
+                  )
+                )}
+                {viewByTodo === 'tags' && (
+                  dataInKeywords &&
                     dataInKeywords.map(dataKeywords => {
                       return (
                         <TodoItemByKeywords
@@ -73,7 +82,24 @@ const InProgressItems = ({
                           complete={false}
                         />
                       )
-                    })}
+                    })
+                  )}
+                  {viewByTodo === 'priority' && (
+                    dataInPriority &&
+                      dataInPriority.map(dataKeywords => {
+                        return (
+                          <TodoItemByKeywords
+                            data={dataKeywords}
+                            deleteTodoItem={deleteTodoItem}
+                            editTodoItem={editTodoItem}
+                            key={Math.random()}
+                            id={dataInPriority._id}
+                            complete={false}
+                          />
+                        )
+                      }
+                    )
+                  )}
               </Box>
             </Tabs>
           </>

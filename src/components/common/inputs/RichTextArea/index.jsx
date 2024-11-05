@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const RichTextArea = ({ name, control, placeholder = 'Enter text...' }) => {
+    const [QuillEditor, setQuillEditor] = useState(null);
+
+  useEffect(() => {
+    import('react-quill').then((Quill) => {
+      setQuillEditor(() => Quill.default);
+    });
+  }, []);
+
+  if (!QuillEditor) {
+    return null; // Render nothing until react-quill is loaded
+  }
+
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
@@ -17,7 +28,7 @@ const RichTextArea = ({ name, control, placeholder = 'Enter text...' }) => {
             name={name}
             control={control}
             render={({ field }) => (
-                <ReactQuill
+                <QuillEditor
                     theme="snow"
                     placeholder={placeholder}
                     modules={{

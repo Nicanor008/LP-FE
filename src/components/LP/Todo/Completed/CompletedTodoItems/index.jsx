@@ -16,11 +16,16 @@ const CompletedTodoItems = ({
   data,
   dataInKeywords,
   loading,
-  getCompletedTodo
+  getCompletedTodo,
+  completedDataInPriority
 }) => {
-  const [viewByCompletedTodo, setViewByCompletedTodo] = useState(true)
+  const [viewByCompletedTodo, setViewByCompletedTodo] = useState('name')
   const apiBaseUrl = useBaseUrl()
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  useEffect(() => {
+    setViewByCompletedTodo(sessionStorage?.getItem('viewOngoingTodoBy'))
+  }, [])
 
   // componentDidMount
   useEffect(() => {
@@ -29,8 +34,9 @@ const CompletedTodoItems = ({
   }, [newData])
 
   // on click view by ......, do the swapping
-  const onClickSwapButtonCompleted = () => {
-    return setViewByCompletedTodo(!viewByCompletedTodo)
+  const onClickSwapButtonCompleted = (option) => {
+    sessionStorage.setItem('viewCompletedTodoBy', option)
+    return setViewByCompletedTodo(option)
   }
 
   return (
@@ -38,7 +44,7 @@ const CompletedTodoItems = ({
       {loading ? (
         <Loader />
       ) : (
-        (data.length > 0 || dataInKeywords.length > 0) && (
+        (data.length > 0 || dataInKeywords.length > 0 || completedDataInPriority?.length > 0) && (
           <>
             {isMobile && (
               <Text mx={3} fontWeight={700} pb={0} mb={0}>
@@ -55,8 +61,7 @@ const CompletedTodoItems = ({
               viewByTodo={viewByCompletedTodo}
             >
               <Box className="onGoingTodoWrapper">
-                {viewByCompletedTodo
-                  ? data.map(todo => (
+                {viewByCompletedTodo === 'name' && data.map(todo => (
                       <TodoItem
                         name={todo.name}
                         key={Math.random()}
@@ -66,8 +71,8 @@ const CompletedTodoItems = ({
                         editTodoItem={editTodoItem}
                         apiBaseUrl={apiBaseUrl}
                       />
-                    ))
-                  : dataInKeywords &&
+                    ))}
+                {viewByCompletedTodo === 'tags' && dataInKeywords &&
                     dataInKeywords.map(dataKeywords => {
                       return (
                         <TodoItemByKeywords
@@ -81,6 +86,20 @@ const CompletedTodoItems = ({
                         />
                       )
                     })}
+                    {viewByCompletedTodo === 'priority' && completedDataInPriority &&
+                        completedDataInPriority.map(dataKeywords => {
+                          return (
+                            <TodoItemByKeywords
+                              data={dataKeywords}
+                              deleteTodoItem={deleteTodoItem}
+                              editTodoItem={editTodoItem}
+                              key={Math.random()}
+                              completedKeywords={true}
+                              id={completedDataInPriority._id}
+                              complete={true}
+                            />
+                          )
+                        })}
               </Box>
             </Tabs>
             </>

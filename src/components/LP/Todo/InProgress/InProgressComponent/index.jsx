@@ -15,6 +15,7 @@ const InProgressComponent = ({
   const [ongoingData, setData] = useState([])
   const [ongoingDataInKeywords, setDataInKeywords] = useState([])
   const [ongoingoader, setOngoingLoader] = useState(false)
+  const [ongoingDataInPriority, setDataInPriority] = useState([])
 
   // get ongoing todo data
   const getOngoingTodo = async () => {
@@ -34,6 +35,7 @@ const InProgressComponent = ({
       
       setDataInKeywords(response.data.groupedByKeywords)
       setData(response.data.data)
+      setDataInPriority(response.data?.groupedByPriority)
     }
     catch (e) {
       setData([])
@@ -74,6 +76,7 @@ const InProgressComponent = ({
           dataInKeywords={ongoingDataInKeywords}
           data={ongoingData}
           loading={ongoingoader}
+          dataInPriority={ongoingDataInPriority}
         />
       </Box>
     )
