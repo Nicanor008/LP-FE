@@ -1,9 +1,8 @@
 import { Box, Button, Divider, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
-import React, { useState } from "react"
+import React from "react"
 import ArrowUp from "../../../images/icons/Arrow-up.svg"
 import ArrowDown from "../../../images/icons/Arrow-down.svg"
 import ButtonCard from "./ButtonCard"
-import { SearchTodoByName } from "./SearchTodo"
 
 const Tabs = ({
   todoTitleIcon,
@@ -17,7 +16,8 @@ const Tabs = ({
   onclickSwapButton,
   activeCreateTodoOption,
   handleSelectActiveCreateTodoOption,
-  searchBar
+  searchBar,
+  filters
 }) => {
   return (
     <Box
@@ -58,6 +58,8 @@ const Tabs = ({
           )}
           {todoItemsTab && showBody && (
             <>
+              {/* <BsFilterLeft size={24} /> */}
+              {filters}
               {searchBar}
               <ButtonCard
                 onclickSwapButton={onclickSwapButton}

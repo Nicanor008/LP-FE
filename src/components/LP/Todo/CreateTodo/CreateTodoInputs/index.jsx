@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, FormControl, FormLabel, Input, Radio, RadioGroup, Stack } from '@chakra-ui/react';
 import { Controller } from 'react-hook-form';
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +9,6 @@ import DurationSelector from './DurationSelector';
 const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, activeCreateTodoOption, watch }) => {
   const textareaRef = useRef(null);
   const todoDescription = watch("name");
-  // const [isPickerOpen, setPickerOpen] = useState(false);
 
   const onKeyDownTodoHandler = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -25,12 +24,6 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
       textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 150)}px`; // Set a maximum height
     }
   }, [todoDescription]);
-
-  // const handleSelectEmoji = (emoji, field) => {
-  //   const currentValue = field.value || ""; // Get the current value from the field
-  //   field.onChange(currentValue + emoji.native); // Update the field value with the new emoji
-  //   setPickerOpen(false); // Close the picker after selecting an emoji
-  // };
 
   return (
     <Box fontFamily="'IBM Plex Mono', monospace">
@@ -61,20 +54,6 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
                   onKeyDown={onKeyDownTodoHandler}
                   {...field}
                 />
-                {/* Emoji Picker Toggle Button */}
-                {/* <IconButton
-                  icon={<FaSmile  size={24} />}
-                  onClick={() => setPickerOpen(!isPickerOpen)}
-                  aria-label="Add Emoji"
-                  ml={2}
-                  h="auto"
-                  minW="auto"
-                  color="#796FED"
-                />
-                <EmojiPicker
-                  isOpen={isPickerOpen}
-                  onSelectEmoji={(emoji) => handleSelectEmoji(emoji, field)}
-                /> */}
               </>
             )}
           />

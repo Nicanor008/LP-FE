@@ -18,7 +18,8 @@ const InProgressItems = ({
   dataInKeywords,
   data,
   loading,
-  dataInPriority
+  dataInPriority,
+  filters
 }) => {
   const [viewByTodo, setViewByTodo] = useState('name')
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -38,13 +39,14 @@ const InProgressItems = ({
     sessionStorage.setItem('viewOngoingTodoBy', option)
     return setViewByTodo(option)
   }
+  console.log('......data.........', data)
 
   return (
     <Box>
       {loading || loader ? (
         <Loader />
       ) : (
-        data.length > 0 && (
+        data?.length > 0 && (
           <>
             {isMobile && <Text mx={3} fontWeight={700} pb={0} mb={0}>{data.length} Task{data.length > 1 ? 's' : ''} in Progress</Text>}
             <Tabs
@@ -56,6 +58,7 @@ const InProgressItems = ({
               onclickSwapButton={onClickSwapButton}
               viewByTodo={viewByTodo}
               searchBar={<SearchTodoByName tasks={data}/>}
+              filters={filters}
             >
               <Box className="onGoingTodoWrapper">
                 {viewByTodo === 'name' && (

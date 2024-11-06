@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 import InProgressItems from '../InProgressItems'
 import { server } from '../../../../../utils/baseUrl'
+import FilterTodo from '../../FilterTodo'
 
 const InProgressComponent = ({
     form,
@@ -13,9 +14,8 @@ const InProgressComponent = ({
     const apiBaseUrl = useBaseUrl()
 
   const [ongoingData, setData] = useState([])
-  const [ongoingDataInKeywords, setDataInKeywords] = useState([])
   const [ongoingoader, setOngoingLoader] = useState(false)
-  const [ongoingDataInPriority, setDataInPriority] = useState([])
+  const [filteredTodos, setFilteredTodos] = useState(ongoingData);
 
   // get ongoing todo data
   const getOngoingTodo = async () => {
@@ -33,9 +33,7 @@ const InProgressComponent = ({
         })
       }
       
-      setDataInKeywords(response.data.groupedByKeywords)
-      setData(response.data.data)
-      setDataInPriority(response.data?.groupedByPriority)
+      setData(response.data)
     }
     catch (e) {
       setData([])
@@ -60,26 +58,44 @@ const InProgressComponent = ({
     }
   }
 
-    return (
-      <Box my={4} className="secondRowTodo">
-        <InProgressItems
-          newData={form.newDataAdded}
-          deleteTodoItem={deleteTodoItem}
-          editTodoItem={editTodoItem}
-          showBody={
+  const handleFilterChange = ({ recurrence, priority }) => {
+    const filtered = ongoingData?.data?.filter((todo) => {
+      const matchesRecurrence = recurrence && recurrence.includes(todo.recurrence)
+      const matchesPriority = priority && priority.includes(todo.priority)
+      return matchesRecurrence || matchesPriority
+    });
+
+    setFilteredTodos(filtered)
+  };
+
+  const handleClearFilters = () => {
+    setFilteredTodos([])
+  };
+
+  return (
+    <Box my={4} className="secondRowTodo">
+      <InProgressItems
+        newData={form.newDataAdded}
+        deleteTodoItem={deleteTodoItem}
+        editTodoItem={editTodoItem}
+        showBody={
           form.showOngoingTodo === undefined
-              ? true
-              : form.showOngoingTodo
-          }
-          onClickArrow={onClickArrowOngoingTodo}
-          getOngoingTodo={getOngoingTodo}
-          dataInKeywords={ongoingDataInKeywords}
-          data={ongoingData}
-          loading={ongoingoader}
-          dataInPriority={ongoingDataInPriority}
-        />
-      </Box>
-    )
+            ? true
+            : form.showOngoingTodo
+        }
+        onClickArrow={onClickArrowOngoingTodo}
+        getOngoingTodo={getOngoingTodo}
+        dataInKeywords={ongoingData?.groupedByKeywords}
+        data={filteredTodos?.length ? filteredTodos : ongoingData?.data}
+        loading={ongoingoader}
+        dataInPriority={ongoingData?.groupedByPriority}
+        filters={<FilterTodo
+          onFilterChange={handleFilterChange}
+          onClearFilters={handleClearFilters}
+        />}
+      />
+    </Box>
+  )
 }
 
 export default InProgressComponent

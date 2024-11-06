@@ -4,6 +4,7 @@ import CompletedTodoItems from '../CompletedTodoItems'
 import { server } from '../../../../../utils/baseUrl'
 import { useBaseUrl } from '../../../../../hooks/useBaseUrl'
 import moment from 'moment'
+import FilterTodo from '../../FilterTodo'
 
 const CompletedTodoComponent = ({
     form,
@@ -14,8 +15,7 @@ const CompletedTodoComponent = ({
   const [completedLoader, setCompletedLoader] = useState(false)
   const apiBaseUrl = useBaseUrl()
   const [completedData, setCompletedData] = useState([])
-  const [completedDataInKeywords, setCompletedDataInKeywords] = useState([])
-  const [completedDataInPriority, setCompletedDataInPriority] = useState([])
+  const [filteredTodos, setFilteredTodos] = useState(completedData);
 
   // get completed todo data
   const getCompletedTodo = async () => {
@@ -33,9 +33,9 @@ const CompletedTodoComponent = ({
         if (durationLastUpdated.indexOf("hour") > 1 ||
           durationLastUpdated.indexOf("minute") > 1) {
         //   setCompletedLoader(false)
-          setCompletedDataInKeywords(response.data.groupedByKeywords) // get grouped data
-          setCompletedData(data => [...data, s])
-          setCompletedDataInPriority(response.data?.groupedByPriority)
+          // setCompletedDataInKeywords(response.data.groupedByKeywords) // get grouped data
+          setCompletedData(response?.data)
+          // setCompletedDataInPriority(response.data?.groupedByPriority)
         }
       })
     }
@@ -61,6 +61,20 @@ const CompletedTodoComponent = ({
         }
     }
 
+    const handleFilterChange = ({ recurrence, priority }) => {
+      const filtered = completedData?.data?.filter((todo) => {
+        const matchesRecurrence = recurrence && recurrence.includes(todo.recurrence)
+        const matchesPriority = priority && priority.includes(todo.priority)
+        return matchesRecurrence || matchesPriority
+      });
+  
+      setFilteredTodos(filtered)
+    };
+  
+    const handleClearFilters = () => {
+      setFilteredTodos([])
+    };
+
     return (
       <Box className="thirdRowTodo">
         <CompletedTodoItems
@@ -73,11 +87,17 @@ const CompletedTodoComponent = ({
               : form.showCompletedTodo
           }
           onClickArrow={onClickArrowOnCompletedTodo}
-          data={completedData}
-          dataInKeywords={completedDataInKeywords}
+          data={filteredTodos?.length ? filteredTodos : completedData.data}
+          dataInKeywords={completedData?.groupedByKeywords}
           loading={completedLoader}
           getCompletedTodo={getCompletedTodo}
-          completedDataInPriority={completedDataInPriority}
+          completedDataInPriority={completedData?.groupedByPriority}
+          filters={
+            <FilterTodo
+              onFilterChange={handleFilterChange}
+              onClearFilters={handleClearFilters}
+            />
+          }
         />
       </Box>
     )

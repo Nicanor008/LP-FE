@@ -18,7 +18,8 @@ const CompletedTodoItems = ({
   dataInKeywords,
   loading,
   getCompletedTodo,
-  completedDataInPriority
+  completedDataInPriority,
+  filters
 }) => {
   const [viewByCompletedTodo, setViewByCompletedTodo] = useState('name')
   const apiBaseUrl = useBaseUrl()
@@ -45,7 +46,7 @@ const CompletedTodoItems = ({
       {loading ? (
         <Loader />
       ) : (
-        (data.length > 0 || dataInKeywords.length > 0 || completedDataInPriority?.length > 0) && (
+        (data?.length > 0 || dataInKeywords?.length > 0 || completedDataInPriority?.length > 0) && (
           <>
             {isMobile && (
               <Text mx={3} fontWeight={700} pb={0} mb={0}>
@@ -61,6 +62,7 @@ const CompletedTodoItems = ({
               onclickSwapButton={onClickSwapButtonCompleted}
               viewByTodo={viewByCompletedTodo}
               searchBar={<SearchTodoByName tasks={data}/>}
+              filters={filters}
             >
               <Box className="onGoingTodoWrapper">
                 {viewByCompletedTodo === 'name' && data.map(todo => (
