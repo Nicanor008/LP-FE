@@ -32,6 +32,7 @@ const DurationSelector = ({ register, watch }) => {
         <FormLabel as="legend" fontWeight={700}>Recurrence</FormLabel>
         <RadioGroup value={selectedDuration}>
           <Flex wrap="wrap">
+            <Radio value="Once" mr={[2, 3]} {...register("Once")} name="recurrence">Once</Radio>
             <Radio value="Daily" mr={[2, 3]} {...register("recurrence")} name="recurrence">Daily</Radio>
             <Radio value="Weekly" mr={[2, 3]} {...register("recurrence")} name="recurrence">Weekly</Radio>
             <Radio value="Monthly" mr={[2, 3]} {...register("recurrence")} name="recurrence">Monthly</Radio>

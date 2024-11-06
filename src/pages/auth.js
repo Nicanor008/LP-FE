@@ -182,14 +182,14 @@ const Login = () => {
                   placeholder="Email"
                   name="email"
                   value={form.email}
-                  onchange={onInputChange}
+                  onChange={onInputChange}
                 />
                 <InputWithLabel
                   type="password"
                   placeholder="password"
                   name="password"
                   value={form.password}
-                  onchange={onInputChange}
+                  onChange={onInputChange}
                 />
                 <Button onClick={LoginUserAccount} bg="#796FED" color="white" isLoading={loadingSignin} loadingText="Signing In ...">Sign In</Button>
               </div>
@@ -204,21 +204,21 @@ const Login = () => {
                   placeholder="Name"
                   name="name"
                   value={form.name}
-                  onchange={onInputChange}
+                  onChange={onInputChange}
                 />
                 <InputWithLabel
                   type="email"
                   placeholder="Email"
                   name="email"
                   value={form.email}
-                  onchange={onInputChange}
+                  onChange={onInputChange}
                 />
                 <InputWithLabel
                   type="password"
                   placeholder="password"
                   name="password"
                   value={form.password}
-                  onchange={onInputChange}
+                  onChange={onInputChange}
                 />
                 <Button isLoading={loadingSignup} loadingText="Creating Account ..." onClick={CreateAccount} bg="#796FED" color="white">Sign Up</Button>
               </div>

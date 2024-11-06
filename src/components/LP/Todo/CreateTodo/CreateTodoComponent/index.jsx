@@ -17,7 +17,7 @@ const CreateTodo = ({ setState, form }) => {
       startTime: "",
       endTime: "",
       duration: "",
-      recurrence: "",
+      recurrence: "Once",
       priority: ""
     }
   });

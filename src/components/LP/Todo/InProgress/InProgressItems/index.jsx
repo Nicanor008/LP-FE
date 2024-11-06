@@ -5,6 +5,7 @@ import TodoItem from "../../todo"
 import TodoItemByKeywords from "../../ByKeywords"
 import Tabs from "../../tabs"
 import { Loader } from "../../../../common"
+import { SearchTodoByName } from "../../SearchTodo"
 
 const InProgressItems = ({
   newData,
@@ -54,6 +55,7 @@ const InProgressItems = ({
               todoItemsTab="true"
               onclickSwapButton={onClickSwapButton}
               viewByTodo={viewByTodo}
+              searchBar={<SearchTodoByName tasks={data}/>}
             >
               <Box className="onGoingTodoWrapper">
                 {viewByTodo === 'name' && (

@@ -87,9 +87,14 @@ const TodoItemByKeywords = (props) => {
           cursor="pointer"
           py={1}
         >
-          <Text mb={0}>{props.data[0]}</Text>
+          <Flex alignItems="center">
+            <Text mb={0} fontWeight={500} mr={1} fontSize="xs">
+              {props.data[1].length > 3 ? props.data[1].length : " "}
+            </Text>{" "}
+            <Text mb={0}>{props.data[0]}</Text>
+          </Flex>
           <Button size="xs" variant="link" colorScheme="blue">
-            {expandedGroups[props.data[0]] ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+            {expandedGroups[props.data[0]] ? <MdKeyboardArrowDown /> : <MdKeyboardArrowUp />}
           </Button>
         </Flex>
 

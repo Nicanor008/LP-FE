@@ -6,6 +6,7 @@ import Tabs from "../../tabs"
 import TodoItem from "../../todo"
 import TodoItemByKeywords from "../../ByKeywords"
 import { Loader } from "../../../../common"
+import { SearchTodoByName } from "../../SearchTodo"
 
 const CompletedTodoItems = ({
   deleteTodoItem,
@@ -59,6 +60,7 @@ const CompletedTodoItems = ({
               todoItemsTab="true"
               onclickSwapButton={onClickSwapButtonCompleted}
               viewByTodo={viewByCompletedTodo}
+              searchBar={<SearchTodoByName tasks={data}/>}
             >
               <Box className="onGoingTodoWrapper">
                 {viewByCompletedTodo === 'name' && data.map(todo => (

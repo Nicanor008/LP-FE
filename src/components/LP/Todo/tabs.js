@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import ArrowUp from "../../../images/icons/Arrow-up.svg"
 import ArrowDown from "../../../images/icons/Arrow-down.svg"
 import ButtonCard from "./ButtonCard"
+import { SearchTodoByName } from "./SearchTodo"
 
 const Tabs = ({
   todoTitleIcon,
@@ -15,13 +16,15 @@ const Tabs = ({
   viewByTodo,
   onclickSwapButton,
   activeCreateTodoOption,
-  handleSelectActiveCreateTodoOption
+  handleSelectActiveCreateTodoOption,
+  searchBar
 }) => {
   return (
     <Box
       className="createTodo"
       style={{ maxHeight: showBody ? "600px" : "51px" }}
       name={name}
+      overflow="scroll"
     >
       {/* tab header */}
       <Box className="tabHeader" mb={1}>
@@ -54,10 +57,13 @@ const Tabs = ({
             </Menu>
           )}
           {todoItemsTab && showBody && (
-            <ButtonCard
-              onclickSwapButton={onclickSwapButton}
-              viewByTodo={viewByTodo}
-            />
+            <>
+              {searchBar}
+              <ButtonCard
+                onclickSwapButton={onclickSwapButton}
+                viewByTodo={viewByTodo}
+              />
+            </>
           )}
           <button
             className="buttonUniformity"
@@ -80,7 +86,8 @@ const Tabs = ({
           className="tabBody"
           style={{
             cursor: "pointer",
-            maxHeight: "500px",
+            maxHeight: todoItemsTab ? "450px" : "555px",
+            overflow: !todoItemsTab ? "visible" : "scroll"
           }}
         >
           {children}
