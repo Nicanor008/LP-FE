@@ -6,6 +6,7 @@ import TodoItemByKeywords from "../../ByKeywords"
 import Tabs from "../../tabs"
 import { Loader } from "../../../../common"
 import { SearchTodoByName } from "../../SearchTodo"
+import FiltersNotFound from "../../FilterTodo/FiltersNotFound"
 
 const InProgressItems = ({
   newData,
@@ -19,7 +20,9 @@ const InProgressItems = ({
   data,
   loading,
   dataInPriority,
-  filters
+  filters,
+  isFiltering,
+  handleClearFilters
 }) => {
   const [viewByTodo, setViewByTodo] = useState('name')
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -39,20 +42,23 @@ const InProgressItems = ({
     sessionStorage.setItem('viewOngoingTodoBy', option)
     return setViewByTodo(option)
   }
-  console.log('......data.........', data)
 
   return (
-    <Box>
+    <Box fontFamily="arial">
       {loading || loader ? (
         <Loader />
       ) : (
-        data?.length > 0 && (
+        (data?.length > 0 || (isFiltering && data?.length === 0)) && (
           <>
-            {isMobile && <Text mx={3} fontWeight={700} pb={0} mb={0}>{data.length} Task{data.length > 1 ? 's' : ''} in Progress</Text>}
+            {isMobile && data?.length > 0 && (
+              <Text mx={3} fontWeight={700} pb={0} mb={0}>
+                {data?.length} Task{data?.length > 1 ? 's' : ''} in Progress
+              </Text>
+            )}
             <Tabs
               todoTitleIcon={Walk}
-              title={`${!isMobile ? `${data.length} Task${data.length > 1 ? 's' : ''} in Progress` : ''}`}
-              showBody={data.length > 0 && showBody}
+              title={`${!isMobile ? `${data?.length} Task${data?.length > 1 ? 's' : ''} in Progress` : ''}`}
+              showBody={showBody}
               onClickArrow={onClickArrow}
               todoItemsTab="true"
               onclickSwapButton={onClickSwapButton}
@@ -61,16 +67,19 @@ const InProgressItems = ({
               filters={filters}
             >
               <Box className="onGoingTodoWrapper">
+                {isFiltering && data?.length === 0 && (
+                  <FiltersNotFound onClick={handleClearFilters} />
+                )}
                 {viewByTodo === 'name' && (
-                  data.map(todo => (
-                      <TodoItem
-                        name={todo.name}
-                        key={todo._id}
-                        complete={false}
-                        id={todo._id}
-                        deleteTodoItem={deleteTodoItem}
-                        editTodoItem={editTodoItem}
-                      />
+                  data?.map(todo => (
+                    <TodoItem
+                      name={todo.name}
+                      key={todo._id}
+                      complete={false}
+                      id={todo._id}
+                      deleteTodoItem={deleteTodoItem}
+                      editTodoItem={editTodoItem}
+                    />
                     )
                   )
                 )}

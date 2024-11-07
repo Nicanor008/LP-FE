@@ -1,4 +1,4 @@
-import { Box, Text, useBreakpointValue } from "@chakra-ui/react"
+import { Box, Button, Center, Text, useBreakpointValue, VStack } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Love from "../../../../../images/icons/love.svg"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
@@ -7,6 +7,7 @@ import TodoItem from "../../todo"
 import TodoItemByKeywords from "../../ByKeywords"
 import { Loader } from "../../../../common"
 import { SearchTodoByName } from "../../SearchTodo"
+import FiltersNotFound from "../../FilterTodo/FiltersNotFound"
 
 const CompletedTodoItems = ({
   deleteTodoItem,
@@ -19,7 +20,10 @@ const CompletedTodoItems = ({
   loading,
   getCompletedTodo,
   completedDataInPriority,
-  filters
+  filters,
+  isFiltering,
+  handleClearFilters,
+  noTaskCompletedWith24Hours
 }) => {
   const [viewByCompletedTodo, setViewByCompletedTodo] = useState('name')
   const apiBaseUrl = useBaseUrl()
@@ -42,21 +46,22 @@ const CompletedTodoItems = ({
   }
 
   return (
-    <Box>
+    <Box fontFamily="Arial">
       {loading ? (
         <Loader />
       ) : (
-        (data?.length > 0 || dataInKeywords?.length > 0 || completedDataInPriority?.length > 0) && (
+        // (data?.length > 0 || dataInKeywords?.length > 0 || completedDataInPriority?.length > 0) && (
+          // (data?.length > 0 || dataInKeywords?.length > 0 || completedDataInPriority?.length > 0) && (
           <>
             {isMobile && (
               <Text mx={3} fontWeight={700} pb={0} mb={0}>
-                {data.length} Task{data.length > 1 ? 's' : ''} Completed in 24 hours
+                {data?.length} Task{data?.length > 1 ? 's' : ''} Completed in 24 hours
               </Text>
             )}
             <Tabs
               todoTitleIcon={Love}
-              title={`${!isMobile ? `${data.length} Task${data.length > 1 ? 's' : ''} Completed` : ''}`}
-              showBody={data.length > 0 && showBody}
+              title={`${!isMobile ? `${data?.length} Task${data?.length > 1 ? 's' : ''} Completed` : ''}`}
+              showBody={showBody}
               onClickArrow={onClickArrow}
               todoItemsTab="true"
               onclickSwapButton={onClickSwapButtonCompleted}
@@ -65,7 +70,10 @@ const CompletedTodoItems = ({
               filters={filters}
             >
               <Box className="onGoingTodoWrapper">
-                {viewByCompletedTodo === 'name' && data.map(todo => (
+                {isFiltering && (data?.length === 0 || dataInKeywords?.length === 0 || completedDataInPriority?.length === 0) && (
+                  <FiltersNotFound onClick={handleClearFilters} noTaskCompletedWith24Hours={noTaskCompletedWith24Hours} />
+                )}
+                {viewByCompletedTodo === 'name' && data?.map(todo => (
                       <TodoItem
                         name={todo.name}
                         key={Math.random()}
@@ -106,11 +114,12 @@ const CompletedTodoItems = ({
                         })}
               </Box>
             </Tabs>
-            </>
-        )
+          </>
+        // )
       )}
     </Box>
   )
 }
 
 export default CompletedTodoItems
+

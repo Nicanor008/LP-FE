@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import moment from 'moment'
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 import InProgressItems from '../InProgressItems'
 import { server } from '../../../../../utils/baseUrl'
@@ -11,11 +12,11 @@ const InProgressComponent = ({
     editTodoItem,
     setState
 }) => {
-    const apiBaseUrl = useBaseUrl()
-
+  const apiBaseUrl = useBaseUrl()
   const [ongoingData, setData] = useState([])
   const [ongoingoader, setOngoingLoader] = useState(false)
   const [filteredTodos, setFilteredTodos] = useState(ongoingData);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   // get ongoing todo data
   const getOngoingTodo = async () => {
@@ -58,17 +59,69 @@ const InProgressComponent = ({
     }
   }
 
-  const handleFilterChange = ({ recurrence, priority }) => {
-    const filtered = ongoingData?.data?.filter((todo) => {
-      const matchesRecurrence = recurrence && recurrence.includes(todo.recurrence)
-      const matchesPriority = priority && priority.includes(todo.priority)
-      return matchesRecurrence || matchesPriority
+  const handleFilterChange = ({ recurrence, priority, time }) => {
+    setIsFiltering(true)
+
+    const now = moment();
+
+    // Filter for "data" section
+    const filteredData = ongoingData?.data?.filter((todo) => {
+      const matchesRecurrence = 
+        recurrence.length > 0 && ((recurrence.includes("Once") && (todo.recurrence === "" || todo.recurrence === 'Once')) || recurrence.includes(todo.recurrence))
+
+      const matchesPriority = 
+        priority.length > 0 && ((priority.includes("No Priority") && (todo.priority === "" || todo.priority === 'No Priority')) || priority.includes(todo.priority))
+  
+      const matchesTime = moment(todo.updatedAt).isAfter(now.clone().subtract(time, 'hours'));
+  
+      return (matchesRecurrence || matchesPriority || matchesTime)
     });
 
-    setFilteredTodos(filtered)
+    // Filter for "groupedByKeywords"
+    const filteredKeywords = ongoingData?.groupedByKeywords?.map(([keyword, todos]) => {
+      const filteredTodos = todos.filter((todo) => {
+        const matchesRecurrence = 
+          recurrence.length > 0 && ((recurrence.includes("Once") && (todo.recurrence === "" || todo.recurrence === 'Once')) || recurrence.includes(todo.recurrence))
+
+        const matchesPriority = 
+          priority.length > 0 && ((priority.includes("No Priority") && (todo.priority === "" || todo.priority === 'No Priority')) || priority.includes(todo.priority))
+        
+        const matchesTime = moment(todo.updatedAt).isAfter(now.clone().subtract(time, 'hours'));
+
+        return matchesRecurrence || matchesPriority || matchesTime;
+      });
+
+      return [keyword, filteredTodos];
+    }).filter(([_, todos]) => todos.length > 0);
+
+    // Filter for "groupedByPriority"
+    const filteredPriority = ongoingData?.groupedByPriority?.map(([priorityGroup, todos]) => {
+      const filteredTodos = todos.filter((todo) => {
+
+      const matchesRecurrence = 
+      recurrence.length > 0 && ((recurrence.includes("Once") && (todo.recurrence === "" || todo.recurrence === 'Once')) || recurrence.includes(todo.recurrence))
+
+      const matchesPriority = 
+        priority.length > 0 && ((priority.includes("No Priority") && (todo.priority === "" || todo.priority === 'No Priority')) || priority.includes(todo.priority))
+      
+      const matchesTime = moment(todo.updatedAt).isAfter(now.clone().subtract(time, 'hours'));
+
+        return matchesRecurrence || matchesPriority || matchesTime;
+      });
+
+      return [priorityGroup, filteredTodos];
+    }).filter(([_, todos]) => todos.length > 0);
+
+    setFilteredTodos({
+      ...ongoingData,
+      data: filteredData,
+      groupedByKeywords: filteredKeywords,
+      groupedByPriority: filteredPriority,
+    });
   };
 
   const handleClearFilters = () => {
+    setIsFiltering(false)
     setFilteredTodos([])
   };
 
@@ -85,14 +138,16 @@ const InProgressComponent = ({
         }
         onClickArrow={onClickArrowOngoingTodo}
         getOngoingTodo={getOngoingTodo}
-        dataInKeywords={ongoingData?.groupedByKeywords}
-        data={filteredTodos?.length ? filteredTodos : ongoingData?.data}
+        dataInKeywords={filteredTodos?.groupedByKeywords?.length || isFiltering ? filteredTodos?.groupedByKeywords : ongoingData?.groupedByKeywords}
+        data={filteredTodos?.data?.length || isFiltering ? filteredTodos?.data : ongoingData?.data}
         loading={ongoingoader}
-        dataInPriority={ongoingData?.groupedByPriority}
+        dataInPriority={filteredTodos?.groupedByPriority?.length || isFiltering ? filteredTodos?.groupedByPriority : ongoingData?.groupedByPriority}
         filters={<FilterTodo
           onFilterChange={handleFilterChange}
           onClearFilters={handleClearFilters}
         />}
+        isFiltering={isFiltering}
+        handleClearFilters={handleClearFilters}
       />
     </Box>
   )

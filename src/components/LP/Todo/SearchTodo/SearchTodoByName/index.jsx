@@ -75,7 +75,7 @@ const SearchTodoByName = ({ tasks }) => {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent fontFamily="arial">
-          <ModalHeader>Search {tasks[0]?.completed ? 'Completed' : 'In-Progress'} Tasks</ModalHeader>
+          <ModalHeader>Search {tasks && tasks[0]?.completed ? 'Completed' : 'In-Progress'} Tasks</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Input
