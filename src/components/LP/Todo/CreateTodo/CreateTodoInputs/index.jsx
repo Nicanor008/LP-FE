@@ -1,4 +1,4 @@
-import { Box, Checkbox, Flex, FormControl, FormLabel, IconButton, Input, Radio, RadioGroup, Stack, VStack } from '@chakra-ui/react';
+import { Box, Checkbox, Flex, FormControl, FormLabel, IconButton, Input, Radio, RadioGroup, Select, Stack, VStack } from '@chakra-ui/react';
 import { Controller } from 'react-hook-form';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -6,10 +6,27 @@ import { FaPlus } from "@react-icons/all-files/fa/FaPlus"
 import Plus from '../../../../../images/icons/plus.svg';
 import { AddTodoButton, RichTextArea } from '../../../../common';
 import DurationSelector from './DurationSelector';
+import { server } from '../../../../../utils/baseUrl';
+import { useBaseUrl } from '../../../../../hooks/useBaseUrl';
 
 const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, activeCreateTodoOption, watch, subTasks, setSubTasks }) => {
   const textareaRef = useRef(null);
   const todoDescription = watch("name");
+  const [tasks, setTasks] = useState([]);
+  const apiBaseUrl = useBaseUrl()
+
+  const getOngoingTodo = async () => {
+    try {
+      const response = await server
+        .get(`${apiBaseUrl}/todo/ongoing`)
+
+      setTasks(response.data?.data)
+    }
+    catch (e) {
+      setData([])
+      setOngoingLoader(false)
+    }
+  }
 
   const onKeyDownTodoHandler = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -28,6 +45,10 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
 
   const [showSubTaskInput, setShowSubTaskInput] = useState(false);
   const [subTaskInput, setSubTaskInput] = useState("");
+
+  useEffect(() => {
+    getOngoingTodo();
+  }, []);
 
   const handleSubTaskAdd = () => {
     if (subTaskInput.trim()) {
@@ -147,18 +168,39 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
         </Flex>
       )}
 
-      {activeCreateTodoOption === 'Advanced' && (
-        <FormControl mb={4}>
-          <FormLabel fontWeight={700}>Priority Level</FormLabel>
-          <RadioGroup>
-            <Stack direction="row">
-              <Radio value="High" {...register("priority")} name="priority">High</Radio>
-              <Radio value="Medium" {...register("priority")} name="priority">Medium</Radio>
-              <Radio value="Low" {...register("priority")} name="priority">Low</Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-      )}
+      <Flex justifyContent="space-between" flexDir={["column", "row"]}>
+        {activeCreateTodoOption === 'Advanced' && (
+          <>
+            <FormControl mb={4} w="fit-content">
+              <FormLabel fontWeight={700}>Priority Level</FormLabel>
+              <RadioGroup>
+                <Stack direction="row">
+                  <Radio value="High" {...register("priority")} name="priority">High</Radio>
+                  <Radio value="Medium" {...register("priority")} name="priority">Medium</Radio>
+                  <Radio value="Low" {...register("priority")} name="priority">Low</Radio>
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+
+            {/* task dependency */}
+            <FormControl mb={4} color="black" w={["100%", "50%"]}>
+              <FormLabel fontWeight={700}>Depends on</FormLabel>
+              <Select
+                placeholder="Select a task"
+                {...register("dependsOn")}
+              >
+                {tasks.map((task) => (
+                  <option
+                    key={task._id}
+                    value={task._id}
+                    dangerouslySetInnerHTML={{ __html: task.name }}
+                  />
+                ))}
+              </Select>
+            </FormControl>
+          </>
+        )}
+      </Flex>
 
       {/* Submit button */}
       <AddTodoButton

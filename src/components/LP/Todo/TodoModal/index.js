@@ -21,6 +21,7 @@ import Close from "../../../../images/icons/close.svg"
 import CheckMark from "../../../../images/icons/checkmark.svg"
 import { CreateComment, ViewComments } from "../Comments"
 import { TodoItemSubTask } from "../SubTasks"
+import { TodoItemDependsOn } from "../TodoDependsOn"
 
 const TodoModal = ( props ) => {
   const [writeComment, setWriteComment] = useState(true)
@@ -103,6 +104,9 @@ const TodoModal = ( props ) => {
 
             {/* sub tasks */}
             {props.data?.subTasks?.length > 0 && <TodoItemSubTask subTasks={props.data?.subTasks} />}
+
+            {/* depends on */}
+            {props.data?.dependsOn && <TodoItemDependsOn task={props.data?.dependsOn} />}
 
             {/* if it was created from comment, then show the parent todo item */}
             {props.data?.isCreatedFromComment && (
