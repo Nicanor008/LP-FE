@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { Box, Flex, Text } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 import { server } from "../../../utils/baseUrl"
 import TodoModal from "./TodoModal"
 import CommonIcons from "./icons/editAndDeleteIcons"
 import { useBaseUrl } from "../../../hooks/useBaseUrl"
 import "../../common/modal/modal.scss"
+import { TodoItemSubTask } from "./SubTasks"
 
 const TodoItem = props => {
   const apiBaseUrl = useBaseUrl()
@@ -36,25 +37,30 @@ const TodoItem = props => {
   };
   
   return (
-    <Box>
-      <Flex className="todo" alignItems="center" borderBottom="0.2px solid" borderColor="blue.100">
-        <CommonIcons
-          data={data}
-          complete={props.complete}
-          editTodoItem={props.editTodoItem}
-          deleteTodoItem={props.deleteTodoItem}
-          id={props.id}
-          viewTodoItem={onClickViewOneItem}
-        />
-        <Box
-          bg="inherit"
-          m={0}
-          cursor="pointer"
-          fontSize="initial"
-          fontFamily="IBM Plex Mono"
-          onClick={() => onClickViewOneItem(props.id)}
-          dangerouslySetInnerHTML={{ __html: cleanAndTruncateHTML(props.name) }}
-        />
+    <Box w="100%">
+      <Flex className="todo" alignItems="center" borderBottom="0.2px solid" borderColor="blue.100" flexDir="column" w="100%">
+        <Flex alignItems="center" w="100%">
+          <CommonIcons
+            data={data}
+            complete={props.complete}
+            editTodoItem={props.editTodoItem}
+            deleteTodoItem={props.deleteTodoItem}
+            id={props.id}
+            viewTodoItem={onClickViewOneItem}
+          />
+          <Box
+            bg="inherit"
+            m={0}
+            cursor="pointer"
+            fontSize="initial"
+            fontFamily="IBM Plex Mono"
+            onClick={() => onClickViewOneItem(props.id)}
+            dangerouslySetInnerHTML={{ __html: cleanAndTruncateHTML(props.name) }}
+          />
+          
+        </Flex>
+        {/* subtasks */}
+        {props.todo?.subTasks?.length > 0 && <TodoItemSubTask subTasks={props.todo?.subTasks} />}
       </Flex>
 
       {/* modal */}

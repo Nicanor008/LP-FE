@@ -115,7 +115,7 @@ const RichTextArea = ({ name, control, placeholder = 'Enter text...' }) => {
             }}
             className="custom-quill"
           />
-          <Flex position="absolute" right="8px" top="1px" gap={2}>
+          <Flex position="absolute" right={["12px", "8px"]} top={["27px", "1px"]} gap={2}>
             <Tooltip
               label={isListening ? 'Click to stop speech-to-text' : 'Click to start speech-to-text'}
               aria-label="Speech tooltip"

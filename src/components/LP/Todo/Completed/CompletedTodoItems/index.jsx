@@ -1,4 +1,4 @@
-import { Box, Button, Center, Text, useBreakpointValue, VStack } from "@chakra-ui/react"
+import { Box, Text, useBreakpointValue } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import Love from "../../../../../images/icons/love.svg"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
@@ -25,13 +25,9 @@ const CompletedTodoItems = ({
   handleClearFilters,
   noTaskCompletedWith24Hours
 }) => {
-  const [viewByCompletedTodo, setViewByCompletedTodo] = useState('name')
+  const [viewByCompletedTodo, setViewByCompletedTodo] = useState(sessionStorage?.getItem('viewOngoingTodoBy') ?? 'name')
   const apiBaseUrl = useBaseUrl()
   const isMobile = useBreakpointValue({ base: true, md: false });
-
-  useEffect(() => {
-    setViewByCompletedTodo(sessionStorage?.getItem('viewOngoingTodoBy'))
-  }, [])
 
   // componentDidMount
   useEffect(() => {
@@ -74,44 +70,47 @@ const CompletedTodoItems = ({
                   <FiltersNotFound onClick={handleClearFilters} noTaskCompletedWith24Hours={noTaskCompletedWith24Hours} />
                 )}
                 {viewByCompletedTodo === 'name' && data?.map(todo => (
-                      <TodoItem
-                        name={todo.name}
-                        key={Math.random()}
-                        complete={true}
-                        id={todo._id}
+                  <TodoItem
+                    name={todo.name}
+                    key={Math.random()}
+                    complete={true}
+                    id={todo._id}
+                    deleteTodoItem={deleteTodoItem}
+                    editTodoItem={editTodoItem}
+                    apiBaseUrl={apiBaseUrl}
+                    todo={todo}
+                  />
+                ))}
+                {viewByCompletedTodo === 'tags' && dataInKeywords &&
+                  dataInKeywords.map(dataKeywords => {
+                    return (
+                      <TodoItemByKeywords
+                        data={dataKeywords}
                         deleteTodoItem={deleteTodoItem}
                         editTodoItem={editTodoItem}
-                        apiBaseUrl={apiBaseUrl}
+                        key={Math.random()}
+                        completedKeywords={true}
+                        id={dataInKeywords._id}
+                        complete={true}
                       />
-                    ))}
-                {viewByCompletedTodo === 'tags' && dataInKeywords &&
-                    dataInKeywords.map(dataKeywords => {
-                      return (
-                        <TodoItemByKeywords
-                          data={dataKeywords}
-                          deleteTodoItem={deleteTodoItem}
-                          editTodoItem={editTodoItem}
-                          key={Math.random()}
-                          completedKeywords={true}
-                          id={dataInKeywords._id}
-                          complete={true}
-                        />
-                      )
-                    })}
-                    {viewByCompletedTodo === 'priority' && completedDataInPriority &&
-                        completedDataInPriority.map(dataKeywords => {
-                          return (
-                            <TodoItemByKeywords
-                              data={dataKeywords}
-                              deleteTodoItem={deleteTodoItem}
-                              editTodoItem={editTodoItem}
-                              key={Math.random()}
-                              completedKeywords={true}
-                              id={completedDataInPriority._id}
-                              complete={true}
-                            />
-                          )
-                        })}
+                    )
+                  }
+                )}
+                {viewByCompletedTodo === 'priority' && completedDataInPriority &&
+                  completedDataInPriority.map(dataKeywords => {
+                    return (
+                      <TodoItemByKeywords
+                        data={dataKeywords}
+                        deleteTodoItem={deleteTodoItem}
+                        editTodoItem={editTodoItem}
+                        key={Math.random()}
+                        completedKeywords={true}
+                        id={completedDataInPriority._id}
+                        complete={true}
+                      />
+                    )
+                  }
+                )}
               </Box>
             </Tabs>
           </>

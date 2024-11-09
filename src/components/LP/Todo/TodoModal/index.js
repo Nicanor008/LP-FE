@@ -5,9 +5,6 @@ import {
   Tag,
   Text,
   AccordionItem,
-  AccordionItemContent,
-  AccordionItemTrigger,
-  AccordionRoot,
   AccordionButton,
   AccordionPanel,
   Accordion,
@@ -23,6 +20,7 @@ import Reload from "../../../../images/icons/reload.svg"
 import Close from "../../../../images/icons/close.svg"
 import CheckMark from "../../../../images/icons/checkmark.svg"
 import { CreateComment, ViewComments } from "../Comments"
+import { TodoItemSubTask } from "../SubTasks"
 
 const TodoModal = ( props ) => {
   const [writeComment, setWriteComment] = useState(true)
@@ -70,7 +68,6 @@ const TodoModal = ( props ) => {
                 )}
               </Flex>
             </Flex>
-            {/* <p className="todoName">{props.data.name}</p> */}
             <Box
               className="todoName"
               onClick={() => onClickViewOneItem(props.data?.id)}
@@ -103,6 +100,9 @@ const TodoModal = ( props ) => {
                 {moment(props.data.createdAt).format("MMM Do YYYY, h:mm a")}
               </p>
             </Flex>
+
+            {/* sub tasks */}
+            {props.data?.subTasks?.length > 0 && <TodoItemSubTask subTasks={props.data?.subTasks} />}
 
             {/* if it was created from comment, then show the parent todo item */}
             {props.data?.isCreatedFromComment && (

@@ -1,12 +1,13 @@
-import { Box, Flex, FormControl, FormLabel, Input, Radio, RadioGroup, Stack } from '@chakra-ui/react';
+import { Box, Checkbox, Flex, FormControl, FormLabel, IconButton, Input, Radio, RadioGroup, Stack, VStack } from '@chakra-ui/react';
 import { Controller } from 'react-hook-form';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { FaPlus } from "@react-icons/all-files/fa/FaPlus"
 import Plus from '../../../../../images/icons/plus.svg';
 import { AddTodoButton, RichTextArea } from '../../../../common';
 import DurationSelector from './DurationSelector';
 
-const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, activeCreateTodoOption, watch }) => {
+const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, activeCreateTodoOption, watch, subTasks, setSubTasks }) => {
   const textareaRef = useRef(null);
   const todoDescription = watch("name");
 
@@ -24,6 +25,23 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
       textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 150)}px`; // Set a maximum height
     }
   }, [todoDescription]);
+
+  const [showSubTaskInput, setShowSubTaskInput] = useState(false);
+  const [subTaskInput, setSubTaskInput] = useState("");
+
+  const handleSubTaskAdd = () => {
+    if (subTaskInput.trim()) {
+      setSubTasks([...subTasks, subTaskInput]);
+      setSubTaskInput("");
+    }
+  };
+
+  const handleSubTaskInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubTaskAdd();
+    }
+  };
 
   return (
     <Box fontFamily="'IBM Plex Mono', monospace">
@@ -59,6 +77,42 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
           />
         </Flex>
       </FormControl>
+
+      {/* sub tasks */}
+      {/* a checkbox, when selected opens up an input to enter subtask name/description, on press enter creates sub-task related to the task to be created(or collect all sub-tasks then on creating task, also create sub-task)*/}
+      <FormControl mb={4}>
+        <Checkbox
+          onChange={(e) => setShowSubTaskInput(e.target.checked)}
+        >
+          Add Sub-tasks
+        </Checkbox>
+      </FormControl>
+
+      {showSubTaskInput && (
+        <VStack align="start" spacing={2} mt={2}>
+          <Flex align="center" w="100%">
+            <Input
+              placeholder="Enter sub-task"
+              value={subTaskInput}
+              onChange={(e) => setSubTaskInput(e.target.value)}
+              onKeyDown={handleSubTaskInputKeyDown}
+            />
+            <IconButton
+              icon={<FaPlus />}
+              onClick={handleSubTaskAdd}
+              aria-label="Add sub-task"
+              ml={2}
+            />
+          </Flex>
+
+          {/* Display sub-tasks */}
+          {subTasks.map((subTask, index) => (
+            <Box key={index} p={2} w="100%" bg="gray.100" borderRadius="md">
+              {subTask}
+            </Box>
+          ))}
+        </VStack>
+      )}
 
       {/* Duration */}
       {activeCreateTodoOption === 'Advanced' && (

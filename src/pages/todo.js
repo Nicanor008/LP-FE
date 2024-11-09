@@ -63,7 +63,7 @@ const TodoDashboard = () => {
 
           <InProgressAndCompletedTodo form={form} setState={setForm} />
         </Box>
-        <SecondRowTodo />
+        <SecondRowTodo updateAnalytics={form?.newDataAdded || form?.newCompletedData} />
       </Box>
       <Box id="snackbar"></Box>
     </Layout>

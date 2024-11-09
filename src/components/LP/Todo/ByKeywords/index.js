@@ -9,6 +9,7 @@ import { server } from "../../../../utils/baseUrl";
 import "../../../common/modal/modal.scss";
 import "./byKeywords.scss";
 import { useBaseUrl } from "../../../../hooks/useBaseUrl";
+import { TodoItemSubTask } from "../SubTasks";
 
 export const timeByDuration = ({ time, value }) => {
   return moment(time, "YYYYMMDDhhmm").fromNow().indexOf(value) > 1;
@@ -54,24 +55,27 @@ const TodoItemByKeywords = (props) => {
   };
 
   const IconsWithTodoName = (prop) => (
-    <Flex className="todo" alignItems="center" borderBottom="0.2px solid" borderColor="blue.100" w="100%">
-      <CommonIcons
-        data={prop.data}
-        complete={prop.complete}
-        editTodoItem={prop.editTodoItem}
-        deleteTodoItem={prop.deleteTodoItem}
-        id={prop.id}
-        viewTodoItem={onClickViewOneItem}
-      />
-      <Box
-        bg="inherit"
-        m={0}
-        cursor="pointer"
-        fontSize="initial"
-        fontFamily="IBM Plex Mono"
-        onClick={() => onClickViewOneItem(prop.data?.id)}
-        dangerouslySetInnerHTML={{ __html: cleanAndTruncateHTML(prop.data?.name) }}
-      />
+    <Flex className="todo" alignItems="center" borderBottom="0.2px solid" borderColor="blue.100" pb={prop?.data?.subTasks?.length > 0 ? 4 : 0} flexDir="column" w="100%">
+      <Flex alignItems="center" w="100%">
+        <CommonIcons
+          data={prop.data}
+          complete={prop.complete}
+          editTodoItem={prop.editTodoItem}
+          deleteTodoItem={prop.deleteTodoItem}
+          id={prop.id}
+          viewTodoItem={onClickViewOneItem}
+        />
+        <Box
+          bg="inherit"
+          m={0}
+          cursor="pointer"
+          fontSize="initial"
+          fontFamily="IBM Plex Mono"
+          onClick={() => onClickViewOneItem(prop.data?.id)}
+          dangerouslySetInnerHTML={{ __html: cleanAndTruncateHTML(prop.data?.name) }}
+        />
+      </Flex>
+      {prop?.data?.subTasks?.length > 0 && <TodoItemSubTask subTasks={prop?.data?.subTasks} />}
     </Flex>
   );
 
@@ -102,7 +106,7 @@ const TodoItemByKeywords = (props) => {
         {!expandedGroups[props.data[0]] && (
           <ul className="GroupedTodoTextWrapper">
             {props.data[1].map((data) => (
-              <li key={data._id} style={{ alignItems: "center", marginBottom: 0 }}>
+              <li key={data._id} style={{ alignItems: "center", marginBottom: 0, width: "100%" }}>
                 <IconsWithTodoName
                   data={data}
                   complete={props.complete}

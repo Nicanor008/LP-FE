@@ -7,7 +7,7 @@ import AnalyticsChartCard from "./analyticsChartCard"
 import { server } from "../../../../../utils/baseUrl"
 import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 
-function AnalyticsCard() {
+function AnalyticsCard({ updateAnalytics }) {
   const [analytics, setAnalytics] = useState({})
   const apiBaseUrl = useBaseUrl()
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -34,7 +34,7 @@ function AnalyticsCard() {
         console.error('Error Message:', error.message);
       }
     }
-  }, [])
+  }, [updateAnalytics])
 
   return (
     <div>

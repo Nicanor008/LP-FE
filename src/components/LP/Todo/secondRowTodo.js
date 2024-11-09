@@ -4,14 +4,14 @@ import DateWeather from "./secondRow/dateWeather"
 // import Quote from "./secondRow/quote"
 import AnalyticsCard from "./secondRow/analytics/analyticsCard"
 
-function SecondRowTodo() {
+function SecondRowTodo({ updateAnalytics }) {
 
   return (
     <Box className="secondTodoColumn">
       <Box className="secondRow" minW={["100%", "34%"]} position={["relative", "fixed"]}>
         <DateWeather />
         {/* <Quote /> */}
-        <AnalyticsCard />
+        <AnalyticsCard updateAnalytics={updateAnalytics} />
       </Box>
     </Box>
   )

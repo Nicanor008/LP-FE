@@ -24,6 +24,7 @@ const CreateTodo = ({ setState, form }) => {
   const apiBaseUrl = useBaseUrl();
   const [activeCreateTodoOption, setActiveCreateTodoOption] = useState('Medium');
   const toast = useToast();
+  const [subTasks, setSubTasks] = useState([]);
 
   useEffect(() => {
     setActiveCreateTodoOption(sessionStorage.getItem("activeCreateTodoOption") ?? "Medium")
@@ -40,9 +41,13 @@ const CreateTodo = ({ setState, form }) => {
     try {
       await server.post(`${apiBaseUrl}/todo`, {
         ...data,
+        subTasks,
         duration: data?.recurrence ?? '',
         user: activeToken?.id
       })
+
+      setSubTasks([])
+
       reset();
       setState({
         newDataAdded: !form.newDataAdded,
@@ -97,6 +102,8 @@ const CreateTodo = ({ setState, form }) => {
           activeCreateTodoOption={activeCreateTodoOption}
           watch={watch}
           control={control}
+          subTasks={subTasks}
+          setSubTasks={setSubTasks}
         />
       </Tabs>
     </Box>

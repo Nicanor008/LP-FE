@@ -24,12 +24,8 @@ const InProgressItems = ({
   isFiltering,
   handleClearFilters
 }) => {
-  const [viewByTodo, setViewByTodo] = useState('name')
+  const [viewByTodo, setViewByTodo] = useState(sessionStorage?.getItem('viewOngoingTodoBy') ?? 'name')
   const isMobile = useBreakpointValue({ base: true, md: false });
-
-  useEffect(() => {
-    setViewByTodo(sessionStorage?.getItem('viewOngoingTodoBy'))
-  }, [])
 
   // componentDidMount
   useEffect(() => {
@@ -79,6 +75,7 @@ const InProgressItems = ({
                       id={todo._id}
                       deleteTodoItem={deleteTodoItem}
                       editTodoItem={editTodoItem}
+                      todo={todo}
                     />
                     )
                   )
