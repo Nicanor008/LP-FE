@@ -148,6 +148,7 @@ const InProgressComponent = ({
         />}
         isFiltering={isFiltering}
         handleClearFilters={handleClearFilters}
+        setState={setState}
       />
     </Box>
   )

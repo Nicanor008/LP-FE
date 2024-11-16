@@ -22,7 +22,8 @@ const InProgressItems = ({
   dataInPriority,
   filters,
   isFiltering,
-  handleClearFilters
+  handleClearFilters,
+  setState
 }) => {
   const [viewByTodo, setViewByTodo] = useState(sessionStorage?.getItem('viewOngoingTodoBy') ?? 'name')
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -76,6 +77,7 @@ const InProgressItems = ({
                       deleteTodoItem={deleteTodoItem}
                       editTodoItem={editTodoItem}
                       todo={todo}
+                      setState={setState}
                     />
                     )
                   )
@@ -91,6 +93,7 @@ const InProgressItems = ({
                           key={Math.random()}
                           id={dataInKeywords._id}
                           complete={false}
+                          setState={setState}
                         />
                       )
                     })
@@ -106,6 +109,7 @@ const InProgressItems = ({
                             key={Math.random()}
                             id={dataInPriority._id}
                             complete={false}
+                            setState={setState}
                           />
                         )
                       }

@@ -131,6 +131,7 @@ const TodoItemByKeywords = (props) => {
           id={props.id}
           editTodoItem={props.editTodoItem}
           deleteTodoItem={props.deleteTodoItem}
+          setState={props.setState}
         />
       )}
     </Box>

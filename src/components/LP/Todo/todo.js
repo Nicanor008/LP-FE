@@ -75,6 +75,7 @@ const TodoItem = props => {
           editTodoItem={props.editTodoItem}
           deleteTodoItem={props.deleteTodoItem}
           setData={setData}
+          setState={props.setState}
         />
       )}
     </Box>

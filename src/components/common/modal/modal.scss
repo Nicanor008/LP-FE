@@ -40,10 +40,8 @@
   }
   .todoTime,
   .todoItemTimeWrapper {
-    display: flex;
     font-family: "IBM Plex Mono" !important;
     p {
-      padding-right: 3rem;
       span {
         font-family: "Caveat";
       }
@@ -54,12 +52,12 @@
     button {
       padding: 0.6rem 1.2rem !important;
       border-radius: 3px !important;
-      color: white !important;
+      // color: white !important;
       font-family: "IBM Plex Mono", monospace !important;
       display: flex;
-      border: 0;
-    margin-right: 1.1rem;
-  }
+      // border: 0;
+      margin-right: 1.1rem;
+    }
     .completedStatus {
       background-color: #8e93f8 !important;
     }

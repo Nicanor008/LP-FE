@@ -70,10 +70,10 @@ const InProgressAndCompletedTodo = ({
 
             {/* completed todo */}
             <CompletedTodo
-            form={form}
-            deleteTodoItem={deleteTodoItem}
-            editTodoItem={editTodoItem}
-            setState={setState}
+                form={form}
+                deleteTodoItem={deleteTodoItem}
+                editTodoItem={editTodoItem}
+                setState={setState}
             />
         </Box>
     )

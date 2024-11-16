@@ -9,10 +9,12 @@ import {
   AccordionPanel,
   Accordion,
   VStack,
-  HStack
+  HStack,
+  IconButton
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import moment from "moment"
+import { IoMdSwitch } from "@react-icons/all-files/io/IoMdSwitch"
 import Modal from "../../../common/modal"
 import Completed from "../../../../images/Completed.svg"
 import InProgress from "../../../../images/inProgress.svg"
@@ -22,6 +24,7 @@ import CheckMark from "../../../../images/icons/checkmark.svg"
 import { CreateComment, ViewComments } from "../Comments"
 import { TodoItemSubTask } from "../SubTasks"
 import { TodoItemDependsOn } from "../TodoDependsOn"
+import DeferTask from "../DeferTask"
 
 const TodoModal = ( props ) => {
   const [writeComment, setWriteComment] = useState(true)
@@ -80,9 +83,23 @@ const TodoModal = ( props ) => {
               {props.data && (
                 <div className="todoTime">
                   {props.data?.recurrence && (
-                    <p>
-                      <span>Recurrence:</span>{" "}{props.data?.recurrence || props.data?.duration}
-                    </p>
+                    <Flex alignItems="center">
+                      <Text mb={0} fontFamily="Caveat" pr={0} mr={0}>Recurrence:</Text>
+                      <IconButton
+                        aria-label="change-recurrence"
+                        icon={<IoMdSwitch />}
+                        h="fit-content"
+                        w="fit-content"
+                        m={0}
+                        p={0}
+                        bg="none"
+                      />
+                      <Text mb={0}>{props.data?.recurrence || props.data?.duration}</Text>
+                    {/* <p>
+                      <span>Recurrence:</span>
+                      {" "}{props.data?.recurrence || props.data?.duration}
+                    </p> */}
+                    </Flex>
                   )}
                   {props.data?.startTime && (
                     <>
@@ -154,6 +171,8 @@ const TodoModal = ( props ) => {
                   ? "Revert to ongoing tasks"
                   : "Mark as complete"}
               </Button>
+              
+              <DeferTask task={props.data} closeTodoModal={props.CloseOrOpenModal} setState={props.setState} />
               <Button
                 fontWeight={700}
                 alignItems="center"

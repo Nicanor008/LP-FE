@@ -9,6 +9,7 @@ import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 
 function AnalyticsCard({ updateAnalytics }) {
   const [analytics, setAnalytics] = useState({})
+  const [inProgressTasks, setInProgressTasks] = useState([])
   const apiBaseUrl = useBaseUrl()
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -22,6 +23,8 @@ function AnalyticsCard({ updateAnalytics }) {
           analyticsLoader: false,
         })
       })
+
+      server.get(`${apiBaseUrl}/todo/ongoing`).then((tt) => setInProgressTasks(tt.data?.data))
     } catch (error) {
       if (error.response) {
         // Server responded with a status code out of 2xx range
@@ -58,9 +61,9 @@ function AnalyticsCard({ updateAnalytics }) {
                   )}
 
                   <Flex className="analyticsTotalItemsTitle" flexDir={["column", "row"]}>
-                    {analytics?.todo?.totalUncompletedTodo > 0 && (
+                    {(analytics?.todo?.totalUncompletedTodo > 0 || inProgressTasks.length > 0) && (
                       <h4>
-                        {analytics?.todo?.totalUncompletedTodo} Ongoing
+                        {inProgressTasks.length ?? analytics?.todo?.totalUncompletedTodo} Ongoing
                       </h4>
                     )}
                     {analytics?.todo?.totalCompletedTodo > 0 && (
@@ -94,8 +97,8 @@ function AnalyticsCard({ updateAnalytics }) {
           </Cards>
           {analytics.totalItems > 1 && !isMobile && (
             <AnalyticsChartCard
-              data={analytics.todo} 
-              ongoingTodo={analytics?.todo?.totalUncompletedTodo} 
+              data={analytics.todo}
+              ongoingTodo={inProgressTasks?.length ?? analytics?.todo?.totalUncompletedTodo} 
               completedTodo={analytics?.todo?.totalCompletedTodo}
             />
           )}
