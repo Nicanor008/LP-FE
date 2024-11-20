@@ -10,6 +10,7 @@ module.exports = {
     author: `Nicanor Korir`,
     apiURL: "https://lp-be-1.onrender.com",
     // apiURL: "http://localhost:4001",
+    // apiURL: "https://nicanor.me/lp-api-v1",
     ipInfoAPIToken: "83684f7099807a",
     // ipInfoAPIToken: process.env.ipInfoAPIToken,
     // apiURL: process.env.LP_PROD_API,

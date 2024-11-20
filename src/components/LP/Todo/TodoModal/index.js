@@ -25,10 +25,13 @@ import { CreateComment, ViewComments } from "../Comments"
 import { TodoItemSubTask } from "../SubTasks"
 import { TodoItemDependsOn } from "../TodoDependsOn"
 import DeferTask from "../DeferTask"
+import { useBaseUrl } from "../../../../hooks/useBaseUrl"
+import { server } from "../../../../utils/baseUrl"
 
 const TodoModal = ( props ) => {
   const [writeComment, setWriteComment] = useState(true)
   const [comments, setComments] = useState(props?.data?.comments);
+  const apiBaseUrl = useBaseUrl()
 
   useEffect(() => {
     setComments(props?.data?.comments ?? [])
@@ -38,6 +41,20 @@ const TodoModal = ( props ) => {
   const addComment = (newComment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
   };
+
+  const changeTaskRecurrence = (taskId) => {
+    server
+      .patch(
+          `${apiBaseUrl}/todo/status/${taskId}`,
+          { recurrence: "Once", completed: props.data.completed }
+      )
+      .then(() => {
+          window.location.reload()
+      })
+      .catch(e => {
+          alert(e.response.data.message)
+      })
+  }
 
   return (
     props.data !== undefined && (
@@ -93,6 +110,7 @@ const TodoModal = ( props ) => {
                         m={0}
                         p={0}
                         bg="none"
+                        onClick={() => changeTaskRecurrence(props.data.id)}
                       />
                       <Text mb={0}>{props.data?.recurrence || props.data?.duration}</Text>
                     {/* <p>
@@ -131,7 +149,17 @@ const TodoModal = ( props ) => {
                 <AccordionItem border="none">
                   <AccordionButton bg="none" fontSize="sm" color="gray.500">This Task was created from a comment, view parent task</AccordionButton>
                   <AccordionPanel>
-                    <Text textTransform="capitalize">{props.data?.createdFromComment?.name}</Text>
+                    <Box
+                      bg="inherit"
+                      m={0}
+                      cursor="pointer"
+                      fontSize="initial"
+                      fontFamily="IBM Plex Mono"
+                      onClick={() => onClickViewOneItem(props.id)}
+                      dangerouslySetInnerHTML={{ __html: props.data?.createdFromComment?.name }}
+                      color="black"
+                      fontWeight={600}
+                    />
                     <Flex gap={4}>
                       {props.data?.createdFromComment?.priority && (
                         <HStack>

@@ -1,5 +1,6 @@
 import { Flex, useBreakpointValue } from "@chakra-ui/react"
 import React, { useState, useEffect } from "react"
+import moment from 'moment';
 import Cards from "../../card"
 import "./analytics.scss"
 import { Loader } from "../../../../common"
@@ -10,6 +11,7 @@ import { useBaseUrl } from "../../../../../hooks/useBaseUrl"
 function AnalyticsCard({ updateAnalytics }) {
   const [analytics, setAnalytics] = useState({})
   const [inProgressTasks, setInProgressTasks] = useState([])
+  const [completedTasks, setCompletedTasks] = useState([])
   const apiBaseUrl = useBaseUrl()
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -25,6 +27,15 @@ function AnalyticsCard({ updateAnalytics }) {
       })
 
       server.get(`${apiBaseUrl}/todo/ongoing`).then((tt) => setInProgressTasks(tt.data?.data))
+      server.get(`${apiBaseUrl}/todo/complete`).then((complete) => {
+        const now = moment();
+
+        const filteredData = complete?.data?.data?.filter((todo) =>
+          moment(todo.updatedAt).isAfter(now.clone().subtract(24, 'hours'))
+        )
+
+        return setCompletedTasks(filteredData)
+      })
     } catch (error) {
       if (error.response) {
         // Server responded with a status code out of 2xx range
@@ -99,7 +110,7 @@ function AnalyticsCard({ updateAnalytics }) {
             <AnalyticsChartCard
               data={analytics.todo}
               ongoingTodo={inProgressTasks?.length ?? analytics?.todo?.totalUncompletedTodo} 
-              completedTodo={analytics?.todo?.totalCompletedTodo}
+              completedTodo={completedTasks?.length ?? analytics?.todo?.totalCompletedTodo}
             />
           )}
         </>

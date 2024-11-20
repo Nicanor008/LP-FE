@@ -13,7 +13,7 @@ const TodoItemSubTask = ({ subTasks }) => {
             .patch(
                 `${apiBaseUrl}/todo/status/${id}`,
                 {
-                completed: false,
+                completed: true,
                 }
             )
           window.location.reload() // TEMP: until i find a fix to refresh data without page refresh

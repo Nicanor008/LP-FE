@@ -13,6 +13,7 @@ const AddTodoButton = props => (
     }}
     bg="#796FED"
     color="white"
+    mb={2}
   >
     <Image src={props.icon} alt="Add Todo" /> {props.name}
   </Btn>

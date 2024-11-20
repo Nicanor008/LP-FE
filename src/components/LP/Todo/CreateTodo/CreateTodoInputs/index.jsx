@@ -101,13 +101,15 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
 
       {/* sub tasks */}
       {/* a checkbox, when selected opens up an input to enter subtask name/description, on press enter creates sub-task related to the task to be created(or collect all sub-tasks then on creating task, also create sub-task)*/}
-      <FormControl mb={4}>
-        <Checkbox
-          onChange={(e) => setShowSubTaskInput(e.target.checked)}
-        >
-          Add Sub-tasks
-        </Checkbox>
-      </FormControl>
+      {activeCreateTodoOption !== 'Basic' && (
+        <FormControl mb={4}>
+          <Checkbox
+            onChange={(e) => setShowSubTaskInput(e.target.checked)}
+          >
+            Add Sub-tasks
+          </Checkbox>
+        </FormControl>
+      )}
 
       {showSubTaskInput && (
         <VStack align="start" spacing={2} mt={2}>

@@ -56,7 +56,7 @@ const CompletedTodoItems = ({
             )}
             <Tabs
               todoTitleIcon={Love}
-              title={`${!isMobile ? `${data?.length} Task${data?.length > 1 ? 's' : ''} Completed` : ''}`}
+              title={`${!isMobile ? `${data?.length ?? ''} Task${data?.length > 1 ? 's' : ''} Completed` : ''}`}
               showBody={showBody}
               onClickArrow={onClickArrow}
               todoItemsTab="true"

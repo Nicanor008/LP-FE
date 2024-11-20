@@ -17,7 +17,7 @@ const InProgressAndCompletedTodo = ({
             .patch(
                 `${apiBaseUrl}/todo/status/${props.id}`,
                 {
-                completed: props.complete,
+                completed: !props.complete,
                 }
             )
             .then(() => {

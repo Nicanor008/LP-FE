@@ -71,7 +71,7 @@ const Header = ({ isDashboard }) => {
               {!isMobile && (
                 <>
                   <Link to="#">Notes</Link>
-                  <Link to="#">FutureMe</Link>{" "}
+                  <Link to="#">FutureSelf</Link>{" "}
                 </>
               )}
               <button onClick={logoutHandler}>Log out</button>

@@ -49,7 +49,7 @@ const InProgressItems = ({
           <>
             {isMobile && data?.length > 0 && (
               <Text mx={3} fontWeight={700} pb={0} mb={0}>
-                {data?.length} Task{data?.length > 1 ? 's' : ''} in Progress
+                {data?.length ?? ''} Task{data?.length > 1 ? 's' : ''} in Progress
               </Text>
             )}
             <Tabs
