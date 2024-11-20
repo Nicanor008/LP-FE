@@ -52,7 +52,7 @@ const ViewComments = ({ todo, comments, setData }) => {
   }
 
   return (
-    <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md" fontFamily="IBM Plex Mono">
+    <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md" fontFamily="IBM Plex Mono"  maxH="45vh" overflow="auto">
       <Stack spacing={3}>
         {comments?.map((comment) => (
           <Box key={comment._id} px={4} pt={4} bg="white" borderRadius="sm">

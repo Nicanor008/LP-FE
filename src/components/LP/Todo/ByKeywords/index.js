@@ -6,7 +6,6 @@ import moment from "moment";
 import CommonIcons from "../icons/editAndDeleteIcons";
 import TodoModal from "../TodoModal";
 import { server } from "../../../../utils/baseUrl";
-import "../../../common/modal/modal.scss";
 import "./byKeywords.scss";
 import { useBaseUrl } from "../../../../hooks/useBaseUrl";
 import { TodoItemSubTask } from "../SubTasks";

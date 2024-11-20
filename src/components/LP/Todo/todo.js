@@ -4,7 +4,6 @@ import { server } from "../../../utils/baseUrl"
 import TodoModal from "./TodoModal"
 import CommonIcons from "./icons/editAndDeleteIcons"
 import { useBaseUrl } from "../../../hooks/useBaseUrl"
-import "../../common/modal/modal.scss"
 import { TodoItemSubTask } from "./SubTasks"
 
 const TodoItem = props => {
