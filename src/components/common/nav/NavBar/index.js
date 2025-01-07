@@ -1,6 +1,6 @@
-import { Link } from "gatsby"
+// import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
-import { Box, useBreakpointValue } from "@chakra-ui/react"
+import { Box, useBreakpointValue, Link } from "@chakra-ui/react"
 import Logo from "../../../../images/logo2.svg"
 import DashboardLogo from "../../../../images/dashboard-logo.svg"
 import Menu from "../../../../images/icons/menu.svg"
@@ -67,11 +67,11 @@ const Header = ({ isDashboard }) => {
             <Loader />
           ) : token ? (
             <div className="myTopNav" id="myTopNav">
-              <Link to="/todo">Todo</Link>
+              <Link href="/todo">Todo</Link>
               {!isMobile && (
                 <>
-                  <Link to="#">Notes</Link>
-                  <Link to="#">FutureSelf</Link>{" "}
+                  <Link href="#">Notes</Link>
+                  <Link href="#" mr={4}>FutureSelf</Link>{" "}
                 </>
               )}
               <button onClick={logoutHandler}>Log out</button>
@@ -80,7 +80,7 @@ const Header = ({ isDashboard }) => {
               </button>
             </div>
           ) : (
-            <Link to="/auth" className="unAuthButton">
+            <Link href="/auth" className="unAuthButton">
               Sign In|Up
             </Link>
           )}

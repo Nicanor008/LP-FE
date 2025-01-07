@@ -15,19 +15,18 @@ function AnalyticsCard({ updateAnalytics }) {
   const apiBaseUrl = useBaseUrl()
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  // analytics data
-  useEffect(() => {
+  const getAnalyticsData = async () => {
     try {
-      server.get(`${apiBaseUrl}/todo/analytics/todo`).then(analytics => {
+      await server.get(`${apiBaseUrl}/todo/analytics/todo`).then(analytics => {
         setAnalytics({
-          totalItems: analytics.data.totalItems,
-          todo: analytics.data.todo,
+          totalItems: analytics?.data?.totalItems,
+          todo: analytics?.data?.todo,
           analyticsLoader: false,
         })
       })
 
-      server.get(`${apiBaseUrl}/todo/ongoing`).then((tt) => setInProgressTasks(tt.data?.data))
-      server.get(`${apiBaseUrl}/todo/complete`).then((complete) => {
+      await server.get(`${apiBaseUrl}/todo/ongoing`).then((tt) => setInProgressTasks(tt?.data?.data))
+      await server.get(`${apiBaseUrl}/todo/complete`).then((complete) => {
         const now = moment();
 
         const filteredData = complete?.data?.data?.filter((todo) =>
@@ -48,6 +47,11 @@ function AnalyticsCard({ updateAnalytics }) {
         console.error('Error Message:', error.message);
       }
     }
+  }
+
+  // analytics data
+  useEffect(() => {
+    getAnalyticsData()
   }, [updateAnalytics])
 
   return (

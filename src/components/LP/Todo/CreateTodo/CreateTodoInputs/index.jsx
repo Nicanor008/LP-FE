@@ -20,11 +20,18 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
       const response = await server
         .get(`${apiBaseUrl}/todo/ongoing`)
 
-      setTasks(response.data?.data)
-    }
-    catch (e) {
-      setData([])
-      setOngoingLoader(false)
+      if (typeof response.data?.message === 'string') {
+        return setTasks([])
+      }
+      console.log('................response.............')
+      console.log('................response.............', response.data)
+      console.log('................response.............')
+      // setTasks(response.data?.data)
+    } catch (e) {
+      console.log('An error occurred when getting ongoing todo items', e)
+      setTasks([])
+      // setData([])
+      // setOngoingLoader(false)
     }
   }
 
@@ -185,21 +192,23 @@ const CreateTodoInputs = ({ onClickAddTodoButton, register, control, loading, ac
             </FormControl>
 
             {/* task dependency */}
-            <FormControl mb={4} color="black" w={["100%", "50%"]}>
-              <FormLabel fontWeight={700}>Depends on</FormLabel>
-              <Select
-                placeholder="Select a task"
-                {...register("dependsOn")}
-              >
-                {tasks.map((task) => (
-                  <option
-                    key={task._id}
-                    value={task._id}
-                    dangerouslySetInnerHTML={{ __html: task.name }}
-                  />
-                ))}
-              </Select>
-            </FormControl>
+            {tasks?.length > 0 && (
+              <FormControl mb={4} color="black" w={["100%", "50%"]}>
+                <FormLabel fontWeight={700}>Depends on</FormLabel>
+                <Select
+                  placeholder="Select a task"
+                  {...register("dependsOn")}
+                >
+                  {tasks?.map((task) => (
+                    <option
+                      key={task._id}
+                      value={task._id}
+                      dangerouslySetInnerHTML={{ __html: task.name }}
+                    />
+                  ))}
+                </Select>
+              </FormControl>
+            )}
           </>
         )}
       </Flex>

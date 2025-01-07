@@ -37,6 +37,7 @@ const InProgressComponent = ({
       setData(response.data)
     }
     catch (e) {
+      console.log('An error occurred when getting ongoing todo items', e)
       setData([])
       setOngoingLoader(false)
     }
