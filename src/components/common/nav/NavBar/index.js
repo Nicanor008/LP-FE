@@ -1,6 +1,6 @@
 // import { Link } from "gatsby"
 import React, { useEffect, useState } from "react"
-import { Box, useBreakpointValue, Link } from "@chakra-ui/react"
+import { Box, useBreakpointValue, Link, Button, Flex } from "@chakra-ui/react"
 import Logo from "../../../../images/logo2.svg"
 import DashboardLogo from "../../../../images/dashboard-logo.svg"
 import Menu from "../../../../images/icons/menu.svg"
@@ -59,14 +59,14 @@ const Header = ({ isDashboard }) => {
   return (
     <header className="navHeader">
       <Box className="container navMenuWrapper navWrapper" pb="0.5rem">
-        <Link to="/">
+        <Link href="/">
           <img src={isDashboard || scrollPosition > 224 ? DashboardLogo : Logo} alt="logo" className="logo" />
         </Link>
-        <div className="menu" id="meTest">
+        <Flex alignItems="center" className="menu" id="meTest">
           {loading ? (
             <Loader />
           ) : token ? (
-            <div className="myTopNav" id="myTopNav">
+            <Box className="myTopNav" id="myTopNav">
               <Link href="/todo">Todo</Link>
               {!isMobile && (
                 <>
@@ -74,17 +74,29 @@ const Header = ({ isDashboard }) => {
                   <Link href="#" mr={4}>FutureSelf</Link>{" "}
                 </>
               )}
-              <button onClick={logoutHandler}>Log out</button>
+              <Button
+                onClick={logoutHandler}
+                fontSize="23px"
+                bg="none"
+                p={0}
+                m={0}
+                color="white"
+                pr={1}
+                _hover={{
+                  bg: 'none',
+                  color: 'white'
+                }}
+              >Log out</Button>
               <button className="icon" onClick={responsiveMenu}>
                 <img src={Menu} alt="menu" />
               </button>
-            </div>
+            </Box>
           ) : (
             <Link href="/auth" className="unAuthButton">
               Sign In|Up
             </Link>
           )}
-        </div>
+        </Flex>
       </Box>
     </header>
   )
