@@ -23,7 +23,8 @@ const TodoDashboard = () => {
       ...prevForm,
       showCreateTodo: session ?? true,
       showOngoingTodo: sessionStorage.getItem("showOngoingTodo") ?? true,
-      showCompletedTodo: sessionStorage.getItem("showCompletedTodo") ?? true,
+      showCompletedTodo: false,
+      // showCompletedTodo: sessionStorage.getItem("showCompletedTodo") ?? true,
     }));
   }, []);
 

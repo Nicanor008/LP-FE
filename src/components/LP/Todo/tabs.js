@@ -22,7 +22,8 @@ const Tabs = ({
   return (
     <Box
       className="createTodo"
-      style={{ maxHeight: showBody ? "850px" : "51px" }}
+      style={{ maxHeight: showBody ? "80vh" : "51px" }}
+      // style={{ maxHeight: showBody ? "850px" : "51px" }}
       name={name}
       overflow="scroll"
     >
@@ -89,7 +90,8 @@ const Tabs = ({
           style={{
             cursor: "pointer",
             // maxHeight: todoItemsTab ? "450px" : "555px",
-            maxHeight: todoItemsTab ? "450px" : "765px",
+            maxHeight: todoItemsTab ? "70vh" : "765px",
+            // maxHeight: todoItemsTab ? "450px" : "765px",
             overflow: !todoItemsTab ? "visible" : "scroll"
           }}
         >
